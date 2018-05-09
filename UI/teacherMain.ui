@@ -247,7 +247,7 @@ margin-right: 10px;</string>
                  <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
                 </property>
                 <property name="text">
-                 <string>Your Courses:</string>
+                 <string>My Courses:</string>
                 </property>
                </widget>
               </item>
