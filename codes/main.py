@@ -3,7 +3,7 @@ from PyQt5 import QtWidgets
 
 from loginDialog import Ui_login_dialog
 from studentMain import Ui_student_MainWindow
-
+from teacherMain import Ui_teacher_MainWindow
 
 def check_login():
     login_dialog = QtWidgets.QDialog()
@@ -12,18 +12,26 @@ def check_login():
     login_dialog.show()
     responce = login_dialog.exec_()
     if responce == QtWidgets.QDialog.Accepted:
-        return True
+        return True, login_dialog.identity_flag
     else:
         return False
 
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
-    if check_login():
-        student_MainWindow = QtWidgets.QMainWindow()
-        ui = Ui_student_MainWindow()
-        ui.setupUi(student_MainWindow)
-        student_MainWindow.show()
+    is_valid_login, identity = check_login()
+    if is_valid_login:
+        if identity == 1:
+            teacher_MainWindow = QtWidgets.QMainWindow()
+            ui = Ui_teacher_MainWindow()
+            ui.setupUi(teacher_MainWindow)
+            teacher_MainWindow.show()
+        elif identity == 2:
+            student_MainWindow = QtWidgets.QMainWindow()
+            ui = Ui_student_MainWindow()
+            ui.setupUi(student_MainWindow)
+            student_MainWindow.show()
+
         sys.exit(app.exec_())
 
 

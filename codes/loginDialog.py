@@ -7,7 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+import re
 
 class Ui_login_dialog(object):
     def setupUi(self, login_dialog):
@@ -57,8 +57,28 @@ class Ui_login_dialog(object):
 
         self.forget_button.clicked.connect(self.forget_password)
 
+        self.login_dialog.identity_flag = -1
+
+    def pattern_match(self, text):
+        admin_pattern = re.compile('A\d{3}$')
+        teacher_pattern = re.compile('\d{8}$')
+        student_pattern = re.compile('\d{13}$')
+
+        if admin_pattern.match(text):
+            self.login_dialog.identity_flag = 0
+            return True
+        elif teacher_pattern.match(text):
+            self.login_dialog.identity_flag = 1
+            return True
+        elif student_pattern.match(text):
+            self.login_dialog.identity_flag = 2
+            return True
+        else:
+            return False
+        
+        
     def login(self):
-        if self.user_line_edit.text() == 'admin' and self.pw_line_edit.text() == '666':
+        if self.pattern_match(self.user_line_edit.text()) and self.pw_line_edit.text() == 'fuck': 
             self.login_dialog.accept()
         else:
             msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', 'invalid login', parent=self.login_dialog)
