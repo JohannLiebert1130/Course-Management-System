@@ -207,6 +207,9 @@ margin-right: 10px;</string>
          <layout class="QGridLayout" name="gridLayout_2">
           <item row="0" column="0">
            <widget class="QLabel" name="label_12">
+            <property name="styleSheet">
+             <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
+            </property>
             <property name="text">
              <string>Student ID: 2015333320033</string>
             </property>
@@ -221,6 +224,9 @@ margin-right: 10px;</string>
           </item>
           <item row="0" column="2">
            <widget class="QLabel" name="label_13">
+            <property name="styleSheet">
+             <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
+            </property>
             <property name="text">
              <string>Name: Gearless Joe</string>
             </property>
@@ -235,6 +241,9 @@ margin-right: 10px;</string>
           </item>
           <item row="0" column="4">
            <widget class="QLabel" name="label_15">
+            <property name="styleSheet">
+             <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
+            </property>
             <property name="text">
              <string>School: School of Information</string>
             </property>
@@ -263,6 +272,9 @@ margin-right: 10px;</string>
           </item>
           <item row="2" column="0" colspan="3">
            <widget class="QLabel" name="label_11">
+            <property name="styleSheet">
+             <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
+            </property>
             <property name="text">
              <string>Major: Computer Science and Technology</string>
             </property>
@@ -277,6 +289,9 @@ margin-right: 10px;</string>
           </item>
           <item row="2" column="4">
            <widget class="QLabel" name="label_14">
+            <property name="styleSheet">
+             <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
+            </property>
             <property name="text">
              <string>Class:</string>
             </property>
@@ -286,6 +301,9 @@ margin-right: 10px;</string>
         </item>
         <item>
          <widget class="QTableWidget" name="tableWidget">
+          <property name="styleSheet">
+           <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
+          </property>
           <row>
            <property name="text">
             <string>1</string>
@@ -564,6 +582,9 @@ p, li { white-space: pre-wrap; }
         </item>
         <item>
          <widget class="QLabel" name="label_17">
+          <property name="styleSheet">
+           <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
+          </property>
           <property name="text">
            <string>Other evaluation and suggestions (Optional) :</string>
           </property>
@@ -1230,7 +1251,7 @@ p, li { white-space: pre-wrap; }
             <item>
              <widget class="QTableWidget" name="tableWidget_5">
               <property name="styleSheet">
-               <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
+               <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
               </property>
               <row>
                <property name="text">
@@ -1440,6 +1461,9 @@ p, li { white-space: pre-wrap; }
             <height>16777215</height>
            </size>
           </property>
+          <property name="styleSheet">
+           <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
+          </property>
           <property name="inputMask">
            <string/>
           </property>
@@ -1459,6 +1483,9 @@ p, li { white-space: pre-wrap; }
             <height>0</height>
            </size>
           </property>
+          <property name="styleSheet">
+           <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
+          </property>
           <property name="placeholderText">
            <string>New Password</string>
           </property>
@@ -1472,6 +1499,9 @@ p, li { white-space: pre-wrap; }
             <height>0</height>
            </size>
           </property>
+          <property name="styleSheet">
+           <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
+          </property>
           <property name="placeholderText">
            <string>Confirm Password</string>
           </property>
@@ -1484,6 +1514,9 @@ p, li { white-space: pre-wrap; }
             <width>100</width>
             <height>0</height>
            </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
           </property>
           <property name="text">
            <string>Change</string>
