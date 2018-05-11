@@ -1,10 +1,11 @@
 import sys
 from PyQt5 import QtWidgets
 
-from loginDialog import Ui_login_dialog
-from studentMain import Ui_student_MainWindow
-from teacherMain import Ui_teacher_MainWindow
-from adminMain import Ui_admin_MainWindow
+from UI.adminMain import Ui_admin_MainWindow
+from UI.loginDialog import Ui_login_dialog
+from UI.studentMain import Ui_student_MainWindow
+from UI.teacherMain import Ui_teacher_MainWindow
+
 
 def check_login():
     login_dialog = QtWidgets.QDialog()
