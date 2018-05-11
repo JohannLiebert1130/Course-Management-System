@@ -4,13 +4,14 @@ from common.utils import Utils
 
 
 class Account:
-    def __init__(self, user_id, password, _id=None):
+    def __init__(self, user_id, password, user_type, _id=None):
         self.user_id = user_id
         self.password = password
+        self.user_type = user_type
         self._id = uuid.uuid4().hex if _id is None else _id
 
     def __str__(self):
-        return f"user ID:{self.user_id}"
+        return f"user ID:{self.user_id}\nuser type:{self.user_type}"
 
     @staticmethod
     def is_valid_login(user_id, password):
@@ -38,10 +39,41 @@ class Account:
                 print("invalid password!")
                 return False
         else:
-            print("user data it's empty!")
+            print("This user do not exist!")
             return False
+
+    @staticmethod
+    def register_user(user_id, password, user_type):
+        """
+        This method registers a user using user id and password.
+        The password already comes hashed as sha-512.
+        :param user_id: user's id (might be invalid)
+        :param password: user's password in plain text
+        :param user_type: user's type (can be admin, teacher, or student)
+        :return: True if registered successfully, or False otherwise (exceptions can also be raised)
+        """
+        sql = """
+                SELECT * FROM accounts
+                WHERE user_id = (%s)
+                """
+        user_data = Database.query(sql, user_id)
+
+        if user_data:
+            # Tell user they are already registered
+            print("The user id you used to register already exists.")
+            return False
+        if not Utils.user_id_is_valid(user_id, user_type):
+            return False
+
+        Account(user_id, Utils.hash_password(password, user_id), user_type).save_to_db()
+        return True
+
+    def save_to_db(self):
+        pass
 
 
 if __name__ == '__main__':
     Database.initialize()
     Account.is_valid_login('test_id', 'test_pw')
+
+    Account.register_user(user_id='cs2015001', password='fuck', user_type=2)
