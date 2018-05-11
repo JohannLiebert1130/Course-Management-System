@@ -20,9 +20,11 @@ class Utils(object):
         :param hashed_password: pbkdf2_sha512 encrypted password
         :return: true if passwords match, false otherwise
         """
+        print(password + id)
         return pbkdf2_sha512.verify(password + id, hashed_password)
 
 
 if __name__ == '__main__':
     hashed_pw = Utils.hash_password('fuck', 'shit')
+    print(len(hashed_pw))
     print(Utils.check_hashed_password('fuck', 'shit', hashed_pw))

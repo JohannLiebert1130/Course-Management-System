@@ -1,5 +1,7 @@
 import pymysql
 
+from common.utils import Utils
+
 
 class Database:
     DATABASE = None
@@ -9,7 +11,7 @@ class Database:
         Database.DATABASE = pymysql.connect("localhost", "root", "690527", "course_management_sys")
 
     @staticmethod
-    def data_handle(sql):
+    def data_handle(sql, *arg):
         """
         支持对数据库的增删改操作
         :param sql: the mysql code you written to update/delete/update data.
@@ -20,7 +22,7 @@ class Database:
 
         try:
             # 执行sql语句
-            cursor.execute(sql)
+            cursor.execute(sql, arg)
             # 提交到数据库执行
             Database.DATABASE.commit()
         except pymysql.Error as e:
@@ -51,11 +53,15 @@ class Database:
 
 
 if __name__ == '__main__':
+    password = 'test_pw'
+    user_id = 'test_id'
+    hashed_password = Utils.hash_password(password, user_id)
+    print(hashed_password)
     sql = """
     INSERT INTO accounts(id, user_id, password)
-    VALUES (1, 'test_id', 'test_pw')
+    VALUES (1, %s, %s)
     """
 
     Database.initialize()
-    Database.data_handle(sql)
+    Database.data_handle(sql, user_id, hashed_password)
 
