@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>release_course_Dialog</class>
+ <widget class="QDialog" name="release_course_Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>558</width>
+    <height>295</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Release New Course</string>
+  </property>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>50</y>
+     <width>535</width>
+     <height>114</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="5">
+     <widget class="QComboBox" name="comboBox_9">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>1</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>2</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="0" column="7">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>开课学院</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1" colspan="2">
+     <widget class="QComboBox" name="comboBox_8">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>2015-2016</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>2016-2017</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="1" column="2" colspan="4">
+     <widget class="QLineEdit" name="course_id_lineEdit">
+      <property name="placeholderText">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="2" colspan="2">
+     <widget class="QComboBox" name="comboBox_2">
+      <item>
+       <property name="text">
+        <string>4th Building</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="3" column="4" colspan="2">
+     <widget class="QComboBox" name="comboBox_3">
+      <item>
+       <property name="text">
+        <string>401</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>402</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="1" column="8">
+     <widget class="QLineEdit" name="course_name_lineEdit">
+      <property name="placeholderText">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="7">
+     <widget class="QLabel" name="label_4">
+      <property name="text">
+       <string>Teacher Name:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0" colspan="2">
+     <widget class="QLabel" name="label_5">
+      <property name="text">
+       <string>Class Time:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="8">
+     <widget class="QComboBox" name="comboBox">
+      <item>
+       <property name="text">
+        <string>Information</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>机械工程学院</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="3" column="0" colspan="2">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>Location:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0" colspan="2">
+     <widget class="QLabel" name="course_id_label">
+      <property name="text">
+       <string>Course ID:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="7">
+     <widget class="QLabel" name="course_name_label">
+      <property name="text">
+       <string>Course Name:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="8">
+     <widget class="QLineEdit" name="lineEdit"/>
+    </item>
+    <item row="2" column="2" colspan="4">
+     <widget class="QLineEdit" name="lineEdit_2"/>
+    </item>
+    <item row="0" column="3" colspan="2">
+     <widget class="QLabel" name="label_22">
+      <property name="styleSheet">
+       <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Semester:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_21">
+      <property name="styleSheet">
+       <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Year:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="6">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Minimum</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>220</y>
+     <width>171</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 12pt &quot;Sans Serif&quot;;</string>
+   </property>
+   <property name="text">
+    <string>Release New Course</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
