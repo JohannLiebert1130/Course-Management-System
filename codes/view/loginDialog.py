@@ -9,6 +9,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import re
 
+
 class Ui_login_dialog(object):
     def setupUi(self, login_dialog):
         self.login_dialog = login_dialog
@@ -75,18 +76,19 @@ class Ui_login_dialog(object):
             return True
         else:
             return False
-        
-        
+
     def login(self):
-        if self.pattern_match(self.user_line_edit.text()) and self.pw_line_edit.text() == 'fuck': 
+        if self.pattern_match(self.user_line_edit.text()) and self.pw_line_edit.text() == 'fuck':
             self.login_dialog.accept()
         else:
-            msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', 'invalid login', parent=self.login_dialog)
+            msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', 'invalid login',
+                                            parent=self.login_dialog)
             msg_box.exec_()
 
     def forget_password(self):
         content = 'Please contact the administrator: fuck@shit.edu.cn'
-        msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Forget Password', content, parent=self.login_dialog)
+        msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Forget Password', content,
+                                        parent=self.login_dialog)
         msg_box.exec_()
 
     def retranslateUi(self, login_dialog):
