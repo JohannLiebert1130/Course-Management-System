@@ -32,23 +32,22 @@ class Database:
         Database.DATABASE.close()
 
     @staticmethod
-    def query(sql):
+    def query(sql, *arg):
         # 使用cursor()方法获取操作游标
         cursor = Database.DATABASE.cursor()
 
         try:
             # 执行sql语句
-            cursor.execute(sql)
+            cursor.execute(sql, arg)
             # 获取所有记录列表
             results = cursor.fetchall()
+            return results
         except pymysql.Error as e:
             print("Error: unable to fetch data")
             print(e)
 
         # 关闭数据库连接
         Database.DATABASE.close()
-
-        return results
 
 
 if __name__ == '__main__':
