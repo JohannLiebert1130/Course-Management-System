@@ -4,6 +4,7 @@ from PyQt5 import QtWidgets
 from loginDialog import Ui_login_dialog
 from studentMain import Ui_student_MainWindow
 from teacherMain import Ui_teacher_MainWindow
+from adminMain import Ui_admin_MainWindow
 
 def check_login():
     login_dialog = QtWidgets.QDialog()
@@ -20,8 +21,14 @@ def check_login():
 def main():
     app = QtWidgets.QApplication(sys.argv)
     is_valid_login, identity = check_login()
+    
     if is_valid_login:
-        if identity == 1:
+        if identity == 0:
+            admin_MainWindow = QtWidgets.QMainWindow()
+            ui = Ui_admin_MainWindow()
+            ui.setupUi(admin_MainWindow)
+            admin_MainWindow.show()
+        elif identity == 1:
             teacher_MainWindow = QtWidgets.QMainWindow()
             ui = Ui_teacher_MainWindow()
             ui.setupUi(teacher_MainWindow)
