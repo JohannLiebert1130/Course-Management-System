@@ -25,13 +25,11 @@ class Database:
             cursor.execute(sql, arg)
             # 提交到数据库执行
             Database.DATABASE.commit()
+            print('committed successfully!')
         except pymysql.Error as e:
             # 如果发生错误则回滚
             Database.DATABASE.rollback()
             print(e)
-
-        # 关闭数据库连接
-        Database.DATABASE.close()
 
     @staticmethod
     def query(sql, *arg):
@@ -48,9 +46,6 @@ class Database:
             print("Error: unable to fetch data")
             print(e)
 
-        # 关闭数据库连接
-        Database.DATABASE.close()
-
 
 if __name__ == '__main__':
     password = 'test_pw'
@@ -58,8 +53,8 @@ if __name__ == '__main__':
     hashed_password = Utils.hash_password(password, user_id)
     print(hashed_password)
     sql = """
-    INSERT INTO accounts(id, user_id, password)
-    VALUES (1, %s, %s)
+    INSERT INTO accounts(user_id, password, user_type)
+    VALUES (%s, %s, 0)
     """
 
     Database.initialize()

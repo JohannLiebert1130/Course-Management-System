@@ -1,14 +1,12 @@
-import uuid
 from common.database import Database
 from common.utils import Utils
 
 
 class Account:
-    def __init__(self, user_id, password, user_type, _id=None):
+    def __init__(self, user_id, password, user_type):
         self.user_id = user_id
         self.password = password
         self.user_type = user_type
-        self._id = uuid.uuid4().hex if _id is None else _id
 
     def __str__(self):
         return f"user ID:{self.user_id}\nuser type:{self.user_type}"
@@ -69,7 +67,12 @@ class Account:
         return True
 
     def save_to_db(self):
-        pass
+        sql = """
+            INSERT INTO accounts(user_id, password, user_type)
+            VALUES (%s, %s, %s)
+            """
+
+        Database.data_handle(sql, self.user_id, self.password, self.user_type)
 
 
 if __name__ == '__main__':
@@ -77,3 +80,4 @@ if __name__ == '__main__':
     Account.is_valid_login('test_id', 'test_pw')
 
     Account.register_user(user_id='cs2015001', password='fuck', user_type=2)
+    Account.register_user(user_id='2015335820024', password='fuck', user_type=2)
