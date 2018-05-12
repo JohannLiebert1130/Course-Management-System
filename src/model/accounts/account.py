@@ -18,13 +18,19 @@ class Account:
         Check that the user ID exists, and that the password associated to that ID is valid.
         :param user_id: The user's ID
         :param password: A sha512 hashed password
-        :return: True if valid, False otherwise
+        :return: (True, user_type) if valid, (False, -1) otherwise
         """
+
+        Database.initialize()
+
         sql = """
         SELECT * FROM accounts
         WHERE user_id = (%s)
         """
         user_data = Database.query(sql, user_id)  # password in sha512->pbkdf2_sha512
+
+        Database.close()
+
         print(user_data)
 
         if user_data:
@@ -32,13 +38,14 @@ class Account:
 
             if Utils.check_hashed_password(password, user_id, password_from_db):
                 print("login successfully!")
-                return True
+                user_type = int(user_data[0][3])
+                return True, user_type
             else:
                 print("invalid password!")
-                return False
+                return False, -1
         else:
             print("This user do not exist!")
-            return False
+            return False, -1
 
     @staticmethod
     def register_user(user_id, password, user_type):
