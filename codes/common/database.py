@@ -46,6 +46,10 @@ class Database:
             print("Error: unable to fetch data")
             print(e)
 
+    @staticmethod
+    def close():
+        Database.DATABASE.close()
+
 
 if __name__ == '__main__':
     password = 'test_pw'
