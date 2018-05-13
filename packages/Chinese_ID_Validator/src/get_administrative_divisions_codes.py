@@ -3,7 +3,8 @@ from pprint import pprint
 
 import requests
 from bs4 import BeautifulSoup
-from src.utils import Utils
+
+from packages.Chinese_ID_Validator.src.utils import Utils
 
 
 class AddressCode:
@@ -80,7 +81,7 @@ class AddressCode:
     def save_addr_code_to_json(file_name=None, base_url=None, old=False):
         file_name = 'addr_code.json' if file_name is None else file_name
 
-        with open('../data/' + file_name, 'w') as file:
+        with open('../../../resources/' + file_name, 'w') as file:
             addr_code_dict = AddressCode.get_latest_addr_code(base_url) if not old else AddressCode.get_1995_addr_code()
             file.write(json.dumps(addr_code_dict, ensure_ascii=False))
 
@@ -89,7 +90,7 @@ class AddressCode:
         file_name = 'addr_code.json' if file_name is None else file_name
 
         try:
-            file = open('../data/' + file_name, 'r')
+            file = open('../../../resources/' + file_name, 'r')
         except FileNotFoundError as err:
             print(err)
         except OSError as err:
@@ -99,10 +100,3 @@ class AddressCode:
             file.close()
             return content
 
-
-if __name__ == '__main__':
-    url = 'http://www.mca.gov.cn/article/sj/xzqh//1980/'
-    # AddressCode.save_addr_code_to_json(url)
-    pprint(AddressCode.read_addr_code_from_local())
-
-    AddressCode.save_addr_code_to_json(file_name='1995_addr_code.json', old=True)

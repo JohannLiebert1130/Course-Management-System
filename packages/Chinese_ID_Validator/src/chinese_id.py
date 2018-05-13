@@ -1,12 +1,14 @@
-from src.get_administrative_divisions_codes import AddressCode
-from src.utils import Utils
+
 import re
+
+from packages.Chinese_ID_Validator.src.get_administrative_divisions_codes import AddressCode
+from packages.Chinese_ID_Validator.src.utils import Utils
 
 
 class ChineseID:
     address_code_url = 'http://www.mca.gov.cn/article/sj/xzqh//1980/'
     addr_code_dic = AddressCode.read_addr_code_from_local()
-    add_code_1995_dic = AddressCode.read_addr_code_from_local('1995_addr_code.json')
+    addr_code_1995_dic = AddressCode.read_addr_code_from_local('1995_addr_code.json')
 
     def __init__(self, id_str):
         self.id_str = id_str
@@ -33,7 +35,7 @@ class ChineseID:
 
         if self.address_code in ChineseID.addr_code_dic:
             return True
-        elif self.address_code in ChineseID.add_code_1995_dic:
+        elif self.address_code in ChineseID.addr_code_1995_dic:
             return True
         else:
             return False
@@ -81,7 +83,7 @@ class ChineseID:
         if self.address_code in ChineseID.addr_code_dic:
             dic = ChineseID.addr_code_dic
         else:
-            dic = ChineseID.add_code_1995_dic
+            dic = ChineseID.addr_code_1995_dic
 
         birth_place = dic[self.address_code]
         if self.address_code[-2:] != '00':
@@ -109,7 +111,4 @@ class ChineseID:
 
 if __name__ == '__main__':
     example = ChineseID('530121198904253359')
-
-    print(example.is_valid_id())
-    print(example.address_code)
-    print(example.get_id_details())
+    print(ChineseID.addr_code_1995_dic)
