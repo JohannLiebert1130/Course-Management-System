@@ -1,3 +1,5 @@
+import re
+
 from src.common.database import Database
 from src.common.utils import Utils
 
@@ -48,6 +50,28 @@ class Account:
             return False, -1
 
     @staticmethod
+    def is_valid_user_id(user_id, user_type):
+
+        if user_type == 0:
+            # an admin type
+            pattern = re.compile('A\d{3}$')
+        elif user_type == 1:
+            # an teacher type
+            pattern = re.compile('\d{8}$')
+        elif user_type == 2:
+            # an student type
+            pattern = re.compile('\d{13}$')
+        else:
+            print("invalid user type!")
+            return False
+
+        if pattern.match(user_id):
+            return True
+        else:
+            print("The user id does not have the right format.")
+            return False
+
+    @staticmethod
     def register_user(user_id, password, user_type):
         """
         This method registers a user using user id and password.
@@ -67,7 +91,7 @@ class Account:
             # Tell user they are already registered
             print("The user id you used to register already exists.")
             return False
-        if not Utils.user_id_is_valid(user_id, user_type):
+        if not Account.is_valid_user_id(user_id, user_type):
             return False
 
         Account(user_id, Utils.hash_password(password, user_id), user_type).save_to_db()
@@ -86,6 +110,5 @@ if __name__ == '__main__':
     Database.initialize()
     Account.register_user(user_id='cs2015001', password='fuck', user_type=2)
     Account.register_user(user_id='2015335820024', password='fuck', user_type=2)
-
 
     Database.close()

@@ -26,36 +26,8 @@ class Utils(object):
         print(password + user_id)
         return pbkdf2_sha512.verify(password + user_id, hashed_password)
 
-    @staticmethod
-    def user_id_is_valid(user_id, user_type):
-
-        if user_type == 0:
-            # an admin type
-            pattern = re.compile('A\d{3}$')
-        elif user_type == 1:
-            # an teacher type
-            pattern = re.compile('\d{8}$')
-        elif user_type == 2:
-            # an student type
-            pattern = re.compile('\d{13}$')
-        else:
-            print("invalid user type!")
-            return False
-
-        if pattern.match(user_id):
-            return True
-        else:
-            print("The user id does not have the right format.")
-            return False
-
 
 if __name__ == '__main__':
     hashed_pw = Utils.hash_password('fuck', 'shit')
     print(len(hashed_pw))
     print(Utils.check_hashed_password('fuck', 'shit', hashed_pw))
-
-    print()
-
-    print(Utils.user_id_is_valid('2013209620013', 3))
-    print(Utils.user_id_is_valid('2013209620013', 2))
-    print(Utils.user_id_is_valid('2013209620013', 1))
