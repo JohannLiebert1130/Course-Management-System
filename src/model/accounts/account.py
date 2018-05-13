@@ -1,5 +1,5 @@
-from common.database import Database
-from common.utils import Utils
+from src.common.database import Database
+from src.common.utils import Utils
 
 
 class Account:
@@ -84,8 +84,8 @@ class Account:
 
 if __name__ == '__main__':
     Database.initialize()
-    Account.is_valid_login('test_id', 'test_pw')
-
     Account.register_user(user_id='cs2015001', password='fuck', user_type=2)
     Account.register_user(user_id='2015335820024', password='fuck', user_type=2)
+
+
     Database.close()
