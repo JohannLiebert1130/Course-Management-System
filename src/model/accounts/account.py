@@ -1,5 +1,8 @@
 from src.common.database import Database
 from src.common.utils import Utils
+from src.model.admins.admin import Admin
+from src.model.students.student import Student
+from src.model.teachers.teacher import Teacher
 from src.model.users.user import User
 
 
@@ -28,25 +31,26 @@ class Account:
         SELECT * FROM accounts
         WHERE user_id = (%s)
         """
-        user_data = Database.query(sql, user_id)  # password in sha512->pbkdf2_sha512
+        account_data = Database.query(sql, user_id)[0]  # password in sha512->pbkdf2_sha512
 
         Database.close()
 
-        print(user_data)
+        print(account_data)
 
-        if user_data:
-            password_from_db = user_data[0][2]
+        if account_data:
+            password_from_db = account_data[2]
 
             if Utils.check_hashed_password(password, user_id, password_from_db):
                 print("login successfully!")
-                user_type = int(user_data[0][3])
-                return True, user_type
+
+                user = User.get_user_by_user_id(user_id)
+                return True, user
             else:
                 print("invalid password!")
-                return False, -1
+                return False, None
         else:
             print("This user do not exist!")
-            return False, -1
+            return False, None
 
     @staticmethod
     def create_account(user_id, password, user_type):
@@ -109,3 +113,36 @@ class Account:
             """
 
         Database.data_handle(sql, self.user_id, self.password, self.user_type)
+
+    @staticmethod
+    def get_corresponding_user(user_id, user_type):
+        if user_type == 0:
+            table_name = 'admins'
+        elif user_type == 1:
+            table_name = 'teachers'
+        elif user_type == 2:
+            table_name = 'students'
+        else:
+            raise Exception('Invalid user type')
+
+        Database.initialize()
+
+        sql = """
+                SELECT * FROM (%s)
+                WHERE user_id = (%s)
+                """
+        user_data = Database.query(sql, table_name, user_id)[0]
+
+        Database.close()
+
+        if user_type == 0:
+            user = Admin(*user_data)
+        elif user_type == 1:
+            user = Teacher(*user_data)
+        elif user_type == 2:
+            user = Student(*user_data)
+
+        return user
+
+
+
