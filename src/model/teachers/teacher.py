@@ -3,29 +3,26 @@ from src.model.users.user import User
 
 
 class Teacher(User):
-    def __init__(self, user_id, user_type, name, p_id, folk=None, political_status=None,
+    def __init__(self, user_id, name, p_id, folk=None, political_status=None,
                  school=None, position=None, phone=None):
-        super().__init__(user_id, user_type, name, p_id, folk, political_status, phone)
-        self.school = school
+        super().__init__(user_id, 1, name, p_id, folk, political_status, school, phone)
         self.position = position
 
     @staticmethod
-    def create_teacher(user_id, user_type, name, p_id, folk=None, political_status=None,
+    def create_teacher(user_id, name, p_id, folk=None, political_status=None,
                  school=None, position=None, phone=None):
         sql = """
               SELECT * FROM teachers
-              WHERE user_id = (%s)
+              WHERE user_id = %s OR p_id = %s
             """
-        user_data = Database.query(sql, user_id)
+        user_data = Database.query(sql, user_id, p_id)
 
         if user_data:
             # Tell user they are already registered
             print("The user id you used to register already exists.")
             return False
-        if not User.is_valid_user_id(user_id, user_type):
-            return False
 
-        Teacher(user_id, user_type, name, p_id, folk, political_status, school, position, phone).save_to_db()
+        Teacher(user_id, name, p_id, folk, political_status, school, position, phone).save_to_db()
         return True
 
     def save_to_db(self):
@@ -40,3 +37,9 @@ class Teacher(User):
         Database.data_handle(sql, self.user_id, self.user_type, self.name, self.p_id, self.gender, self.birthday,
                              self.birth_place, self.folk, self.political_status, self.school, self.position, self.phone,
                              self.folk, self.political_status, self.school, self.position, self.phone)
+
+
+if __name__ == '__main__':
+    Database.initialize()
+    Teacher.create_teacher('20031255', 'XiaoHei', None)
+    Database.close()
