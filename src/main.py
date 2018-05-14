@@ -3,6 +3,7 @@ from PyQt5 import QtWidgets
 
 from src.view.adminMain import Ui_admin_MainWindow
 from src.view.loginDialog import Ui_login_dialog
+from src.view.mainWindow import MainWindow
 from src.view.studentMain import Ui_student_MainWindow
 from src.view.teacherMain import Ui_teacher_MainWindow
 
@@ -14,28 +15,28 @@ def check_login():
     login_dialog.show()
     responce = login_dialog.exec_()
     if responce == QtWidgets.QDialog.Accepted:
-        return True, login_dialog.identity_flag
+        return True, login_dialog.user
     else:
-        return False
+        return False, login_dialog.user
 
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
-    is_valid_login, identity = check_login()
+    is_valid_login, user = check_login()
     
     if is_valid_login:
-        if identity == 0:
-            admin_MainWindow = QtWidgets.QMainWindow()
+        if user.user_type == 0:
+            admin_MainWindow = MainWindow(user)
             ui = Ui_admin_MainWindow()
             ui.setupUi(admin_MainWindow)
             admin_MainWindow.show()
-        elif identity == 1:
-            teacher_MainWindow = QtWidgets.QMainWindow()
+        elif user.user_type == 1:
+            teacher_MainWindow = MainWindow(user)
             ui = Ui_teacher_MainWindow()
             ui.setupUi(teacher_MainWindow)
             teacher_MainWindow.show()
-        elif identity == 2:
-            student_MainWindow = QtWidgets.QMainWindow()
+        elif user.user_type == 2:
+            student_MainWindow = MainWindow(user)
             ui = Ui_student_MainWindow()
             ui.setupUi(student_MainWindow)
             student_MainWindow.show()

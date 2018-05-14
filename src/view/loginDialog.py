@@ -9,7 +9,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import re
 
-from model.accounts.account import Account
+from src.model.accounts.account import Account
 
 
 class Ui_login_dialog(object):
@@ -60,7 +60,7 @@ class Ui_login_dialog(object):
 
         self.forget_button.clicked.connect(self.forget_password)
 
-        self.login_dialog.identity_flag = -1
+        self.login_dialog.user = None
 
     def pattern_match(self, text):
         admin_pattern = re.compile('A\d{3}$')
@@ -80,9 +80,9 @@ class Ui_login_dialog(object):
             return False
 
     def login(self):
-        is_valid, identity = Account.is_valid_login(self.user_line_edit.text(), self.pw_line_edit.text())
+        is_valid, user = Account.is_valid_login(self.user_line_edit.text(), self.pw_line_edit.text())
         if is_valid:
-            self.login_dialog.identity_flag = identity
+            self.login_dialog.user = user
             self.login_dialog.accept()
         else:
             msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', 'invalid login',
