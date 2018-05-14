@@ -4,12 +4,11 @@ from src.common.ChineseIDValidator.chinese_id import ChineseID
 
 
 class User:
-    def __init__(self, user_id, name, p_id, user_type, folk=None, political_status=None, phone=None):
+    def __init__(self, user_id, user_type, name, p_id, folk=None, political_status=None, phone=None):
         self.user_id = user_id
         self.name = name
         self.p_id = p_id
         self.user_type = user_type
-
         self.folk = folk
         self.political_status = political_status
         self.phone = phone
