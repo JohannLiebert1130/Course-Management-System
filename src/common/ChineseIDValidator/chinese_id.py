@@ -6,7 +6,7 @@ from src.common.utils import Utils
 class ChineseID:
     address_code_url = 'http://www.mca.gov.cn/article/sj/xzqh//1980/'
     addr_code_dic = AddressCode.read_addr_code_from_local()
-    addr_code_1995_dic = AddressCode.read_addr_code_from_local('1995_addr_code.json')
+    addr_code_1995_dic = AddressCode.read_addr_code_from_local('1995_addr_codes.json')
 
     def __init__(self, id_str):
         self.id_str = id_str
@@ -22,6 +22,10 @@ class ChineseID:
     def __str__(self):
         return f"Address code:{self.address_code}\nBirth date code:{self.birth_date_code}\nsequence code:" \
                f"{self.sequence_code}\ncheck code:{self.check_code}"
+
+    @staticmethod
+    def set_address_code_url(url):
+        ChineseID.address_code_url = url
 
     def is_valid_length(self):
         if len(self.id_str) == 18:
@@ -68,14 +72,13 @@ class ChineseID:
               f'is valid check code: {self.is_valid_check_code()}')
         if self.is_valid_length() and self.is_valid_addr_code() and self.is_valid_birth_date() \
                 and self.is_valid_sequence_code() and self.is_valid_check_code():
-
             return True
         else:
             return False
 
     def get_address_details(self):
         """
-        Suppose this ID is valid, the function will get the ID's address information in details.
+        Supposes this ID is valid, the function will get the ID's address information in details.
         :return: a string which contain the ID owner's birth place.
         """
         if self.address_code in ChineseID.addr_code_dic:
@@ -105,8 +108,3 @@ class ChineseID:
                    'Gender': gender}
 
         return details
-
-
-if __name__ == '__main__':
-    example = ChineseID('530121198904253359')
-    print(ChineseID.addr_code_1995_dic)

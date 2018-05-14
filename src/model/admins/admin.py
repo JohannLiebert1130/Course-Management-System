@@ -9,5 +9,3 @@ class Admin(Person):
         Person.__init__(user_id, name, p_id, folk, political_status, phone)
 
 
-
-

@@ -132,10 +132,3 @@ class Account:
             """
 
         Database.data_handle(sql, self.user_id, self.password, self.user_type)
-
-
-if __name__ == '__main__':
-    Database.initialize()
-    Account.modify_account('2015335820021', 'modified_fuck', 2)
-    Account.delete_account('2015335820022')
-    Database.close()

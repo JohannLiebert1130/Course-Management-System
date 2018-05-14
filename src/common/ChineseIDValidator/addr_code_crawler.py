@@ -4,9 +4,14 @@ import requests
 from bs4 import BeautifulSoup
 
 from src.common.utils import Utils
+from src.definitions import ADDR_CODE_DATA_DIR as DATA_DIR
 
 
 class AddressCode:
+    """
+    This class contains methods to crawl the address codes into Python dicts,
+    save the dicts as json files and read them from these json files.
+    """
 
     @staticmethod
     def get_html(url):
@@ -80,7 +85,7 @@ class AddressCode:
     def save_addr_code_to_json(file_name=None, base_url=None, old=False):
         file_name = 'addr_codes.json' if file_name is None else file_name
 
-        with open('../resources/addr_code_data/' + file_name, 'w') as file:
+        with open(DATA_DIR + file_name, 'w') as file:
             addr_code_dict = AddressCode.get_latest_addr_code(base_url) if not old else AddressCode.get_1995_addr_code()
             file.write(json.dumps(addr_code_dict, ensure_ascii=False))
 
@@ -89,7 +94,7 @@ class AddressCode:
         file_name = 'addr_codes.json' if file_name is None else file_name
 
         try:
-            file = open('../resources/addr_code_data/' + file_name, 'r')
+            file = open(DATA_DIR + file_name, 'r')
         except FileNotFoundError as err:
             print(err)
         except OSError as err:
@@ -98,4 +103,3 @@ class AddressCode:
             content = json.load(file)
             file.close()
             return content
-

@@ -19,7 +19,3 @@ class Person:
                f'Birth place: {self.birth_place}\nBirthday: {self.birthday}\n' \
                f'Gender: {self.gender}'
 
-
-if __name__ == '__main__':
-    person = Person('2015329620057', 'Hu', '330225199603270313')
-    print(person)
