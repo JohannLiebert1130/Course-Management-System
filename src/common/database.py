@@ -6,7 +6,8 @@ class Database:
 
     @staticmethod
     def initialize():
-        Database.DATABASE = pymysql.connect("localhost", "root", "690527", "course_management_sys")
+        Database.DATABASE = pymysql.connect("localhost", "root", "690527", "course_management_sys",
+                                            use_unicode=True, charset="utf8")
 
     @staticmethod
     def data_handle(sql, *arg):
