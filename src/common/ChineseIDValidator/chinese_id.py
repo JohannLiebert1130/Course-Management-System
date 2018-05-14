@@ -12,7 +12,7 @@ class ChineseID:
 
         self.id_str = id_str
 
-        if not self.is_valid_id():
+        if not self.is_valid_length():
             raise ValueError("invalid ID length!")
 
         self.address_code = id_str[:6]
@@ -60,9 +60,9 @@ class ChineseID:
         sum = 0
         for i in range(17):
             sum += ((1 << (17 - i)) % 11) * int(self.id_str[i])
-        print(sum)
+
         n = (12 - (sum % 11)) % 11
-        print(n)
+
         if n < 10:
             return n == int(self.id_str[17])
         else:
