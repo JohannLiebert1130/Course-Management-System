@@ -44,7 +44,7 @@ class Teacher(User):
             data = [user_data[1]]
             data.extend(user_data[3:])
 
-            return Teacher(*user_data)
+            return Teacher(*data)
         else:
             print("user do not exist!")
             return None

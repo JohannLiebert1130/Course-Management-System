@@ -43,7 +43,8 @@ class Admin(User):
             data = [user_data[1]]
             data.extend(user_data[3:])
 
-            return Admin(*user_data)
+            print("Admin: user data:", data)
+            return Admin(*data)
         else:
             print("user do not exist!")
             return None
@@ -97,5 +98,7 @@ class Admin(User):
                 self.school, self.phone]
 
 
+if __name__ == '__main__':
+    Admin.read_admin('A001')
 
 
