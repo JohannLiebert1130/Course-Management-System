@@ -72,7 +72,7 @@ class Account:
             return False
 
     @staticmethod
-    def register_user(user_id, password, user_type):
+    def create_account(user_id, password, user_type):
         """
         This method registers a user using user id and password.
         The password already comes hashed as sha-512.
@@ -82,9 +82,9 @@ class Account:
         :return: True if registered successfully, or False otherwise (exceptions can also be raised)
         """
         sql = """
-                SELECT * FROM accounts
-                WHERE user_id = (%s)
-                """
+                        SELECT * FROM accounts
+                        WHERE user_id = (%s)
+                        """
         user_data = Database.query(sql, user_id)
 
         if user_data:
@@ -97,9 +97,23 @@ class Account:
         Account(user_id, Utils.hash_password(password, user_id), user_type).save_to_db()
         return True
 
+    @staticmethod
+    def modify_account(user_id, password, user_type):
+        sql = """
+                                SELECT * FROM accounts
+                                WHERE user_id = (%s)
+                                """
+        user_data = Database.query(sql, user_id)
+
+        if user_data:
+            Account(user_id, Utils.hash_password(password, user_id), user_type).save_to_db()
+            return True
+        else:
+            return False
+
     def save_to_db(self):
         sql = """
-            INSERT INTO accounts(user_id, password, user_type)
+            REPLACE INTO accounts(user_id, password, user_type)
             VALUES (%s, %s, %s)
             """
 
@@ -108,7 +122,5 @@ class Account:
 
 if __name__ == '__main__':
     Database.initialize()
-    Account.register_user(user_id='cs2015001', password='fuck', user_type=2)
-    Account.register_user(user_id='2015335820024', password='fuck', user_type=2)
-
+    Account.modify_account('2015335820021', 'modified_fuck', 2)
     Database.close()
