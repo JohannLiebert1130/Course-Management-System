@@ -10,7 +10,8 @@ class User:
     and gender, because we can get these information from the user's ID. However, when the user
     is a foreigner, who has no Chinese ID, the administrator have to set these information manually.
     """
-    def __init__(self, user_id, user_type, name, p_id=None, folk=None, political_status=None, school=None, phone=None):
+    def __init__(self, user_id, user_type, name, p_id=None, gender=None, birthday=None, birth_place=None,
+                 folk=None, political_status=None, school=None, phone=None):
         """
         A user must have its user id, user type, name. We also expect all users tell us their IDs,
         however, there are few foreign users. Hence, if is ID is invalid (i.e. None), self.p_id will be None.
@@ -37,9 +38,9 @@ class User:
         except ValueError as err:
             print(err)
             self.p_id = None
-            self.birth_place = None
-            self.birthday = None
-            self.gender = None
+            self.birth_place = birth_place
+            self.birthday = birthday
+            self.gender = gender
         else:
             self.p_id = p_id
             self.birth_place, self.birthday, self.gender = chinese_id.get_id_details().values()
