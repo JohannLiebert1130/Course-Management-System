@@ -127,11 +127,12 @@ class Account:
 
         Database.initialize()
 
-        sql = """
-                SELECT * FROM (%s)
-                WHERE user_id = (%s)
-                """
-        user_data = Database.query(sql, table_name, user_id)[0]
+        sql = "SELECT * FROM " + table_name + " WHERE user_id = %s"
+
+        data = list(Database.query(sql, user_id)[0])
+        data[6] = str(data[6])
+        user_data = [data[1]]
+        user_data.extend(data[3:])
 
         Database.close()
 
@@ -143,6 +144,7 @@ class Account:
             user = Student(*user_data)
 
         return user
+
 
 
 
