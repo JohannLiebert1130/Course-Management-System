@@ -32,7 +32,9 @@ class ChineseID:
         ChineseID.address_code_url = url
 
     def is_valid_length(self):
-        if len(self.id_str) == 18:
+        if self.id_str is None:
+            return False
+        elif len(self.id_str) == 18:
             return True
         else:
             return False
