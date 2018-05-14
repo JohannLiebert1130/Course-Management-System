@@ -15,9 +15,9 @@ class Teacher(User):
 
         sql = """
               SELECT * FROM teachers
-              WHERE user_id = %s OR p_id = %s
+              WHERE user_id = %s
             """
-        user_data = Database.query(sql, user_id, p_id)
+        user_data = Database.query(sql, user_id)
 
         if user_data:
             # Tell user they are already registered
@@ -67,7 +67,7 @@ class Teacher(User):
             return False
 
     @staticmethod
-    def delete_account(user_id):
+    def delete_teacher(user_id):
         sql = """
                   DELETE FROM teachers 
                   WHERE user_id = (%s)
@@ -75,7 +75,7 @@ class Teacher(User):
         try:
             Database.data_handle(sql, user_id)
         except:
-            print('Delete account failed!')
+            print('Delete teacher failed!')
             return False
         else:
             return True
