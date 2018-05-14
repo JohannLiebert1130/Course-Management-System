@@ -33,8 +33,6 @@ class Account:
         """
         account_data = Database.query(sql, user_id)[0]  # password in sha512->pbkdf2_sha512
 
-        Database.close()
-
         print(account_data)
 
         if account_data:
@@ -44,12 +42,16 @@ class Account:
                 print("login successfully!")
                 user_type = account_data[3]
                 user = Account.get_corresponding_user(user_id, user_type)
+
+                Database.close()
                 return True, user
             else:
                 print("invalid password!")
+                Database.close()
                 return False, None
         else:
             print("This user do not exist!")
+            Database.close()
             return False, None
 
     @staticmethod
@@ -116,6 +118,7 @@ class Account:
 
     @staticmethod
     def get_corresponding_user(user_id, user_type):
+        print(f'get_corresponding_user: user_id={user_id} user_type={user_type}')
         try:
             if user_type == 0:
                 return Admin.read_admin(user_id)
