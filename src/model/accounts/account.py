@@ -82,9 +82,9 @@ class Account:
         :return: True if registered successfully, or False otherwise (exceptions can also be raised)
         """
         sql = """
-                        SELECT * FROM accounts
-                        WHERE user_id = (%s)
-                        """
+              SELECT * FROM accounts
+              WHERE user_id = (%s)
+              """
         user_data = Database.query(sql, user_id)
 
         if user_data:
@@ -100,9 +100,9 @@ class Account:
     @staticmethod
     def modify_account(user_id, password, user_type):
         sql = """
-                                SELECT * FROM accounts
-                                WHERE user_id = (%s)
-                                """
+              SELECT * FROM accounts
+              WHERE user_id = (%s)
+              """
         user_data = Database.query(sql, user_id)
 
         if user_data:
@@ -110,6 +110,20 @@ class Account:
             return True
         else:
             return False
+
+    @staticmethod
+    def delete_account(user_id):
+        sql = """
+              DELETE FROM accounts 
+              WHERE user_id = (%s)
+              """
+        try:
+            Database.data_handle(sql, user_id)
+        except:
+            print('Delete account failed!')
+            return False
+        else:
+            return True
 
     def save_to_db(self):
         sql = """
@@ -123,4 +137,5 @@ class Account:
 if __name__ == '__main__':
     Database.initialize()
     Account.modify_account('2015335820021', 'modified_fuck', 2)
+    Account.delete_account('2015335820022')
     Database.close()
