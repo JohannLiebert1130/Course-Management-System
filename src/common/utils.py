@@ -1,4 +1,4 @@
-import re
+import datetime
 
 from passlib.hash import pbkdf2_sha512
 
@@ -25,6 +25,24 @@ class Utils(object):
         """
         print(password + user_id)
         return pbkdf2_sha512.verify(password + user_id, hashed_password)
+
+    @staticmethod
+    def represents_int(s):
+        try:
+            int(s)
+            return True
+        except:
+            return False
+
+    @staticmethod
+    def is_valid_date(date_text):
+        try:
+            datetime.datetime.strptime(date_text, '%Y%m%d')
+        except:
+            print("Incorrect data format, should be YYYYMMDD")
+            return False
+        else:
+            return True
 
 
 if __name__ == '__main__':

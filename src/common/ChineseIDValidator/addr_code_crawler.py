@@ -1,10 +1,9 @@
 import json
-from pprint import pprint
 
 import requests
 from bs4 import BeautifulSoup
 
-from packages.Chinese_ID_Validator.src.utils import Utils
+from src.common.utils import Utils
 
 
 class AddressCode:
@@ -79,18 +78,18 @@ class AddressCode:
 
     @staticmethod
     def save_addr_code_to_json(file_name=None, base_url=None, old=False):
-        file_name = 'addr_code.json' if file_name is None else file_name
+        file_name = 'addr_codes.json' if file_name is None else file_name
 
-        with open('../../../resources/' + file_name, 'w') as file:
+        with open('../resources/addr_code_data/' + file_name, 'w') as file:
             addr_code_dict = AddressCode.get_latest_addr_code(base_url) if not old else AddressCode.get_1995_addr_code()
             file.write(json.dumps(addr_code_dict, ensure_ascii=False))
 
     @staticmethod
     def read_addr_code_from_local(file_name=None):
-        file_name = 'addr_code.json' if file_name is None else file_name
+        file_name = 'addr_codes.json' if file_name is None else file_name
 
         try:
-            file = open('../../../resources/' + file_name, 'r')
+            file = open('../resources/addr_code_data/' + file_name, 'r')
         except FileNotFoundError as err:
             print(err)
         except OSError as err:

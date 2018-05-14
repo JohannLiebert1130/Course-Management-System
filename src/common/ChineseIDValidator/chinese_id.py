@@ -1,8 +1,6 @@
-
 import re
-
-from packages.Chinese_ID_Validator.src.get_administrative_divisions_codes import AddressCode
-from packages.Chinese_ID_Validator.src.utils import Utils
+from src.common.ChineseIDValidator.addr_code_crawler import AddressCode
+from src.common.utils import Utils
 
 
 class ChineseID:
