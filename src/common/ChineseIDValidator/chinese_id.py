@@ -9,15 +9,19 @@ class ChineseID:
     addr_code_1995_dic = AddressCode.read_addr_code_from_local('1995_addr_codes.json')
 
     def __init__(self, id_str):
+
         self.id_str = id_str
 
-        if not self.is_valid_length():
-            raise Exception("invalid ID length!")
+        if not self.is_valid_id():
+            raise ValueError("invalid ID length!")
 
         self.address_code = id_str[:6]
         self.birth_date_code = id_str[6:14]
         self.sequence_code = id_str[14:17]
         self.check_code = id_str[17]
+
+        if not self.is_valid_id():
+            raise ValueError("invalid ID!")
 
     def __str__(self):
         return f"Address code:{self.address_code}\nBirth date code:{self.birth_date_code}\nsequence code:" \
