@@ -42,8 +42,8 @@ class Account:
 
             if Utils.check_hashed_password(password, user_id, password_from_db):
                 print("login successfully!")
-
-                user = User.get_user_by_user_id(user_id)
+                user_type = account_data[3]
+                user = Account.get_corresponding_user(user_id, user_type)
                 return True, user
             else:
                 print("invalid password!")
@@ -116,34 +116,17 @@ class Account:
 
     @staticmethod
     def get_corresponding_user(user_id, user_type):
-        if user_type == 0:
-            table_name = 'admins'
-        elif user_type == 1:
-            table_name = 'teachers'
-        elif user_type == 2:
-            table_name = 'students'
-        else:
-            raise Exception('Invalid user type')
+        try:
+            if user_type == 0:
+                return Admin.read_admin(user_id)
+            elif user_type == 1:
+                return Teacher.read_teacher(user_id)
+            elif user_type == 2:
+                return Student.read_student(user_id)
+        except:
+            print('User not founded!')
 
-        Database.initialize()
 
-        sql = "SELECT * FROM " + table_name + " WHERE user_id = %s"
-
-        data = list(Database.query(sql, user_id)[0])
-        data[6] = str(data[6])
-        user_data = [data[1]]
-        user_data.extend(data[3:])
-
-        Database.close()
-
-        if user_type == 0:
-            user = Admin(*user_data)
-        elif user_type == 1:
-            user = Teacher(*user_data)
-        elif user_type == 2:
-            user = Student(*user_data)
-
-        return user
 
 
 
