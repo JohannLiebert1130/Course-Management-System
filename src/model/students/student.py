@@ -4,15 +4,15 @@ from src.model.users.user import User
 
 class Student(User):
     def __init__(self, user_id, name, p_id=None, gender=None, birthday=None, birth_place=None,
-                 folk=None, political_status=None, school=None, department=None, major=None, phone=None):
-        super().__init__(user_id, 0, name, p_id, gender, birthday, birth_place, folk,
+                 folk=None, political_status=None, school=None, department=None, class_=None, phone=None):
+        super().__init__(user_id, 2, name, p_id, gender, birthday, birth_place, folk,
                          political_status, school, phone)
         self.department = department
-        self.major = major
+        self.class_ = class_
 
     @staticmethod
     def create_student(user_id, name, p_id=None, gender=None, birthday=None, birth_place=None,
-                       folk=None, political_status=None, school=None, department=None, major=None, phone=None):
+                       folk=None, political_status=None, school=None, department=None, class_=None, phone=None):
 
         sql = """
                   SELECT * FROM students
@@ -26,7 +26,7 @@ class Student(User):
             return False
 
         Student(user_id, name, p_id, gender, birthday, birth_place, folk, political_status,
-                school, department, major, phone).save_to_db()
+                school, department, class_, phone).save_to_db()
         return True
 
     @staticmethod
@@ -42,17 +42,33 @@ class Student(User):
             user_data = list(user_data[0])
             user_data[6] = str(user_data[6])
 
-            data = [user_data[1]]
-            data.extend(user_data[3:])
+            user_data = user_data[1:]
 
-            return Student(*data)
+            return Student(*user_data)
         else:
             print("user do not exist!")
             return None
 
     @staticmethod
+    def read_all_students():
+        Database.initialize()
+
+        sql = "SELECT * FROM students"
+        users_data = Database.query(sql)
+
+        Database.close()
+
+        if users_data:
+            for user_data in users_data:
+                user_data = list(user_data)
+                user_data[5] = str(user_data[5])
+
+                user_data = user_data[1:]
+                yield user_data
+
+    @staticmethod
     def modify_student(user_id, name, p_id=None, gender=None, birthday=None, birth_place=None,
-                       folk=None, political_status=None, school=None, department=None, major=None, phone=None):
+                       folk=None, political_status=None, school=None, department=None, class_=None, phone=None):
 
         sql = """
                   SELECT * FROM students
@@ -62,7 +78,7 @@ class Student(User):
 
         if user_data:
             Student(user_id, name, p_id, gender, birthday, birth_place, folk, political_status,
-                    school, department, major, phone).save_to_db()
+                    school, department, class_, phone).save_to_db()
             return True
         else:
             return False
@@ -84,16 +100,21 @@ class Student(User):
     def save_to_db(self):
         sql = """
                 INSERT INTO students(user_id, user_type, name, p_id, gender, birthday, birth_place, folk,
-                 political_status, school, department, major, phone)
+                 political_status, school, department, class, phone)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 ON DUPLICATE KEY UPDATE name = %s, p_id = %s, gender = %s, birthday = %s, birth_place = %s,
-                folk = %s, political_status = %s, school = %s, department = %s, major = %s, phone = %s
+                folk = %s, political_status = %s, school = %s, department = %s, class = %s, phone = %s
                 """
 
         Database.data_handle(sql, *self.to_list())
 
     def to_list(self):
         return [self.user_id, self.user_type, self.name, self.p_id, self.gender, self.birthday, self.birth_place,
-                self.folk, self.political_status, self.school, self.department, self.major, self.phone,
+                self.folk, self.political_status, self.school, self.department, self.class_, self.phone,
                 self.name, self.p_id, self.gender, self.birthday, self.birth_place, self.folk, self.political_status,
-                self.school, self.department, self.major, self.phone]
+                self.school, self.department, self.class_, self.phone]
+
+
+if __name__ == '__main__':
+    for i in Student.read_all_students():
+        print(i)
