@@ -406,18 +406,44 @@ class Ui_admin_MainWindow(object):
     def init_teacher_table(self):
         teachers_data = Teacher.read_all_teachers()
         for teacher_data in teachers_data:
+            current_row = self.teacher_table_widget.rowCount() - 1
             for i in range(11):
                 item = QtWidgets.QTableWidgetItem(teacher_data[i])
-                self.teacher_table_widget.setItem(self.teacher_table_widget.rowCount() - 1, i, item)
+                self.teacher_table_widget.setItem(current_row, i, item)
+
+            self.teacher_table_widget.setCellWidget(current_row, 11,
+                                                    Ui_admin_MainWindow.create_operation_buttons())
+
             self.teacher_table_widget.insertRow(self.teacher_table_widget.rowCount())
 
     def init_student_table(self):
         students_data = Student.read_all_students()
         for student_data in students_data:
+            current_row = self.student_table_widget.rowCount() - 1
             for i in range(12):
                 item = QtWidgets.QTableWidgetItem(student_data[i])
-                self.student_table_widget.setItem(self.student_table_widget.rowCount() - 1, i, item)
+                self.student_table_widget.setItem(current_row, i, item)
+
+            self.student_table_widget.setCellWidget(current_row, 12,
+                                                    Ui_admin_MainWindow.create_operation_buttons())
+
             self.student_table_widget.insertRow(self.student_table_widget.rowCount())
+
+    @staticmethod
+    def create_operation_buttons():
+        widget = QtWidgets.QWidget()
+        create_button = QtWidgets.QPushButton("Create")
+        modify_button = QtWidgets.QPushButton("Modify")
+        delete_button = QtWidgets.QPushButton("Delete")
+
+        layout = QtWidgets.QHBoxLayout(widget)
+        layout.addWidget(create_button)
+        layout.addWidget(modify_button)
+        layout.addWidget(delete_button)
+
+        widget.setLayout(layout)
+
+        return widget
 
     def retranslateUi(self, admin_MainWindow):
         _translate = QtCore.QCoreApplication.translate
