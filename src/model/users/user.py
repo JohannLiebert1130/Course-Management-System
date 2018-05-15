@@ -31,22 +31,23 @@ class User:
         self.user_id = user_id
         self.name = name
         self.user_type = user_type
+        self.p_id = p_id
         self.folk = folk
         self.political_status = political_status
         self.school = school
         self.phone = phone
 
-        try:
-            chinese_id = ChineseID(p_id)
-        except ValueError as err:
-            print(err)
-            self.p_id = None
+        if p_id is None:
             self.birth_place = birth_place
             self.birthday = birthday
             self.gender = gender
         else:
-            self.p_id = p_id
-            self.birth_place, self.birthday, self.gender = chinese_id.get_id_details().values()
+            try:
+                chinese_id = ChineseID(p_id)
+            except ValueError as err:
+                raise err
+            else:
+                self.birth_place, self.birthday, self.gender = chinese_id.get_id_details().values()
 
     def __str__(self):
         return f'User ID: {self.user_id}\nName: {self.name}\nID: {self.p_id}\n' \
