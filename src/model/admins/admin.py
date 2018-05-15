@@ -40,11 +40,9 @@ class Admin(User):
             user_data = list(user_data[0])
             user_data[6] = str(user_data[6])
 
-            data = [user_data[1]]
-            data.extend(user_data[3:])
+            user_data = user_data[1:]
 
-            print("Admin: user data:", data)
-            return Admin(*data)
+            return Admin(*user_data)
         else:
             print("user do not exist!")
             return None
