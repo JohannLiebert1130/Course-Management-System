@@ -557,17 +557,52 @@ margin-right: 10px;</string>
           </row>
           <column>
            <property name="text">
-            <string>Teacher Name</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
             <string>Teacher ID</string>
            </property>
           </column>
           <column>
            <property name="text">
+            <string>Teacher Name</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>ID</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Gender</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Birthday</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Birth Place</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Folk</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Political Status</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
             <string>School</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Position</string>
            </property>
           </column>
           <column>
@@ -706,12 +741,42 @@ margin-right: 10px;</string>
           </row>
           <column>
            <property name="text">
+            <string>Student ID</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
             <string>Student Name</string>
            </property>
           </column>
           <column>
            <property name="text">
-            <string>Student ID</string>
+            <string>ID</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Gender</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Birthday</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Birth Place</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Folk</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Political Status</string>
            </property>
           </column>
           <column>
@@ -722,6 +787,11 @@ margin-right: 10px;</string>
           <column>
            <property name="text">
             <string>Department</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Major</string>
            </property>
           </column>
           <column>
