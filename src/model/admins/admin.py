@@ -12,19 +12,28 @@ class Admin(User):
     def create_admin(user_id, name, p_id=None, gender=None, birthday=None, birth_place=None,
                      folk=None, political_status=None, school=None, phone=None):
 
-        sql = """
+        admin = Admin(user_id, name, p_id, gender, birthday, birth_place, folk,
+                      political_status, school, phone)
+
+        if p_id is None:
+            sql = """
                   SELECT * FROM admins
                   WHERE user_id = %s
-                """
-        user_data = Database.query(sql, user_id)
+                  """
+            user_data = Database.query(sql, admin.user_id)
+        else:
+            sql = """
+                  SELECT * FROM admins
+                  WHERE user_id = %s OR p_id = %s
+                  """
+            user_data = Database.query(sql, admin.user_id, admin.p_id)
 
         if user_data:
             # Tell user they are already registered
             print("The user id you used to register already exists.")
             return False
 
-        Admin(user_id, name, p_id, gender, birthday, birth_place, folk,
-              political_status, school, phone).save_to_db()
+        admin.save_to_db()
         return True
 
     @staticmethod
@@ -80,9 +89,9 @@ class Admin(User):
 
     def save_to_db(self):
         sql = """
-                INSERT INTO admins(user_id, user_type, name, p_id, gender, birthday, birth_place, folk,
+                INSERT INTO admins(user_id, name, p_id, gender, birthday, birth_place, folk,
                  political_status, school, phone)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 ON DUPLICATE KEY UPDATE name = %s, p_id = %s, gender = %s, birthday = %s,
                 birth_place = %s, folk = %s, political_status = %s, school = %s, phone = %s
                 """
@@ -90,13 +99,9 @@ class Admin(User):
         Database.data_handle(sql, *self.to_list())
 
     def to_list(self):
-        return [self.user_id, self.user_type, self.name, self.p_id, self.gender, self.birthday,
+        return [self.user_id, self.name, self.p_id, self.gender, self.birthday,
                 self.birth_place, self.folk, self.political_status, self.school, self.phone,
                 self.name, self.p_id, self.gender, self.birthday, self.birth_place, self.folk, self.political_status,
                 self.school, self.phone]
-
-
-if __name__ == '__main__':
-    Admin.read_admin('A001')
 
 
