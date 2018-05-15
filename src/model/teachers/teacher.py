@@ -50,8 +50,12 @@ class Teacher(User):
 
     @staticmethod
     def read_all_teachers():
+        Database.initialize()
+
         sql = "SELECT * FROM teachers"
         users_data = Database.query(sql)
+
+        Database.close()
 
         if users_data:
             for user_data in users_data:
@@ -111,7 +115,5 @@ class Teacher(User):
 
 
 if __name__ == '__main__':
-    Database.initialize()
     for i in Teacher.read_all_teachers():
         print(i)
-    Database.close()
