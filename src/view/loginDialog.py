@@ -80,14 +80,21 @@ class Ui_login_dialog(object):
             return False
 
     def login(self):
-        is_valid, user = Account.is_valid_login(self.user_line_edit.text(), self.pw_line_edit.text())
-        if is_valid:
+        login_state, user = Account.is_valid_login(self.user_line_edit.text(), self.pw_line_edit.text())
+        if login_state == 1:
             self.login_dialog.user = user
             self.login_dialog.accept()
-        else:
-            msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', 'invalid login',
+        elif login_state == -1:
+            msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', 'invalid password!',
                                             parent=self.login_dialog)
             msg_box.exec_()
+        elif login_state == -2:
+            msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error',
+                                            'This account do not exist!\nIf you think your user ID is right, please to '
+                                            'contact the administrator.', parent=self.login_dialog)
+            msg_box.exec_()
+        else:
+            raise Exception('Unknown Error occurs')
 
     def forget_password(self):
         content = 'Please contact the administrator: fuck@shit.edu.cn'
