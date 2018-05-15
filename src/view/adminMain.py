@@ -8,6 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+from src.model.students.student import Student
 from src.model.teachers.teacher import Teacher
 
 
@@ -234,19 +235,19 @@ class Ui_admin_MainWindow(object):
         self.horizontalLayout_6.addItem(spacerItem6)
         self.verticalLayout_7.addLayout(self.horizontalLayout_6)
 
-        self.tableWidget_3 = QtWidgets.QTableWidget(self.teacher_tab)
-        self.tableWidget_3.setObjectName("tableWidget_3")
+        self.teacher_table_widget = QtWidgets.QTableWidget(self.teacher_tab)
+        self.teacher_table_widget.setObjectName("tableWidget_3")
 
-        self.tableWidget_3.setColumnCount(12)
-        self.tableWidget_3.setRowCount(1)
+        self.teacher_table_widget.setColumnCount(12)
+        self.teacher_table_widget.setRowCount(1)
 
-        self.tableWidget_3.setHorizontalHeaderLabels(['Teacher ID', 'Teacher Name', 'ID', 'Gender',
+        self.teacher_table_widget.setHorizontalHeaderLabels(['Teacher ID', 'Teacher Name', 'ID', 'Gender',
                                                       'Birthday', 'Birth Place', 'Folk', 'Political Status',
                                                       'School', 'Position', 'Phone', 'Operations'])
 
         self.init_teacher_table()
 
-        self.verticalLayout_7.addWidget(self.tableWidget_3)
+        self.verticalLayout_7.addWidget(self.teacher_table_widget)
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         spacerItem7 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -284,17 +285,19 @@ class Ui_admin_MainWindow(object):
         spacerItem10 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_9.addItem(spacerItem10)
         self.verticalLayout_8.addLayout(self.horizontalLayout_9)
-        self.tableWidget_4 = QtWidgets.QTableWidget(self.student_tab)
-        self.tableWidget_4.setObjectName("tableWidget_4")
+        self.student_table_widget = QtWidgets.QTableWidget(self.student_tab)
+        self.student_table_widget.setObjectName("tableWidget_4")
 
-        self.tableWidget_4.setColumnCount(13)
-        self.tableWidget_4.setRowCount(1)
+        self.student_table_widget.setColumnCount(13)
+        self.student_table_widget.setRowCount(1)
 
-        self.tableWidget_4.setHorizontalHeaderLabels(['Student ID', 'Student Name', 'ID', 'Gender',
-                                                      'Birthday', 'Birth Place', 'Folk', 'Political Status',
-                                                      'School', 'Department', 'Class', 'Phone', 'Operations'])
+        self.student_table_widget.setHorizontalHeaderLabels(['Student ID', 'Student Name', 'ID', 'Gender',
+                                                             'Birthday', 'Birth Place', 'Folk', 'Political Status',
+                                                             'School', 'Department', 'Class', 'Phone', 'Operations'])
 
-        self.verticalLayout_8.addWidget(self.tableWidget_4)
+        self.init_student_table()
+
+        self.verticalLayout_8.addWidget(self.student_table_widget)
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
         spacerItem11 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -405,8 +408,16 @@ class Ui_admin_MainWindow(object):
         for teacher_data in teachers_data:
             for i in range(11):
                 item = QtWidgets.QTableWidgetItem(teacher_data[i])
-                self.tableWidget_3.setItem(self.tableWidget_3.rowCount() - 1, i, item)
-            self.tableWidget_3.insertRow(self.tableWidget_3.rowCount())
+                self.teacher_table_widget.setItem(self.teacher_table_widget.rowCount() - 1, i, item)
+            self.teacher_table_widget.insertRow(self.teacher_table_widget.rowCount())
+
+    def init_student_table(self):
+        students_data = Student.read_all_students()
+        for student_data in students_data:
+            for i in range(12):
+                item = QtWidgets.QTableWidgetItem(student_data[i])
+                self.student_table_widget.setItem(self.student_table_widget.rowCount() - 1, i, item)
+            self.student_table_widget.insertRow(self.student_table_widget.rowCount())
 
     def retranslateUi(self, admin_MainWindow):
         _translate = QtCore.QCoreApplication.translate
