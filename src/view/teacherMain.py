@@ -8,6 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_teacher_MainWindow(object):
     def setupUi(self, teacher_MainWindow):
         teacher_MainWindow.setObjectName("teacher_MainWindow")
@@ -58,12 +59,12 @@ class Ui_teacher_MainWindow(object):
         self.welcome_label.setSizePolicy(sizePolicy)
         self.welcome_label.setStyleSheet("font: 14pt \"Sans Serif\";")
         self.welcome_label.setObjectName("welcome_label")
-        self.verticalLayout_2.addWidget(self.welcome_label, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
+        self.verticalLayout_2.addWidget(self.welcome_label, 0, QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
         self.last_login_label = QtWidgets.QLabel(self.home_tab)
         self.last_login_label.setStyleSheet("font: 12pt \"Sans Serif\";\n"
-"margin-right: 10px;")
+                                            "margin-right: 10px;")
         self.last_login_label.setObjectName("last_login_label")
-        self.verticalLayout_2.addWidget(self.last_login_label, 0, QtCore.Qt.AlignRight|QtCore.Qt.AlignBottom)
+        self.verticalLayout_2.addWidget(self.last_login_label, 0, QtCore.Qt.AlignRight | QtCore.Qt.AlignBottom)
         self.tabWidget.addTab(self.home_tab, "")
         self.query_tab = QtWidgets.QWidget()
         self.query_tab.setObjectName("query_tab")
@@ -133,7 +134,8 @@ class Ui_teacher_MainWindow(object):
         self.pushButton_4.setStyleSheet("font: 10pt \"Sans Serif\";")
         self.pushButton_4.setObjectName("pushButton_4")
         self.horizontalLayout_2.addWidget(self.pushButton_4)
-        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.MinimumExpanding,
+                                            QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem2)
         self.verticalLayout_3.addLayout(self.horizontalLayout_2)
         self.gridLayout_2 = QtWidgets.QGridLayout()
@@ -619,12 +621,18 @@ class Ui_teacher_MainWindow(object):
         self.tabWidget_2.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(teacher_MainWindow)
 
+    @staticmethod
+    def welcome_info(teacher_MainWindow):
+        return f'Welcome, {teacher_MainWindow.user.user_id} {teacher_MainWindow.user.name}'
+
     def retranslateUi(self, teacher_MainWindow):
         _translate = QtCore.QCoreApplication.translate
         teacher_MainWindow.setWindowTitle(_translate("teacher_MainWindow", "Course Management System"))
-        self.user_top_label.setText(_translate("teacher_MainWindow", "2015329620057 HP."))
+        self.user_top_label.setText(_translate("teacher_MainWindow",
+                                               Ui_teacher_MainWindow.welcome_info(teacher_MainWindow)))
         self.logout_button.setText(_translate("teacher_MainWindow", "Logout"))
-        self.welcome_label.setText(_translate("teacher_MainWindow", "Welcome, 20031111 HP"))
+        self.welcome_label.setText(_translate("teacher_MainWindow",
+                                              Ui_teacher_MainWindow.welcome_info(teacher_MainWindow)))
         self.last_login_label.setText(_translate("teacher_MainWindow", "Last login: 2018-XX-XX 12:00 Location"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.home_tab), _translate("teacher_MainWindow", "Home"))
         self.label_21.setText(_translate("teacher_MainWindow", "Year:"))
@@ -670,7 +678,8 @@ class Ui_teacher_MainWindow(object):
         item.setText(_translate("teacher_MainWindow", "66666666"))
         self.tableWidget.setSortingEnabled(__sortingEnabled)
         self.pushButton_3.setText(_translate("teacher_MainWindow", "Print Info of The Current Course"))
-        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.courses_tab), _translate("teacher_MainWindow", "My Courses"))
+        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.courses_tab),
+                                    _translate("teacher_MainWindow", "My Courses"))
         self.label_23.setText(_translate("teacher_MainWindow", "Year:"))
         self.comboBox_10.setItemText(0, _translate("teacher_MainWindow", "2015-2016"))
         self.comboBox_10.setItemText(1, _translate("teacher_MainWindow", "2016-2017"))
@@ -714,7 +723,8 @@ class Ui_teacher_MainWindow(object):
         self.tableWidget_2.setSortingEnabled(__sortingEnabled)
         self.pushButton_2.setText(_translate("teacher_MainWindow", "Save My Grades to Local"))
         self.pushButton.setText(_translate("teacher_MainWindow", "Grade Data Analysis"))
-        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.grades_tab), _translate("teacher_MainWindow", "Grades Query"))
+        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.grades_tab),
+                                    _translate("teacher_MainWindow", "Grades Query"))
         self.label_18.setText(_translate("teacher_MainWindow", "Year:"))
         self.comboBox_6.setItemText(0, _translate("teacher_MainWindow", "2015-2016"))
         self.comboBox_6.setItemText(1, _translate("teacher_MainWindow", "2016-2017"))
@@ -730,7 +740,8 @@ class Ui_teacher_MainWindow(object):
         item.setText(_translate("teacher_MainWindow", "Exam TIme"))
         item = self.tableWidget_4.horizontalHeaderItem(3)
         item.setText(_translate("teacher_MainWindow", "Exam Location"))
-        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.exam_tab), _translate("teacher_MainWindow", "Exam Query"))
+        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.exam_tab),
+                                    _translate("teacher_MainWindow", "Exam Query"))
         self.label_25.setText(_translate("teacher_MainWindow", "Year:"))
         self.comboBox_12.setItemText(0, _translate("teacher_MainWindow", "2015-2016"))
         self.comboBox_12.setItemText(1, _translate("teacher_MainWindow", "2016-2017"))
@@ -757,7 +768,8 @@ class Ui_teacher_MainWindow(object):
         item.setText(_translate("teacher_MainWindow", "88"))
         self.tableWidget_6.setSortingEnabled(__sortingEnabled)
         self.pushButton_9.setText(_translate("teacher_MainWindow", "Data Analysis"))
-        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab), _translate("teacher_MainWindow", " My Courses Evaluation"))
+        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab),
+                                    _translate("teacher_MainWindow", " My Courses Evaluation"))
         item = self.tableWidget_5.verticalHeaderItem(0)
         item.setText(_translate("teacher_MainWindow", "New Row"))
         item = self.tableWidget_5.verticalHeaderItem(1)
@@ -805,8 +817,10 @@ class Ui_teacher_MainWindow(object):
         item = self.tableWidget_5.item(6, 0)
         item.setText(_translate("teacher_MainWindow", "Political Status:"))
         self.tableWidget_5.setSortingEnabled(__sortingEnabled)
-        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.personal_info_tab), _translate("teacher_MainWindow", "Personal Information"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.query_tab), _translate("teacher_MainWindow", "Information Query"))
+        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.personal_info_tab),
+                                    _translate("teacher_MainWindow", "Personal Information"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.query_tab),
+                                  _translate("teacher_MainWindow", "Information Query"))
         self.label_5.setText(_translate("teacher_MainWindow", "Your Courses:"))
         self.comboBox_4.setItemText(0, _translate("teacher_MainWindow", "Java"))
         self.comboBox_4.setItemText(1, _translate("teacher_MainWindow", "C++ GUI Programming"))
@@ -847,15 +861,16 @@ class Ui_teacher_MainWindow(object):
         self.new_password_line_edit.setPlaceholderText(_translate("teacher_MainWindow", "New Password"))
         self.confirm_password_line_edit.setPlaceholderText(_translate("teacher_MainWindow", "Confirm Password"))
         self.change_password_button.setText(_translate("teacher_MainWindow", "Change"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.change_pw_tab), _translate("teacher_MainWindow", "Change Password"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.change_pw_tab),
+                                  _translate("teacher_MainWindow", "Change Password"))
 
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     teacher_MainWindow = QtWidgets.QMainWindow()
     ui = Ui_teacher_MainWindow()
     ui.setupUi(teacher_MainWindow)
     teacher_MainWindow.show()
     sys.exit(app.exec_())
-

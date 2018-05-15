@@ -8,6 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_student_MainWindow(object):
     def setupUi(self, student_MainWindow):
         student_MainWindow.setObjectName("student_MainWindow")
@@ -58,12 +59,12 @@ class Ui_student_MainWindow(object):
         self.welcome_label.setSizePolicy(sizePolicy)
         self.welcome_label.setStyleSheet("font: 14pt \"Sans Serif\";")
         self.welcome_label.setObjectName("welcome_label")
-        self.verticalLayout_2.addWidget(self.welcome_label, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
+        self.verticalLayout_2.addWidget(self.welcome_label, 0, QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
         self.last_login_label = QtWidgets.QLabel(self.home_tab)
         self.last_login_label.setStyleSheet("font: 12pt \"Sans Serif\";\n"
-"margin-right: 10px;")
+                                            "margin-right: 10px;")
         self.last_login_label.setObjectName("last_login_label")
-        self.verticalLayout_2.addWidget(self.last_login_label, 0, QtCore.Qt.AlignRight|QtCore.Qt.AlignBottom)
+        self.verticalLayout_2.addWidget(self.last_login_label, 0, QtCore.Qt.AlignRight | QtCore.Qt.AlignBottom)
         self.tabWidget.addTab(self.home_tab, "")
         self.enroll_tab = QtWidgets.QWidget()
         self.enroll_tab.setObjectName("enroll_tab")
@@ -660,12 +661,16 @@ class Ui_student_MainWindow(object):
         self.tabWidget_2.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(student_MainWindow)
 
+    @staticmethod
+    def welcome_info(student_MainWindow):
+        return f'Welcome, {student_MainWindow.user.user_id} {student_MainWindow.user.name}'
+
     def retranslateUi(self, student_MainWindow):
         _translate = QtCore.QCoreApplication.translate
         student_MainWindow.setWindowTitle(_translate("student_MainWindow", "Course Management System"))
-        self.user_top_label.setText(_translate("student_MainWindow", "2015329620057 HP."))
+        self.user_top_label.setText(_translate("student_MainWindow", Ui_student_MainWindow.welcome_info(student_MainWindow)))
         self.logout_button.setText(_translate("student_MainWindow", "Logout"))
-        self.welcome_label.setText(_translate("student_MainWindow", "Welcome, 2015329620057 HP"))
+        self.welcome_label.setText(_translate("student_MainWindow", Ui_student_MainWindow.welcome_info(student_MainWindow)))
         self.last_login_label.setText(_translate("student_MainWindow", "Last login: 2018-XX-XX 12:00 Location"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.home_tab), _translate("student_MainWindow", "Home"))
         self.label.setText(_translate("student_MainWindow", "Year:"))
@@ -708,15 +713,17 @@ class Ui_student_MainWindow(object):
         self.tableWidget.setSortingEnabled(__sortingEnabled)
         self.enroll_button.setText(_translate("student_MainWindow", "Enroll"))
         self.check_selected_courses_button.setText(_translate("student_MainWindow", "查看已选课程"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.enroll_tab), _translate("student_MainWindow", "Course Enrollment"))
-        self.textBrowser.setHtml(_translate("student_MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Sans Serif\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt;\">亲爱的同学:</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt;\">   不断提高教学质量，是您和我们共同的期盼，对任课教师的授课和课程进行客观、公正的评价，将有关信息反馈到学校有关部门和院系，是提高教学质量的基础工作。因此，您的评价对提高学校教学质量和维护您自身的权益都将起到重要的作用。</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt;\">   请您给课堂教学质量按下列指标评价。谢谢。</span></p>\n"
-"<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt;\">教务处</span></p></body></html>"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.enroll_tab),
+                                  _translate("student_MainWindow", "Course Enrollment"))
+        self.textBrowser.setHtml(_translate("student_MainWindow",
+                                            "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+                                            "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+                                            "p, li { white-space: pre-wrap; }\n"
+                                            "</style></head><body style=\" font-family:\'Sans Serif\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
+                                            "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt;\">亲爱的同学:</span></p>\n"
+                                            "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt;\">   不断提高教学质量，是您和我们共同的期盼，对任课教师的授课和课程进行客观、公正的评价，将有关信息反馈到学校有关部门和院系，是提高教学质量的基础工作。因此，您的评价对提高学校教学质量和维护您自身的权益都将起到重要的作用。</span></p>\n"
+                                            "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt;\">   请您给课堂教学质量按下列指标评价。谢谢。</span></p>\n"
+                                            "<p align=\"right\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:11pt;\">教务处</span></p></body></html>"))
         self.label_16.setText(_translate("student_MainWindow", "Course"))
         self.comboBox_5.setItemText(0, _translate("student_MainWindow", "C++"))
         item = self.tableWidget_3.verticalHeaderItem(0)
@@ -752,7 +759,8 @@ class Ui_student_MainWindow(object):
         self.tableWidget_3.setSortingEnabled(__sortingEnabled)
         self.label_17.setText(_translate("student_MainWindow", "Other evaluation and suggestions (Optional) :"))
         self.confrim_evaluation_button.setText(_translate("student_MainWindow", "Confrim"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.evaluation_lab), _translate("student_MainWindow", "Teaching Quality Evaluation"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.evaluation_lab),
+                                  _translate("student_MainWindow", "Teaching Quality Evaluation"))
         self.label_21.setText(_translate("student_MainWindow", "Year:"))
         self.comboBox_8.setItemText(0, _translate("student_MainWindow", "2015-2016"))
         self.comboBox_8.setItemText(1, _translate("student_MainWindow", "2016-2017"))
@@ -799,7 +807,8 @@ class Ui_student_MainWindow(object):
         item = self.tableWidget_6.horizontalHeaderItem(6)
         item.setText(_translate("student_MainWindow", "Saturday"))
         self.save_schedule_button.setText(_translate("student_MainWindow", "Save Schedule to Local"))
-        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.schedule_tab), _translate("student_MainWindow", "My Curriculum Schedule"))
+        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.schedule_tab),
+                                    _translate("student_MainWindow", "My Curriculum Schedule"))
         self.label_3.setText(_translate("student_MainWindow", "Year:"))
         self.comboBox_3.setItemText(0, _translate("student_MainWindow", "2015-2016"))
         self.comboBox_3.setItemText(1, _translate("student_MainWindow", "2016-2017"))
@@ -830,7 +839,8 @@ class Ui_student_MainWindow(object):
         item = self.tableWidget_2.horizontalHeaderItem(7)
         item.setText(_translate("student_MainWindow", "开课学院"))
         self.pushButton_2.setText(_translate("student_MainWindow", "Save My Grades to Local"))
-        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.grades_tab), _translate("student_MainWindow", "Grades Query"))
+        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.grades_tab),
+                                    _translate("student_MainWindow", "Grades Query"))
         self.label_18.setText(_translate("student_MainWindow", "Year:"))
         self.comboBox_6.setItemText(0, _translate("student_MainWindow", "2015-2016"))
         self.comboBox_6.setItemText(1, _translate("student_MainWindow", "2016-2017"))
@@ -850,7 +860,8 @@ class Ui_student_MainWindow(object):
         item.setText(_translate("student_MainWindow", "Exam Location"))
         item = self.tableWidget_4.horizontalHeaderItem(5)
         item.setText(_translate("student_MainWindow", "Seat Number"))
-        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.exam_tab), _translate("student_MainWindow", "Exam Query"))
+        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.exam_tab),
+                                    _translate("student_MainWindow", "Exam Query"))
         item = self.tableWidget_5.verticalHeaderItem(0)
         item.setText(_translate("student_MainWindow", "New Row"))
         item = self.tableWidget_5.verticalHeaderItem(1)
@@ -920,21 +931,24 @@ class Ui_student_MainWindow(object):
         item = self.tableWidget_5.item(6, 2)
         item.setText(_translate("student_MainWindow", "Phone No.:"))
         self.tableWidget_5.setSortingEnabled(__sortingEnabled)
-        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.personal_info_tab), _translate("student_MainWindow", "Personal Information"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.query_tab), _translate("student_MainWindow", "Information Query"))
+        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.personal_info_tab),
+                                    _translate("student_MainWindow", "Personal Information"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.query_tab),
+                                  _translate("student_MainWindow", "Information Query"))
         self.old_password_line_edit.setPlaceholderText(_translate("student_MainWindow", "Old Password"))
         self.new_password_line_edit.setPlaceholderText(_translate("student_MainWindow", "New Password"))
         self.confirm_password_line_edit.setPlaceholderText(_translate("student_MainWindow", "Confirm Password"))
         self.change_password_button.setText(_translate("student_MainWindow", "Change"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.change_pw_tab), _translate("student_MainWindow", "Change Password"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.change_pw_tab),
+                                  _translate("student_MainWindow", "Change Password"))
 
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     student_MainWindow = QtWidgets.QMainWindow()
     ui = Ui_student_MainWindow()
     ui.setupUi(student_MainWindow)
     student_MainWindow.show()
     sys.exit(app.exec_())
-
