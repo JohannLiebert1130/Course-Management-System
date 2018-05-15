@@ -41,13 +41,25 @@ class Teacher(User):
             user_data = list(user_data[0])
             user_data[6] = str(user_data[6])
 
-            data = [user_data[1]]
-            data.extend(user_data[3:])
+            user_data = user_data[1:]
 
-            return Teacher(*data)
+            return Teacher(*user_data)
         else:
             print("user do not exist!")
             return None
+
+    @staticmethod
+    def read_all_teachers():
+        sql = "SELECT * FROM teachers"
+        users_data = Database.query(sql)
+
+        if users_data:
+            for user_data in users_data:
+                user_data = list(user_data)
+                user_data[5] = str(user_data[5])
+
+                user_data = user_data[1:]
+                yield user_data
 
     @staticmethod
     def modify_teacher(user_id, name, p_id=None, gender=None, birthday=None, birth_place=None,
@@ -82,9 +94,9 @@ class Teacher(User):
 
     def save_to_db(self):
         sql = """
-            INSERT INTO teachers(user_id, user_type, name, p_id, gender, birthday, birth_place, folk,
+            INSERT INTO teachers(user_id, name, p_id, gender, birthday, birth_place, folk,
              political_status, school, position, phone)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             ON DUPLICATE KEY UPDATE name = %s, p_id = %s, gender = %s, birthday = %s,
             birth_place = %s, folk = %s, political_status = %s, school = %s, position = %s, phone = %s
             """
@@ -92,7 +104,7 @@ class Teacher(User):
         Database.data_handle(sql, *self.to_list())
 
     def to_list(self):
-        return [self.user_id, self.user_type, self.name, self.p_id, self.gender, self.birthday,
+        return [self.user_id, self.name, self.p_id, self.gender, self.birthday,
                 self.birth_place, self.folk, self.political_status, self.school, self.position, self.phone,
                 self.name, self.p_id, self.gender, self.birthday, self.birth_place, self.folk, self.political_status,
                 self.school, self.position, self.phone]
@@ -100,5 +112,6 @@ class Teacher(User):
 
 if __name__ == '__main__':
     Database.initialize()
-    print(Teacher.read_teacher('20031252'))
+    for i in Teacher.read_all_teachers():
+        print(i)
     Database.close()
