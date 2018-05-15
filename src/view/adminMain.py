@@ -8,6 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_admin_MainWindow(object):
     def setupUi(self, admin_MainWindow):
         admin_MainWindow.setObjectName("admin_MainWindow")
@@ -49,10 +50,10 @@ class Ui_admin_MainWindow(object):
         self.welcome_label.setSizePolicy(sizePolicy)
         self.welcome_label.setStyleSheet("font: 14pt \"Sans Serif\";")
         self.welcome_label.setObjectName("welcome_label")
-        self.verticalLayout_3.addWidget(self.welcome_label, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
+        self.verticalLayout_3.addWidget(self.welcome_label, 0, QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
         self.last_login_label = QtWidgets.QLabel(self.home_tab)
         self.last_login_label.setStyleSheet("font: 12pt \"Sans Serif\";\n"
-"margin-right: 10px;")
+                                            "margin-right: 10px;")
         self.last_login_label.setObjectName("last_login_label")
         self.verticalLayout_3.addWidget(self.last_login_label, 0, QtCore.Qt.AlignRight)
         self.tabWidget.addTab(self.home_tab, "")
@@ -406,12 +407,16 @@ class Ui_admin_MainWindow(object):
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(admin_MainWindow)
 
+    @staticmethod
+    def welcome_info(admin_MainWindow):
+        return f'Welcome, {admin_MainWindow.user.user_id} {admin_MainWindow.user.name}'
+
     def retranslateUi(self, admin_MainWindow):
         _translate = QtCore.QCoreApplication.translate
         admin_MainWindow.setWindowTitle(_translate("admin_MainWindow", "Course Management System"))
-        self.label.setText(_translate("admin_MainWindow", "Welcome, Administrator!"))
+        self.label.setText(_translate("admin_MainWindow", Ui_admin_MainWindow.welcome_info(admin_MainWindow)))
         self.logout_button.setText(_translate("admin_MainWindow", "Logout"))
-        self.welcome_label.setText(_translate("admin_MainWindow", "Welcome, A001 HP"))
+        self.welcome_label.setText(_translate("admin_MainWindow", Ui_admin_MainWindow.welcome_info(admin_MainWindow)))
         self.last_login_label.setText(_translate("admin_MainWindow", "Last login: 2018-XX-XX 12:00 Location"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.home_tab), _translate("admin_MainWindow", "Home"))
         self.label_6.setText(_translate("admin_MainWindow", "School:"))
@@ -442,7 +447,8 @@ class Ui_admin_MainWindow(object):
         item.setText(_translate("admin_MainWindow", "Operation"))
         self.pushButton_3.setText(_translate("admin_MainWindow", "Course Query"))
         self.pushButton_4.setText(_translate("admin_MainWindow", "Print"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.course_tab), _translate("admin_MainWindow", "Course Management"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.course_tab),
+                                  _translate("admin_MainWindow", "Course Management"))
         self.label_11.setText(_translate("admin_MainWindow", "School:"))
         self.modify_course_school_comboBox_5.setItemText(0, _translate("admin_MainWindow", "Information"))
         self.label_27.setText(_translate("admin_MainWindow", "Year:"))
@@ -463,7 +469,8 @@ class Ui_admin_MainWindow(object):
         item = self.tableWidget_5.horizontalHeaderItem(4)
         item.setText(_translate("admin_MainWindow", "Checkbox"))
         self.pushButton_7.setText(_translate("admin_MainWindow", "Confrim"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.enroll_tab), _translate("admin_MainWindow", "Confirm Enrollment"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.enroll_tab),
+                                  _translate("admin_MainWindow", "Confirm Enrollment"))
         self.label_9.setText(_translate("admin_MainWindow", "School:"))
         self.modify_course_school_comboBox_3.setItemText(0, _translate("admin_MainWindow", "Information"))
         item = self.tableWidget_3.verticalHeaderItem(0)
@@ -480,7 +487,8 @@ class Ui_admin_MainWindow(object):
         item.setText(_translate("admin_MainWindow", "Operations"))
         self.pushButton.setText(_translate("admin_MainWindow", "Teacher Query"))
         self.pushButton_5.setText(_translate("admin_MainWindow", "Print"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.teacher_tab), _translate("admin_MainWindow", "Teacher Management"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.teacher_tab),
+                                  _translate("admin_MainWindow", "Teacher Management"))
         self.label_10.setText(_translate("admin_MainWindow", "School:"))
         self.modify_course_school_comboBox_4.setItemText(0, _translate("admin_MainWindow", "Information"))
         item = self.tableWidget_4.verticalHeaderItem(0)
@@ -501,7 +509,8 @@ class Ui_admin_MainWindow(object):
         item.setText(_translate("admin_MainWindow", "Operations"))
         self.pushButton_2.setText(_translate("admin_MainWindow", "Student Query"))
         self.pushButton_6.setText(_translate("admin_MainWindow", "Print"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.student_tab), _translate("admin_MainWindow", "Student Management"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.student_tab),
+                                  _translate("admin_MainWindow", "Student Management"))
         self.label_2.setText(_translate("admin_MainWindow", "Show Grades By:"))
         self.comboBox.setItemText(0, _translate("admin_MainWindow", "Course ID"))
         self.comboBox.setItemText(1, _translate("admin_MainWindow", "Student ID"))
@@ -515,7 +524,8 @@ class Ui_admin_MainWindow(object):
         item = self.tableWidget.horizontalHeaderItem(3)
         item.setText(_translate("admin_MainWindow", "Grade"))
         self.pushButton_9.setText(_translate("admin_MainWindow", "Grade Analysis"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.grade_tab), _translate("admin_MainWindow", "Grade Management"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.grade_tab),
+                                  _translate("admin_MainWindow", "Grade Management"))
         self.label_3.setText(_translate("admin_MainWindow", "Account Type:"))
         self.comboBox_2.setItemText(0, _translate("admin_MainWindow", "Teacher"))
         self.comboBox_2.setItemText(1, _translate("admin_MainWindow", "Student"))
@@ -527,15 +537,16 @@ class Ui_admin_MainWindow(object):
         item.setText(_translate("admin_MainWindow", "User Type"))
         item = self.tableWidget_2.horizontalHeaderItem(3)
         item.setText(_translate("admin_MainWindow", "Operations"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.account_tab), _translate("admin_MainWindow", "Account Management"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.account_tab),
+                                  _translate("admin_MainWindow", "Account Management"))
 
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     admin_MainWindow = QtWidgets.QMainWindow()
     ui = Ui_admin_MainWindow()
     ui.setupUi(admin_MainWindow)
     admin_MainWindow.show()
     sys.exit(app.exec_())
-
