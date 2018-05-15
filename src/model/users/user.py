@@ -25,6 +25,9 @@ class User:
         :param school: the school a user belong to (i.e. School of Information)
         :param phone: user's phone number (string)
         """
+        if not User.is_valid_user_id(user_id, user_type):
+            raise ValueError('Invalid user id!')
+
         self.user_id = user_id
         self.name = name
         self.user_type = user_type
