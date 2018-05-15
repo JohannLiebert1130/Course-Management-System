@@ -31,11 +31,10 @@ class Account:
         SELECT * FROM accounts
         WHERE user_id = (%s)
         """
-        account_data = Database.query(sql, user_id)[0]  # password in sha512->pbkdf2_sha512
-
-        print(account_data)
+        account_data = Database.query(sql, user_id)  # password in sha512->pbkdf2_sha512
 
         if account_data:
+            account_data = account_data[0]
             password_from_db = account_data[2]
 
             if Utils.check_hashed_password(password, user_id, password_from_db):
@@ -50,7 +49,7 @@ class Account:
                 Database.close()
                 return False, None
         else:
-            print("This user do not exist!")
+            print("This account do not exist!")
             Database.close()
             return False, None
 
