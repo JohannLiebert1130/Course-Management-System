@@ -22,7 +22,7 @@ class Account:
         Check that the user ID exists, and that the password associated to that ID is valid.
         :param user_id: The user's ID
         :param password: A sha512 hashed password
-        :return: (True, user_type) if valid, (False, -1) otherwise
+        :return: (login state, user)
         """
 
         Database.initialize()
@@ -43,15 +43,15 @@ class Account:
                 user = Account.get_corresponding_user(user_id, user_type)
 
                 Database.close()
-                return True, user
+                return 1, user
             else:
                 print("invalid password!")
                 Database.close()
-                return False, None
+                return -1, None
         else:
             print("This account do not exist!")
             Database.close()
-            return False, None
+            return -2, None
 
     @staticmethod
     def create_account(user_id, password, user_type):
