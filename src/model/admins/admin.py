@@ -30,11 +30,9 @@ class Admin(User):
 
         if user_data:
             # Tell user they are already registered
-            print("The user id you used to register already exists.")
-            return False
+            raise ValueError('The user id you used to register already exists.')
 
         admin.save_to_db()
-        return True
 
     @staticmethod
     def read_admin(user_id):

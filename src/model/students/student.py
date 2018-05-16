@@ -22,12 +22,10 @@ class Student(User):
 
         if user_data:
             # Tell user they are already registered
-            print("The user id you used to register already exists.")
-            return False
+            raise ValueError('The user id you used to register already exists.')
 
         Student(user_id, name, p_id, gender, birthday, birth_place, folk, political_status,
                 school, department, class_, phone).save_to_db()
-        return True
 
     @staticmethod
     def read_student(user_id):
