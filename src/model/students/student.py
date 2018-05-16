@@ -99,9 +99,9 @@ class Student(User):
 
     def save_to_db(self):
         sql = """
-                INSERT INTO students(user_id, user_type, name, p_id, gender, birthday, birth_place, folk,
+                INSERT INTO students(user_id, name, p_id, gender, birthday, birth_place, folk,
                  political_status, school, department, class, phone)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 ON DUPLICATE KEY UPDATE name = %s, p_id = %s, gender = %s, birthday = %s, birth_place = %s,
                 folk = %s, political_status = %s, school = %s, department = %s, class = %s, phone = %s
                 """
@@ -109,7 +109,7 @@ class Student(User):
         Database.data_handle(sql, *self.to_list())
 
     def to_list(self):
-        return [self.user_id, self.user_type, self.name, self.p_id, self.gender, self.birthday, self.birth_place,
+        return [self.user_id, self.name, self.p_id, self.gender, self.birthday, self.birth_place,
                 self.folk, self.political_status, self.school, self.department, self.class_, self.phone,
                 self.name, self.p_id, self.gender, self.birthday, self.birth_place, self.folk, self.political_status,
                 self.school, self.department, self.class_, self.phone]
