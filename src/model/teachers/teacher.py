@@ -47,11 +47,11 @@ class Teacher(User):
             return None
 
     @staticmethod
-    def read_all_teachers():
+    def read_teachers(school):
         Database.initialize()
 
-        sql = "SELECT * FROM teachers"
-        users_data = Database.query(sql)
+        sql = "SELECT * FROM teachers WHERE school = %s"
+        users_data = Database.query(sql, school)
 
         Database.close()
 

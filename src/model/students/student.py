@@ -48,11 +48,11 @@ class Student(User):
             return None
 
     @staticmethod
-    def read_all_students():
+    def read_students(school):
         Database.initialize()
 
-        sql = "SELECT * FROM students"
-        users_data = Database.query(sql)
+        sql = "SELECT * FROM students WHERE school = %s"
+        users_data = Database.query(sql, school)
 
         Database.close()
 
