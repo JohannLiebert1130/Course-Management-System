@@ -58,7 +58,10 @@ class Teacher(User):
         if users_data:
             for user_data in users_data:
                 user_data = list(user_data)
-                user_data[5] = str(user_data[5])
+
+                birthday = user_data[5]
+                if birthday is not None:
+                    user_data[5] = str(birthday)
 
                 user_data = user_data[1:]
                 yield user_data
