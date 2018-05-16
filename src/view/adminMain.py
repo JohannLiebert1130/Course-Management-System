@@ -7,13 +7,16 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QHeaderView
 
+from src.common.database import Database
 from src.model.students.student import Student
 from src.model.teachers.teacher import Teacher
 
 
 class Ui_admin_MainWindow(object):
     def setupUi(self, admin_MainWindow):
+        self.admin_MainWindow = admin_MainWindow
         admin_MainWindow.setObjectName("admin_MainWindow")
         admin_MainWindow.resize(1368, 768)
         self.centralwidget = QtWidgets.QWidget(admin_MainWindow)
@@ -70,12 +73,15 @@ class Ui_admin_MainWindow(object):
         self.label_6.setStyleSheet("font: 12pt \"Sans Serif\";")
         self.label_6.setObjectName("label_6")
         self.horizontalLayout_2.addWidget(self.label_6)
-        self.modify_course_school_comboBox = QtWidgets.QComboBox(self.course_tab)
-        self.modify_course_school_comboBox.setEnabled(False)
-        self.modify_course_school_comboBox.setStyleSheet("font: 12pt \"Sans Serif\";")
-        self.modify_course_school_comboBox.setObjectName("modify_course_school_comboBox")
-        self.modify_course_school_comboBox.addItem("")
-        self.horizontalLayout_2.addWidget(self.modify_course_school_comboBox)
+
+        self.course_management_school_comboBox = QtWidgets.QComboBox(self.course_tab)
+        self.course_management_school_comboBox.setEnabled(False)
+        self.course_management_school_comboBox.setStyleSheet("font: 12pt \"Sans Serif\";")
+        self.course_management_school_comboBox.setObjectName("modify_course_school_comboBox")
+        self.course_management_school_comboBox.addItem(admin_MainWindow.user.school)
+
+        self.horizontalLayout_2.addWidget(self.course_management_school_comboBox)
+
         self.label_24 = QtWidgets.QLabel(self.course_tab)
         self.label_24.setStyleSheet("font: 12pt \"Sans Serif\";")
         self.label_24.setObjectName("label_24")
@@ -152,12 +158,13 @@ class Ui_admin_MainWindow(object):
         self.label_11.setStyleSheet("font: 12pt \"Sans Serif\";")
         self.label_11.setObjectName("label_11")
         self.horizontalLayout_4.addWidget(self.label_11)
-        self.modify_course_school_comboBox_5 = QtWidgets.QComboBox(self.enroll_tab)
-        self.modify_course_school_comboBox_5.setEnabled(False)
-        self.modify_course_school_comboBox_5.setStyleSheet("font: 12pt \"Sans Serif\";")
-        self.modify_course_school_comboBox_5.setObjectName("modify_course_school_comboBox_5")
-        self.modify_course_school_comboBox_5.addItem("")
-        self.horizontalLayout_4.addWidget(self.modify_course_school_comboBox_5)
+
+        self.confirm_tab_school_comboBox = QtWidgets.QComboBox(self.enroll_tab)
+        self.confirm_tab_school_comboBox.setEnabled(False)
+        self.confirm_tab_school_comboBox.setStyleSheet("font: 12pt \"Sans Serif\";")
+        self.confirm_tab_school_comboBox.addItem(admin_MainWindow.user.school)
+        self.horizontalLayout_4.addWidget(self.confirm_tab_school_comboBox)
+
         self.label_27 = QtWidgets.QLabel(self.enroll_tab)
         self.label_27.setStyleSheet("font: 12pt \"Sans Serif\";")
         self.label_27.setObjectName("label_27")
@@ -225,25 +232,26 @@ class Ui_admin_MainWindow(object):
         self.label_9.setStyleSheet("font: 12pt \"Sans Serif\";")
         self.label_9.setObjectName("label_9")
         self.horizontalLayout_6.addWidget(self.label_9)
-        self.modify_course_school_comboBox_3 = QtWidgets.QComboBox(self.teacher_tab)
-        self.modify_course_school_comboBox_3.setEnabled(False)
-        self.modify_course_school_comboBox_3.setStyleSheet("font: 12pt \"Sans Serif\";")
-        self.modify_course_school_comboBox_3.setObjectName("modify_course_school_comboBox_3")
-        self.modify_course_school_comboBox_3.addItem("")
-        self.horizontalLayout_6.addWidget(self.modify_course_school_comboBox_3)
+
+        self.teacher_tab_school_comboBox = QtWidgets.QComboBox(self.teacher_tab)
+        self.teacher_tab_school_comboBox.setEnabled(False)
+        self.teacher_tab_school_comboBox.setStyleSheet("font: 12pt \"Sans Serif\";")
+        self.teacher_tab_school_comboBox.addItem(admin_MainWindow.user.school)
+        self.horizontalLayout_6.addWidget(self.teacher_tab_school_comboBox)
+
         spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_6.addItem(spacerItem6)
         self.verticalLayout_7.addLayout(self.horizontalLayout_6)
 
         self.teacher_table_widget = QtWidgets.QTableWidget(self.teacher_tab)
-        self.teacher_table_widget.setObjectName("tableWidget_3")
+        self.teacher_table_widget.setObjectName("teacher_table_widget")
 
-        self.teacher_table_widget.setColumnCount(12)
+        self.teacher_table_widget.setColumnCount(13)
         self.teacher_table_widget.setRowCount(1)
 
         self.teacher_table_widget.setHorizontalHeaderLabels(['Teacher ID', 'Teacher Name', 'ID', 'Gender',
-                                                      'Birthday', 'Birth Place', 'Folk', 'Political Status',
-                                                      'School', 'Position', 'Phone', 'Operations'])
+                                                             'Birthday', 'Birth Place', 'Folk', 'Political Status',
+                                                             'School', 'Position', 'Phone', '', ''])
 
         self.init_teacher_table()
 
@@ -276,24 +284,27 @@ class Ui_admin_MainWindow(object):
         self.label_10.setStyleSheet("font: 12pt \"Sans Serif\";")
         self.label_10.setObjectName("label_10")
         self.horizontalLayout_9.addWidget(self.label_10)
-        self.modify_course_school_comboBox_4 = QtWidgets.QComboBox(self.student_tab)
-        self.modify_course_school_comboBox_4.setEnabled(False)
-        self.modify_course_school_comboBox_4.setStyleSheet("font: 12pt \"Sans Serif\";")
-        self.modify_course_school_comboBox_4.setObjectName("modify_course_school_comboBox_4")
-        self.modify_course_school_comboBox_4.addItem("")
-        self.horizontalLayout_9.addWidget(self.modify_course_school_comboBox_4)
+
+        self.student_tab_school_comboBox = QtWidgets.QComboBox(self.student_tab)
+        self.student_tab_school_comboBox.setEnabled(False)
+        self.student_tab_school_comboBox.setStyleSheet("font: 12pt \"Sans Serif\";")
+        self.student_tab_school_comboBox.addItem(admin_MainWindow.user.school)
+        self.horizontalLayout_9.addWidget(self.student_tab_school_comboBox)
+
         spacerItem10 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_9.addItem(spacerItem10)
         self.verticalLayout_8.addLayout(self.horizontalLayout_9)
-        self.student_table_widget = QtWidgets.QTableWidget(self.student_tab)
-        self.student_table_widget.setObjectName("tableWidget_4")
 
-        self.student_table_widget.setColumnCount(13)
+        self.student_table_widget = QtWidgets.QTableWidget(self.student_tab)
+        self.student_table_widget.setObjectName("student_table_widget")
+
+        self.student_table_widget.setColumnCount(14)
         self.student_table_widget.setRowCount(1)
 
         self.student_table_widget.setHorizontalHeaderLabels(['Student ID', 'Student Name', 'ID', 'Gender',
                                                              'Birthday', 'Birth Place', 'Folk', 'Political Status',
-                                                             'School', 'Department', 'Class', 'Phone', 'Operations'])
+                                                             'School', 'Department', 'Class', 'Phone',
+                                                             '', ''])
 
         self.init_student_table()
 
@@ -406,44 +417,75 @@ class Ui_admin_MainWindow(object):
     def init_teacher_table(self):
         teachers_data = Teacher.read_all_teachers()
         for teacher_data in teachers_data:
-            current_row = self.teacher_table_widget.rowCount() - 1
+            last_row = self.teacher_table_widget.rowCount() - 1
             for i in range(11):
                 item = QtWidgets.QTableWidgetItem(teacher_data[i])
-                self.teacher_table_widget.setItem(current_row, i, item)
+                self.teacher_table_widget.setItem(last_row, i, item)
 
-            self.teacher_table_widget.setCellWidget(current_row, 11,
-                                                    Ui_admin_MainWindow.create_operation_buttons())
+            self.teacher_table_widget.setCellWidget(last_row, 11, QtWidgets.QPushButton("Modify"))
+            self.teacher_table_widget.setCellWidget(last_row, 12, QtWidgets.QPushButton("Delete"))
 
             self.teacher_table_widget.insertRow(self.teacher_table_widget.rowCount())
+
+        create_button = QtWidgets.QPushButton("Create")
+        create_button.clicked.connect(self.create_new_teacher)
+        self.teacher_table_widget.setCellWidget(self.teacher_table_widget.rowCount() - 1, 11, create_button)
 
     def init_student_table(self):
         students_data = Student.read_all_students()
         for student_data in students_data:
-            current_row = self.student_table_widget.rowCount() - 1
+            last_row = self.student_table_widget.rowCount() - 1
             for i in range(12):
                 item = QtWidgets.QTableWidgetItem(student_data[i])
-                self.student_table_widget.setItem(current_row, i, item)
+                self.student_table_widget.setItem(last_row, i, item)
 
-            self.student_table_widget.setCellWidget(current_row, 12,
-                                                    Ui_admin_MainWindow.create_operation_buttons())
+            self.student_table_widget.setCellWidget(last_row, 12, QtWidgets.QPushButton("Modify"))
+            self.student_table_widget.setCellWidget(last_row, 13, QtWidgets.QPushButton("Delete"))
 
             self.student_table_widget.insertRow(self.student_table_widget.rowCount())
 
-    @staticmethod
-    def create_operation_buttons():
-        widget = QtWidgets.QWidget()
         create_button = QtWidgets.QPushButton("Create")
-        modify_button = QtWidgets.QPushButton("Modify")
-        delete_button = QtWidgets.QPushButton("Delete")
+        create_button.clicked.connect(self.create_new_student)
+        self.student_table_widget.setCellWidget(self.student_table_widget.rowCount() - 1, 12, create_button)
 
-        layout = QtWidgets.QHBoxLayout(widget)
-        layout.addWidget(create_button)
-        layout.addWidget(modify_button)
-        layout.addWidget(delete_button)
+    def create_new_teacher(self):
+        last_row = self.teacher_table_widget.rowCount() - 1
 
-        widget.setLayout(layout)
+        teacher_data = list()
+        for i in range(11):
+            if self.teacher_table_widget.item(last_row, i) is None:
+                teacher_data.append(None)
+                item = QtWidgets.QTableWidgetItem()
+                self.teacher_table_widget.setItem(last_row, i, item)
+            else:
+                teacher_data.append(self.teacher_table_widget.item(last_row, i).text())
 
-        return widget
+        try:
+            Database.initialize()
+            Teacher.create_teacher(*teacher_data)
+            Database.close()
+        except:
+            msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', 'Create teacher failed!\n'
+                                            'please check the information you input', parent=self.admin_MainWindow)
+            msg_box.exec_()
+        else:
+            self.update_row(self.teacher_table_widget)
+
+    def update_row(self, table):
+        row_count = table.rowCount()
+        table.insertRow(row_count - 1)
+
+        for i in range(table.columnCount() - 2):
+            item = QtWidgets.QTableWidgetItem(table.item(row_count, i).text())
+            table.setItem(row_count - 1, i, item)
+            table.item(row_count, i).setText('')
+
+        self.teacher_table_widget.setCellWidget(row_count - 1, 11, QtWidgets.QPushButton("Modify"))
+        self.teacher_table_widget.setCellWidget(row_count - 1, 12, QtWidgets.QPushButton("Delete"))
+
+
+    def create_new_student(self):
+        pass
 
     def retranslateUi(self, admin_MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -454,7 +496,6 @@ class Ui_admin_MainWindow(object):
         self.last_login_label.setText(_translate("admin_MainWindow", "Last login: 2018-XX-XX 12:00 Location"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.home_tab), _translate("admin_MainWindow", "Home"))
         self.label_6.setText(_translate("admin_MainWindow", "School:"))
-        self.modify_course_school_comboBox.setItemText(0, _translate("admin_MainWindow", "Information"))
         self.label_24.setText(_translate("admin_MainWindow", "Year:"))
         self.comboBox_10.setItemText(0, _translate("admin_MainWindow", "2015-2016"))
         self.comboBox_10.setItemText(1, _translate("admin_MainWindow", "2016-2017"))
@@ -484,7 +525,7 @@ class Ui_admin_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.course_tab),
                                   _translate("admin_MainWindow", "Course Management"))
         self.label_11.setText(_translate("admin_MainWindow", "School:"))
-        self.modify_course_school_comboBox_5.setItemText(0, _translate("admin_MainWindow", "Information"))
+        self.confirm_tab_school_comboBox.setItemText(0, _translate("admin_MainWindow", "Information"))
         self.label_27.setText(_translate("admin_MainWindow", "Year:"))
         self.comboBox_14.setItemText(0, _translate("admin_MainWindow", "2015-2016"))
         self.comboBox_14.setItemText(1, _translate("admin_MainWindow", "2016-2017"))
@@ -506,14 +547,14 @@ class Ui_admin_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.enroll_tab),
                                   _translate("admin_MainWindow", "Confirm Enrollment"))
         self.label_9.setText(_translate("admin_MainWindow", "School:"))
-        self.modify_course_school_comboBox_3.setItemText(0, _translate("admin_MainWindow", "Information"))
+        self.teacher_tab_school_comboBox.setItemText(0, _translate("admin_MainWindow", "Information"))
 
         self.pushButton.setText(_translate("admin_MainWindow", "Teacher Query"))
         self.pushButton_5.setText(_translate("admin_MainWindow", "Print"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.teacher_tab),
                                   _translate("admin_MainWindow", "Teacher Management"))
         self.label_10.setText(_translate("admin_MainWindow", "School:"))
-        self.modify_course_school_comboBox_4.setItemText(0, _translate("admin_MainWindow", "Information"))
+        self.student_tab_school_comboBox.setItemText(0, _translate("admin_MainWindow", "Information"))
 
         self.pushButton_2.setText(_translate("admin_MainWindow", "Student Query"))
         self.pushButton_6.setText(_translate("admin_MainWindow", "Print"))
