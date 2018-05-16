@@ -249,6 +249,10 @@ class Ui_admin_MainWindow(object):
         self.teacher_table_widget.setColumnCount(13)
         self.teacher_table_widget.setRowCount(1)
 
+        item = QtWidgets.QTableWidgetItem(self.admin_MainWindow.user.school)
+        item.setFlags(QtCore.Qt.ItemIsEditable)
+        self.teacher_table_widget.setItem(0, 8, item)
+
         self.teacher_table_widget.setHorizontalHeaderLabels(['Teacher ID', 'Teacher Name', 'ID', 'Gender',
                                                              'Birthday', 'Birth Place', 'Folk', 'Political Status',
                                                              'School', 'Position', 'Phone', '', ''])
@@ -300,6 +304,10 @@ class Ui_admin_MainWindow(object):
 
         self.student_table_widget.setColumnCount(14)
         self.student_table_widget.setRowCount(1)
+
+        item = QtWidgets.QTableWidgetItem(self.admin_MainWindow.user.school)
+        item.setFlags(QtCore.Qt.ItemIsEditable)
+        self.student_table_widget.setItem(0, 8, item)
 
         self.student_table_widget.setHorizontalHeaderLabels(['Student ID', 'Student Name', 'ID', 'Gender',
                                                              'Birthday', 'Birth Place', 'Folk', 'Political Status',
@@ -415,11 +423,13 @@ class Ui_admin_MainWindow(object):
         return f'Welcome, {admin_MainWindow.user.user_id} {admin_MainWindow.user.name}'
 
     def init_teacher_table(self):
-        teachers_data = Teacher.read_all_teachers()
+        teachers_data = Teacher.read_teachers(self.admin_MainWindow.user.school)
         for teacher_data in teachers_data:
             last_row = self.teacher_table_widget.rowCount() - 1
             for i in range(11):
                 item = QtWidgets.QTableWidgetItem(teacher_data[i])
+                if i == 8:
+                    item.setFlags(QtCore.Qt.ItemIsEditable)
                 self.teacher_table_widget.setItem(last_row, i, item)
 
             self.teacher_table_widget.setCellWidget(last_row, 11, QtWidgets.QPushButton("Modify"))
@@ -431,12 +441,18 @@ class Ui_admin_MainWindow(object):
         create_button.clicked.connect(self.create_new_teacher)
         self.teacher_table_widget.setCellWidget(self.teacher_table_widget.rowCount() - 1, 11, create_button)
 
+        item = QtWidgets.QTableWidgetItem(self.admin_MainWindow.user.school)
+        item.setFlags(QtCore.Qt.ItemIsEditable)
+        self.teacher_table_widget.setItem(self.teacher_table_widget.rowCount() - 1, 8, item)
+
     def init_student_table(self):
-        students_data = Student.read_all_students()
+        students_data = Student.read_students(self.admin_MainWindow.user.school)
         for student_data in students_data:
             last_row = self.student_table_widget.rowCount() - 1
             for i in range(12):
                 item = QtWidgets.QTableWidgetItem(student_data[i])
+                if i == 8:
+                    item.setFlags(QtCore.Qt.ItemIsEditable)
                 self.student_table_widget.setItem(last_row, i, item)
 
             self.student_table_widget.setCellWidget(last_row, 12, QtWidgets.QPushButton("Modify"))
@@ -447,6 +463,10 @@ class Ui_admin_MainWindow(object):
         create_button = QtWidgets.QPushButton("Create")
         create_button.clicked.connect(self.create_new_student)
         self.student_table_widget.setCellWidget(self.student_table_widget.rowCount() - 1, 12, create_button)
+
+        item = QtWidgets.QTableWidgetItem(self.admin_MainWindow.user.school)
+        item.setFlags(QtCore.Qt.ItemIsEditable)
+        self.student_table_widget.setItem(self.student_table_widget.rowCount() - 1, 8, item)
 
     def create_new_teacher(self):
         last_row = self.teacher_table_widget.rowCount() - 1
@@ -471,21 +491,47 @@ class Ui_admin_MainWindow(object):
         else:
             self.update_row(self.teacher_table_widget)
 
+    def create_new_student(self):
+        last_row = self.student_table_widget.rowCount() - 1
+
+        student_data = list()
+        for i in range(12):
+            if self.student_table_widget.item(last_row, i) is None \
+                    or self.student_table_widget.item(last_row, i).text() == '':
+                student_data.append(None)
+                item = QtWidgets.QTableWidgetItem()
+                self.student_table_widget.setItem(last_row, i, item)
+            else:
+                student_data.append(self.student_table_widget.item(last_row, i).text())
+
+        print(student_data)
+        try:
+            Database.initialize()
+            Student.create_student(*student_data)
+            Database.close()
+        except:
+            msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', 'Create student failed!\n'
+                                            'please check the information you input', parent=self.admin_MainWindow)
+            msg_box.exec_()
+        else:
+            self.update_row(self.student_table_widget)
+
     def update_row(self, table):
         row_count = table.rowCount()
         table.insertRow(row_count - 1)
 
         for i in range(table.columnCount() - 2):
             item = QtWidgets.QTableWidgetItem(table.item(row_count, i).text())
+            if i == 8:
+                item.setFlags(QtCore.Qt.ItemIsEditable)
+                table.item(row_count, i).setText(self.admin_MainWindow.user.school)
+            else:
+                table.item(row_count, i).setText('')
+
             table.setItem(row_count - 1, i, item)
-            table.item(row_count, i).setText('')
 
-        self.teacher_table_widget.setCellWidget(row_count - 1, 11, QtWidgets.QPushButton("Modify"))
-        self.teacher_table_widget.setCellWidget(row_count - 1, 12, QtWidgets.QPushButton("Delete"))
-
-
-    def create_new_student(self):
-        pass
+        table.setCellWidget(row_count - 1, table.columnCount()-2, QtWidgets.QPushButton("Modify"))
+        table.setCellWidget(row_count - 1, table.columnCount()-1, QtWidgets.QPushButton("Delete"))
 
     def retranslateUi(self, admin_MainWindow):
         _translate = QtCore.QCoreApplication.translate
