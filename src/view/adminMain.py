@@ -432,8 +432,12 @@ class Ui_admin_MainWindow(object):
                     item.setFlags(QtCore.Qt.ItemIsEditable)
                 self.teacher_table_widget.setItem(last_row, i, item)
 
-            self.teacher_table_widget.setCellWidget(last_row, 11, QtWidgets.QPushButton("Modify"))
-            self.teacher_table_widget.setCellWidget(last_row, 12, QtWidgets.QPushButton("Delete"))
+            modify_button = QtWidgets.QPushButton("Modify")
+            delete_button = QtWidgets.QPushButton("Delete")
+            modify_button.clicked.connect(self.modify_teacher)
+            delete_button.clicked.connect(self.delete_teacher)
+            self.teacher_table_widget.setCellWidget(last_row, 11, modify_button)
+            self.teacher_table_widget.setCellWidget(last_row, 12, delete_button)
 
             self.teacher_table_widget.insertRow(self.teacher_table_widget.rowCount())
 
@@ -455,8 +459,12 @@ class Ui_admin_MainWindow(object):
                     item.setFlags(QtCore.Qt.ItemIsEditable)
                 self.student_table_widget.setItem(last_row, i, item)
 
-            self.student_table_widget.setCellWidget(last_row, 12, QtWidgets.QPushButton("Modify"))
-            self.student_table_widget.setCellWidget(last_row, 13, QtWidgets.QPushButton("Delete"))
+            modify_button = QtWidgets.QPushButton("Modify")
+            delete_button = QtWidgets.QPushButton("Delete")
+            modify_button.clicked.connect(self.modify_student)
+            delete_button.clicked.connect(self.delete_student)
+            self.student_table_widget.setCellWidget(last_row, 12, modify_button)
+            self.student_table_widget.setCellWidget(last_row, 13, delete_button)
 
             self.student_table_widget.insertRow(self.student_table_widget.rowCount())
 
@@ -530,8 +538,42 @@ class Ui_admin_MainWindow(object):
 
             table.setItem(row_count - 1, i, item)
 
-        table.setCellWidget(row_count - 1, table.columnCount()-2, QtWidgets.QPushButton("Modify"))
-        table.setCellWidget(row_count - 1, table.columnCount()-1, QtWidgets.QPushButton("Delete"))
+        modify_button = QtWidgets.QPushButton("Modify")
+        delete_button = QtWidgets.QPushButton("Delete")
+        if table == self.student_table_widget:
+            modify_button.clicked.connect(self.modify_student)
+            delete_button.clicked.connect(self.delete_student)
+        else:
+            modify_button.clicked.connect(self.modify_teacher)
+            delete_button.clicked.connect(self.delete_teacher)
+        table.setCellWidget(row_count - 1, table.columnCount()-2, modify_button)
+        table.setCellWidget(row_count - 1, table.columnCount()-1, delete_button)
+
+    def modify_teacher(self):
+        pass
+
+    def delete_teacher(self):
+        msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Warning', 'Do you really want to delete it?',
+                                        QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No, parent=self.admin_MainWindow)
+        responce = msg_box.exec_()
+        if responce == QtWidgets.QMessageBox.Yes:
+            current_row = self.teacher_table_widget.currentRow()
+            Teacher.delete_teacher(self.teacher_table_widget.item(current_row, 0).text())
+            self.teacher_table_widget.removeRow(current_row)
+
+
+    def modify_student(self):
+        pass
+
+    def delete_student(self):
+        msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Warning', 'Do you really want to delete it?',
+                                        QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
+                                        parent=self.admin_MainWindow)
+        responce = msg_box.exec_()
+        if responce == QtWidgets.QMessageBox.Yes:
+            current_row = self.student_table_widget.currentRow()
+            Student.delete_student(self.student_table_widget.item(current_row, 0).text())
+            self.student_table_widget.removeRow(current_row)
 
     def retranslateUi(self, admin_MainWindow):
         _translate = QtCore.QCoreApplication.translate

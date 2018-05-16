@@ -87,6 +87,7 @@ class Student(User):
 
     @staticmethod
     def delete_student(user_id):
+        Database.initialize()
         sql = """
               DELETE FROM students 
               WHERE user_id = (%s)
@@ -98,6 +99,8 @@ class Student(User):
             return False
         else:
             return True
+        finally:
+            Database.close()
 
     def save_to_db(self):
         sql = """
