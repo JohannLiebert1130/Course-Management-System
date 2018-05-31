@@ -487,7 +487,7 @@ class Ui_admin_MainWindow(object):
                 self.teacher_table_widget.setItem(last_row, i, item)
             else:
                 teacher_data.append(self.teacher_table_widget.item(last_row, i).text())
-
+        print(teacher_data)
         try:
             Database.initialize()
             Teacher.create_teacher(*teacher_data)
@@ -497,6 +497,8 @@ class Ui_admin_MainWindow(object):
                                             'please check the information you input', parent=self.admin_MainWindow)
             msg_box.exec_()
         else:
+            print(self.teacher_table_widget.item(last_row, 2).text())
+
             self.update_row(self.teacher_table_widget)
 
     def create_new_student(self):
@@ -529,14 +531,18 @@ class Ui_admin_MainWindow(object):
         table.insertRow(row_count - 1)
 
         for i in range(table.columnCount() - 2):
-            item = QtWidgets.QTableWidgetItem(table.item(row_count, i).text())
-            if i == 8:
-                item.setFlags(QtCore.Qt.ItemIsEditable)
-                table.item(row_count, i).setText(self.admin_MainWindow.user.school)
-            else:
-                table.item(row_count, i).setText('')
+            text = table.item(row_count, i).text()
+            if text or text != '':
+                item = QtWidgets.QTableWidgetItem(text)
+                if i == 8:
+                    item.setFlags(QtCore.Qt.ItemIsEditable)
 
-            table.setItem(row_count - 1, i, item)
+                table.setItem(row_count - 1, i, item)
+
+            table.setItem(row_count, i, None)
+            item = QtWidgets.QTableWidgetItem(self.admin_MainWindow.user.school)
+            item.setFlags(QtCore.Qt.ItemIsEditable)
+            table.setItem(row_count, 8, item)
 
         modify_button = QtWidgets.QPushButton("Modify")
         delete_button = QtWidgets.QPushButton("Delete")
@@ -555,12 +561,11 @@ class Ui_admin_MainWindow(object):
     def delete_teacher(self):
         msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Warning', 'Do you really want to delete it?',
                                         QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No, parent=self.admin_MainWindow)
-        responce = msg_box.exec_()
-        if responce == QtWidgets.QMessageBox.Yes:
+        response = msg_box.exec_()
+        if response == QtWidgets.QMessageBox.Yes:
             current_row = self.teacher_table_widget.currentRow()
             Teacher.delete_teacher(self.teacher_table_widget.item(current_row, 0).text())
             self.teacher_table_widget.removeRow(current_row)
-
 
     def modify_student(self):
         pass
@@ -569,8 +574,8 @@ class Ui_admin_MainWindow(object):
         msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Warning', 'Do you really want to delete it?',
                                         QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
                                         parent=self.admin_MainWindow)
-        responce = msg_box.exec_()
-        if responce == QtWidgets.QMessageBox.Yes:
+        response = msg_box.exec_()
+        if response == QtWidgets.QMessageBox.Yes:
             current_row = self.student_table_widget.currentRow()
             Student.delete_student(self.student_table_widget.item(current_row, 0).text())
             self.student_table_widget.removeRow(current_row)
