@@ -481,7 +481,8 @@ class Ui_admin_MainWindow(object):
 
         teacher_data = list()
         for i in range(11):
-            if self.teacher_table_widget.item(last_row, i) is None:
+            if self.teacher_table_widget.item(last_row, i) is None \
+                    or self.teacher_table_widget.item(last_row, i).text() == '':
                 teacher_data.append(None)
                 item = QtWidgets.QTableWidgetItem()
                 self.teacher_table_widget.setItem(last_row, i, item)
@@ -556,7 +557,29 @@ class Ui_admin_MainWindow(object):
         table.setCellWidget(row_count - 1, table.columnCount()-1, delete_button)
 
     def modify_teacher(self):
-        pass
+        msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Warning', 'Do you really want to modify it?',
+                                        QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
+                                        parent=self.admin_MainWindow)
+        response = msg_box.exec_()
+        if response == QtWidgets.QMessageBox.Yes:
+            current_row = self.teacher_table_widget.currentRow()
+            teacher_data = list()
+            for i in range(11):
+                if self.teacher_table_widget.item(current_row, i) is None \
+                        or self.teacher_table_widget.item(current_row, i).text() == '':
+                    teacher_data.append(None)
+                else:
+                    teacher_data.append(self.teacher_table_widget.item(current_row, i).text())
+
+            print(teacher_data)
+            try:
+                Database.initialize()
+                Teacher.modify_teacher(*teacher_data)
+                Database.close()
+            except ValueError:
+                msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', 'Create teacher failed!\n'
+                                                'please check the information you input', parent=self.admin_MainWindow)
+                msg_box.exec_()
 
     def delete_teacher(self):
         msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Warning', 'Do you really want to delete it?',
@@ -568,7 +591,29 @@ class Ui_admin_MainWindow(object):
             self.teacher_table_widget.removeRow(current_row)
 
     def modify_student(self):
-        pass
+        msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Warning', 'Do you really want to modify it?',
+                                        QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
+                                        parent=self.admin_MainWindow)
+        response = msg_box.exec_()
+        if response == QtWidgets.QMessageBox.Yes:
+            current_row = self.student_table_widget.currentRow()
+            student_data = list()
+            for i in range(11):
+                if self.student_table_widget.item(current_row, i) is None \
+                        or self.student_table_widget.item(current_row, i).text() == '':
+                    student_data.append(None)
+                else:
+                    student_data.append(self.student_table_widget.item(current_row, i).text())
+
+            print(student_data)
+            try:
+                Database.initialize()
+                Student.modify_student(*student_data)
+                Database.close()
+            except ValueError:
+                msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', 'Create student failed!\n'
+                                                'please check the information you input', parent=self.admin_MainWindow)
+                msg_box.exec_()
 
     def delete_student(self):
         msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Warning', 'Do you really want to delete it?',
