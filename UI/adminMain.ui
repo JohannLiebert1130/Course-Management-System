@@ -117,7 +117,7 @@ margin-right: 10px;</string>
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="modify_course_school_comboBox">
+           <widget class="QComboBox" name="course_management_school_comboBox">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -615,6 +615,26 @@ margin-right: 10px;</string>
             <string>Operations</string>
            </property>
           </column>
+          <item row="0" column="0">
+           <property name="text">
+            <string>001</string>
+           </property>
+          </item>
+          <item row="0" column="1">
+           <property name="text">
+            <string>fuck</string>
+           </property>
+          </item>
+          <item row="0" column="2">
+           <property name="text">
+            <string>shit</string>
+           </property>
+          </item>
+          <item row="0" column="3">
+           <property name="text">
+            <string>Male</string>
+           </property>
+          </item>
          </widget>
         </item>
         <item>
