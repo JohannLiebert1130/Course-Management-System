@@ -15,6 +15,7 @@ from src.model.students.student import Student
 from src.model.teachers.teacher import Teacher
 
 
+
 class Ui_admin_MainWindow(object):
     def setupUi(self, admin_MainWindow):
         self.admin_MainWindow = admin_MainWindow
@@ -118,11 +119,18 @@ class Ui_admin_MainWindow(object):
         self.course_table_widget.setItem(0, 2, item)
 
         self.course_table_widget.setHorizontalHeaderLabels(['Course ID', 'Course Name', 'School', 'Teacher Name',
-                                                           'Class Time', 'Location', 'Year', 'Semester', '', ''])
-
-        self.init_course_table()
+                                                            'Class Time', 'Location', 'Year', 'Semester', '', ''])
 
         self.verticalLayout_2.addWidget(self.course_table_widget)
+
+        courses_data = Course.read_courses(self.admin_MainWindow.user.school)
+
+        actions = [self.modify_course, self.delete_course, self.create_new_course]
+
+        course_info = [self.course_table_widget, courses_data, 2, actions]
+
+        self.init_table(*course_info)
+
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -250,9 +258,16 @@ class Ui_admin_MainWindow(object):
                                                              'Birthday', 'Birth Place', 'Folk', 'Political Status',
                                                              'School', 'Position', 'Phone', '', ''])
 
-        self.init_teacher_table()
-
         self.verticalLayout_7.addWidget(self.teacher_table_widget)
+
+        teachers_data = Teacher.read_teachers(self.admin_MainWindow.user.school)
+
+        actions = [self.modify_teacher, self.delete_teacher, self.create_new_teacher]
+
+        teachers_info = [self.teacher_table_widget, teachers_data, 8, actions]
+
+        self.init_table(*teachers_info)
+
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         spacerItem7 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -307,9 +322,18 @@ class Ui_admin_MainWindow(object):
                                                              'School', 'Department', 'Class', 'Phone',
                                                              '', ''])
 
-        self.init_student_table()
-
         self.verticalLayout_8.addWidget(self.student_table_widget)
+
+        self.verticalLayout_7.addWidget(self.teacher_table_widget)
+
+        students_data = Student.read_students(self.admin_MainWindow.user.school)
+
+        actions = [self.modify_student, self.delete_student, self.create_new_student]
+
+        students_info = [self.student_table_widget, students_data, 8, actions]
+
+        self.init_table(*students_info)
+
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
         spacerItem11 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -411,95 +435,38 @@ class Ui_admin_MainWindow(object):
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(admin_MainWindow)
 
+
+
     @staticmethod
     def welcome_info(admin_MainWindow):
         return f'Welcome, {admin_MainWindow.user.user_id} {admin_MainWindow.user.name}'
 
-    def init_course_table(self):
-        year = self.course_year_comboBox.currentText()
-        semester = self.course_semester_comboBox.currentText()
-
-        print(f'year: {year}, semester: {semester}')
-
-        courses_data = Course.read_courses(self.admin_MainWindow.user.school)
-        for course_data in courses_data:
-            last_row = self.course_table_widget.rowCount() - 1
-            for i in range(8):
-                item = QtWidgets.QTableWidgetItem(course_data[i])
-                if i == 2:
+    def init_table(self, table, data, school_pos, actions):
+        for entity in data:
+            print(entity)
+            last_row = table.rowCount() - 1
+            for i in range(table.columnCount() - 2):
+                item = QtWidgets.QTableWidgetItem(entity[i])
+                if i == school_pos:
                     item.setFlags(QtCore.Qt.ItemIsEditable)
-                self.course_table_widget.setItem(last_row, i, item)
+                table.setItem(last_row, i, item)
 
             modify_button = QtWidgets.QPushButton("Modify")
             delete_button = QtWidgets.QPushButton("Delete")
-            modify_button.clicked.connect(self.modify_course)
-            delete_button.clicked.connect(self.delete_course)
-            self.course_table_widget.setCellWidget(last_row, 8, modify_button)
-            self.course_table_widget.setCellWidget(last_row, 9, delete_button)
+            modify_button.clicked.connect(actions[0])
+            delete_button.clicked.connect(actions[1])
+            table.setCellWidget(last_row, table.columnCount() - 2, modify_button)
+            table.setCellWidget(last_row, table.columnCount() - 1, delete_button)
 
-            self.course_table_widget.insertRow(self.course_table_widget.rowCount())
+            table.insertRow(table.rowCount())
 
         create_button = QtWidgets.QPushButton("Create")
-        create_button.clicked.connect(self.create_new_course)
-        self.course_table_widget.setCellWidget(self.course_table_widget.rowCount() - 1, 8, create_button)
+        create_button.clicked.connect(actions[2])
+        table.setCellWidget(table.rowCount() - 1, table.columnCount() - 2, create_button)
 
         item = QtWidgets.QTableWidgetItem(self.admin_MainWindow.user.school)
         item.setFlags(QtCore.Qt.ItemIsEditable)
-        self.course_table_widget.setItem(self.course_table_widget.rowCount() - 1, 2, item)
-
-    def init_teacher_table(self):
-        teachers_data = Teacher.read_teachers(self.admin_MainWindow.user.school)
-        for teacher_data in teachers_data:
-            last_row = self.teacher_table_widget.rowCount() - 1
-            for i in range(11):
-                item = QtWidgets.QTableWidgetItem(teacher_data[i])
-                if i == 8:
-                    item.setFlags(QtCore.Qt.ItemIsEditable)
-                self.teacher_table_widget.setItem(last_row, i, item)
-
-            modify_button = QtWidgets.QPushButton("Modify")
-            delete_button = QtWidgets.QPushButton("Delete")
-            modify_button.clicked.connect(self.modify_teacher)
-            delete_button.clicked.connect(self.delete_teacher)
-            self.teacher_table_widget.setCellWidget(last_row, 11, modify_button)
-            self.teacher_table_widget.setCellWidget(last_row, 12, delete_button)
-
-            self.teacher_table_widget.insertRow(self.teacher_table_widget.rowCount())
-
-        create_button = QtWidgets.QPushButton("Create")
-        create_button.clicked.connect(self.create_new_teacher)
-        self.teacher_table_widget.setCellWidget(self.teacher_table_widget.rowCount() - 1, 11, create_button)
-
-        item = QtWidgets.QTableWidgetItem(self.admin_MainWindow.user.school)
-        item.setFlags(QtCore.Qt.ItemIsEditable)
-        self.teacher_table_widget.setItem(self.teacher_table_widget.rowCount() - 1, 8, item)
-
-    def init_student_table(self):
-        students_data = Student.read_students(self.admin_MainWindow.user.school)
-        for student_data in students_data:
-            last_row = self.student_table_widget.rowCount() - 1
-            for i in range(12):
-                item = QtWidgets.QTableWidgetItem(student_data[i])
-                if i == 8:
-                    item.setFlags(QtCore.Qt.ItemIsEditable)
-                self.student_table_widget.setItem(last_row, i, item)
-
-            modify_button = QtWidgets.QPushButton("Modify")
-            delete_button = QtWidgets.QPushButton("Delete")
-            modify_button.clicked.connect(self.modify_student)
-            delete_button.clicked.connect(self.delete_student)
-            self.student_table_widget.setCellWidget(last_row, 12, modify_button)
-            self.student_table_widget.setCellWidget(last_row, 13, delete_button)
-
-            self.student_table_widget.insertRow(self.student_table_widget.rowCount())
-
-        create_button = QtWidgets.QPushButton("Create")
-        create_button.clicked.connect(self.create_new_student)
-        self.student_table_widget.setCellWidget(self.student_table_widget.rowCount() - 1, 12, create_button)
-
-        item = QtWidgets.QTableWidgetItem(self.admin_MainWindow.user.school)
-        item.setFlags(QtCore.Qt.ItemIsEditable)
-        self.student_table_widget.setItem(self.student_table_widget.rowCount() - 1, 8, item)
+        table.setItem(table.rowCount() - 1, school_pos, item)
 
     def create_new_teacher(self):
         last_row = self.teacher_table_widget.rowCount() - 1
@@ -520,7 +487,8 @@ class Ui_admin_MainWindow(object):
             Database.close()
         except:
             msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', 'Create teacher failed!\n'
-                                            'please check the information you input', parent=self.admin_MainWindow)
+                                                                                     'please check the information you input',
+                                            parent=self.admin_MainWindow)
             msg_box.exec_()
         else:
             print(self.teacher_table_widget.item(last_row, 2).text())
@@ -547,7 +515,8 @@ class Ui_admin_MainWindow(object):
             Database.close()
         except:
             msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', 'Create student failed!\n'
-                                            'please check the information you input', parent=self.admin_MainWindow)
+                                                                                     'please check the information you input',
+                                            parent=self.admin_MainWindow)
             msg_box.exec_()
         else:
             self.update_row(self.student_table_widget, 8)
@@ -572,38 +541,29 @@ class Ui_admin_MainWindow(object):
             Database.close()
         except:
             msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', 'Create course failed!\n'
-                                            'please check the information you input', parent=self.admin_MainWindow)
+                                                                                     'please check the information you input',
+                                            parent=self.admin_MainWindow)
             msg_box.exec_()
         else:
             self.update_row(self.course_table_widget, 2)
 
-    def update_row(self, table, school_pos=-1):
+    def update_row(self, table, school_pos):
         row_count = table.rowCount()
         table.insertRow(row_count - 1)
 
-        if school_pos != -1:
-            for i in range(table.columnCount() - 2):
-                text = table.item(row_count, i).text()
-                if text and text != '':
-                    item = QtWidgets.QTableWidgetItem(text)
-                    if i == school_pos:
-                        item.setFlags(QtCore.Qt.ItemIsEditable)
-                    table.setItem(row_count - 1, i, item)
+        for i in range(table.columnCount() - 2):
+            text = table.item(row_count, i).text()
+            if text and text != '':
+                item = QtWidgets.QTableWidgetItem(text)
+                if i == school_pos:
+                    item.setFlags(QtCore.Qt.ItemIsEditable)
+                table.setItem(row_count - 1, i, item)
 
-                table.setItem(row_count, i, None)
+            table.setItem(row_count, i, None)
 
-            item = QtWidgets.QTableWidgetItem(self.admin_MainWindow.user.school)
-            item.setFlags(QtCore.Qt.ItemIsEditable)
-            table.setItem(row_count, school_pos, item)
-
-        else:
-            for i in range(table.columnCount() - 2):
-                text = table.item(row_count, i).text()
-                if text and text != '':
-                    item = QtWidgets.QTableWidgetItem(text)
-                    table.setItem(row_count - 1, i, item)
-
-                table.setItem(row_count, i, None)
+        item = QtWidgets.QTableWidgetItem(self.admin_MainWindow.user.school)
+        item.setFlags(QtCore.Qt.ItemIsEditable)
+        table.setItem(row_count, school_pos, item)
 
         modify_button = QtWidgets.QPushButton("Modify")
         delete_button = QtWidgets.QPushButton("Delete")
@@ -617,8 +577,8 @@ class Ui_admin_MainWindow(object):
             modify_button.clicked.connect(self.modify_course)
             delete_button.clicked.connect(self.delete_course)
 
-        table.setCellWidget(row_count - 1, table.columnCount()-2, modify_button)
-        table.setCellWidget(row_count - 1, table.columnCount()-1, delete_button)
+        table.setCellWidget(row_count - 1, table.columnCount() - 2, modify_button)
+        table.setCellWidget(row_count - 1, table.columnCount() - 1, delete_button)
 
     def modify_teacher(self):
         msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Warning', 'Do you really want to modify it?',
@@ -642,7 +602,8 @@ class Ui_admin_MainWindow(object):
                 Database.close()
             except ValueError:
                 msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', 'Create teacher failed!\n'
-                                                'please check the information you input', parent=self.admin_MainWindow)
+                                                                                         'please check the information you input',
+                                                parent=self.admin_MainWindow)
                 msg_box.exec_()
 
     def modify_course(self):
@@ -670,12 +631,14 @@ class Ui_admin_MainWindow(object):
                 Database.close()
             except ValueError:
                 msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', 'Create student failed!\n'
-                                                'please check the information you input', parent=self.admin_MainWindow)
+                                                                                         'please check the information you input',
+                                                parent=self.admin_MainWindow)
                 msg_box.exec_()
 
     def delete_teacher(self):
         msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Warning', 'Do you really want to delete it?',
-                                        QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No, parent=self.admin_MainWindow)
+                                        QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
+                                        parent=self.admin_MainWindow)
         response = msg_box.exec_()
         if response == QtWidgets.QMessageBox.Yes:
             current_row = self.teacher_table_widget.currentRow()
