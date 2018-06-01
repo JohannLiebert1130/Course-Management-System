@@ -10,6 +10,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QHeaderView
 
 from src.common.database import Database
+from src.model.accounts.account import Account
 from src.model.courses.course import Course
 from src.model.students.student import Student
 from src.model.teachers.teacher import Teacher
@@ -411,19 +412,24 @@ class Ui_admin_MainWindow(object):
         spacerItem16 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_11.addItem(spacerItem16)
         self.verticalLayout_6.addLayout(self.horizontalLayout_11)
-        self.tableWidget_2 = QtWidgets.QTableWidget(self.account_tab)
-        self.tableWidget_2.setObjectName("tableWidget_2")
-        self.tableWidget_2.setColumnCount(4)
-        self.tableWidget_2.setRowCount(0)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_2.setHorizontalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_2.setHorizontalHeaderItem(1, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_2.setHorizontalHeaderItem(2, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_2.setHorizontalHeaderItem(3, item)
-        self.verticalLayout_6.addWidget(self.tableWidget_2)
+
+        self.account_tableWidget = QtWidgets.QTableWidget(self.account_tab)
+
+        self.account_tableWidget.setColumnCount(6)
+        self.account_tableWidget.setRowCount(1)
+
+        self.account_tableWidget.setHorizontalHeaderLabels(['User ID', 'Password', 'User Type', 'School', '', ''])
+
+        self.verticalLayout_6.addWidget(self.account_tableWidget)
+
+        accounts_data = Account.read_accounts(self.admin_MainWindow.user.school)
+
+        actions = [self.modify_account, self.delete_account, self.create_new_account]
+
+        accounts_info = [self.account_tableWidget, accounts_data, 3, actions]
+
+        self.init_table(*accounts_info)
+
         self.tabWidget.addTab(self.account_tab, "")
         self.verticalLayout.addWidget(self.tabWidget)
         admin_MainWindow.setCentralWidget(self.centralwidget)
@@ -434,8 +440,6 @@ class Ui_admin_MainWindow(object):
         self.retranslateUi(admin_MainWindow)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(admin_MainWindow)
-
-
 
     @staticmethod
     def welcome_info(admin_MainWindow):
@@ -547,6 +551,31 @@ class Ui_admin_MainWindow(object):
         else:
             self.update_row(self.course_table_widget, 2)
 
+    def create_new_account(self):
+        last_row = self.account_tableWidget.rowCount() - 1
+
+        account_data = list()
+        for i in range(4):
+            if self.account_tableWidget.item(last_row, i) is None \
+                    or self.account_tableWidget.item(last_row, i).text() == '':
+                account_data.append(None)
+                item = QtWidgets.QTableWidgetItem()
+                self.account_tableWidget.setItem(last_row, i, item)
+            else:
+                account_data.append(self.account_tableWidget.item(last_row, i).text())
+
+        print(account_data)
+        try:
+            Database.initialize()
+            Account.create_account(*account_data)
+            Database.close()
+        except:
+            msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', 'Create account failed!\n'
+                                            'please check the information you input', parent=self.admin_MainWindow)
+            msg_box.exec_()
+        else:
+            self.update_row(self.account_tableWidget, 3)
+
     def update_row(self, table, school_pos):
         row_count = table.rowCount()
         table.insertRow(row_count - 1)
@@ -573,9 +602,12 @@ class Ui_admin_MainWindow(object):
         elif table == self.teacher_table_widget:
             modify_button.clicked.connect(self.modify_teacher)
             delete_button.clicked.connect(self.delete_teacher)
-        else:
+        elif table == self.student_table_widget:
             modify_button.clicked.connect(self.modify_course)
             delete_button.clicked.connect(self.delete_course)
+        elif table == self.account_tableWidget:
+            modify_button.clicked.connect(self.modify_account)
+            delete_button.clicked.connect(self.delete_account)
 
         table.setCellWidget(row_count - 1, table.columnCount() - 2, modify_button)
         table.setCellWidget(row_count - 1, table.columnCount() - 1, delete_button)
@@ -595,7 +627,6 @@ class Ui_admin_MainWindow(object):
                 else:
                     teacher_data.append(self.teacher_table_widget.item(current_row, i).text())
 
-            print(teacher_data)
             try:
                 Database.initialize()
                 Teacher.modify_teacher(*teacher_data)
@@ -607,7 +638,28 @@ class Ui_admin_MainWindow(object):
                 msg_box.exec_()
 
     def modify_course(self):
-        pass
+        msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Warning', 'Do you really want to modify it?',
+                                        QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
+                                        parent=self.admin_MainWindow)
+        response = msg_box.exec_()
+        if response == QtWidgets.QMessageBox.Yes:
+            current_row = self.course_table_widget.currentRow()
+            course_data = list()
+            for i in range(11):
+                if self.course_table_widget.item(current_row, i) is None \
+                        or self.course_table_widget.item(current_row, i).text() == '':
+                    course_data.append(None)
+                else:
+                    course_data.append(self.course_table_widget.item(current_row, i).text())
+
+            try:
+                Database.initialize()
+                Course.modify_course(*course_data)
+                Database.close()
+            except ValueError:
+                msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', 'Create course failed!\n'
+                                                'please check the information you input', parent=self.admin_MainWindow)
+                msg_box.exec_()
 
     def modify_student(self):
         msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Warning', 'Do you really want to modify it?',
@@ -624,7 +676,6 @@ class Ui_admin_MainWindow(object):
                 else:
                     student_data.append(self.student_table_widget.item(current_row, i).text())
 
-            print(student_data)
             try:
                 Database.initialize()
                 Student.modify_student(*student_data)
@@ -633,6 +684,30 @@ class Ui_admin_MainWindow(object):
                 msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', 'Create student failed!\n'
                                                                                          'please check the information you input',
                                                 parent=self.admin_MainWindow)
+                msg_box.exec_()
+
+    def modify_account(self):
+        msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Warning', 'Do you really want to modify it?',
+                                        QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
+                                        parent=self.admin_MainWindow)
+        response = msg_box.exec_()
+        if response == QtWidgets.QMessageBox.Yes:
+            current_row = self.account_tableWidget.currentRow()
+            account_data = list()
+            for i in range(11):
+                if self.account_tableWidget.item(current_row, i) is None \
+                        or self.account_tableWidget.item(current_row, i).text() == '':
+                    account_data.append(None)
+                else:
+                    account_data.append(self.account_tableWidget.item(current_row, i).text())
+
+            try:
+                Database.initialize()
+                Account.modify_account(*account_data)
+                Database.close()
+            except ValueError:
+                msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', 'Create account failed!\n'
+                                                'please check the information you input', parent=self.admin_MainWindow)
                 msg_box.exec_()
 
     def delete_teacher(self):
@@ -664,6 +739,16 @@ class Ui_admin_MainWindow(object):
             current_row = self.course_table_widget.currentRow()
             Course.delete_course(self.course_table_widget.item(current_row, 0).text())
             self.course_table_widget.removeRow(current_row)
+
+    def delete_account(self):
+        msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Warning', 'Do you really want to delete it?',
+                                        QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
+                                        parent=self.admin_MainWindow)
+        response = msg_box.exec_()
+        if response == QtWidgets.QMessageBox.Yes:
+            current_row = self.account_tableWidget.currentRow()
+            Account.delete_account(self.account_tableWidget.item(current_row, 0).text())
+            self.account_tableWidget.removeRow(current_row)
 
     def retranslateUi(self, admin_MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -735,14 +820,6 @@ class Ui_admin_MainWindow(object):
         self.label_3.setText(_translate("admin_MainWindow", "Account Type:"))
         self.comboBox_2.setItemText(0, _translate("admin_MainWindow", "Teacher"))
         self.comboBox_2.setItemText(1, _translate("admin_MainWindow", "Student"))
-        item = self.tableWidget_2.horizontalHeaderItem(0)
-        item.setText(_translate("admin_MainWindow", "User ID"))
-        item = self.tableWidget_2.horizontalHeaderItem(1)
-        item.setText(_translate("admin_MainWindow", "Password"))
-        item = self.tableWidget_2.horizontalHeaderItem(2)
-        item.setText(_translate("admin_MainWindow", "User Type"))
-        item = self.tableWidget_2.horizontalHeaderItem(3)
-        item.setText(_translate("admin_MainWindow", "Operations"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.account_tab),
                                   _translate("admin_MainWindow", "Account Management"))
 
