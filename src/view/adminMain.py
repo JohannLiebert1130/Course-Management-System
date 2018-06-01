@@ -107,29 +107,23 @@ class Ui_admin_MainWindow(object):
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem)
         self.verticalLayout_2.addLayout(self.horizontalLayout_2)
-        self.tableWidget_7 = QtWidgets.QTableWidget(self.course_tab)
-        self.tableWidget_7.setObjectName("tableWidget_7")
-        self.tableWidget_7.setColumnCount(8)
-        self.tableWidget_7.setRowCount(1)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_7.setVerticalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_7.setHorizontalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_7.setHorizontalHeaderItem(1, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_7.setHorizontalHeaderItem(2, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_7.setHorizontalHeaderItem(3, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_7.setHorizontalHeaderItem(4, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_7.setHorizontalHeaderItem(5, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_7.setHorizontalHeaderItem(6, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_7.setHorizontalHeaderItem(7, item)
-        self.verticalLayout_2.addWidget(self.tableWidget_7)
+
+        self.course_table_widget = QtWidgets.QTableWidget(self.course_tab)
+        self.course_table_widget.setObjectName("course_table_widget")
+
+        self.course_table_widget.setColumnCount(10)
+        self.course_table_widget.setRowCount(1)
+
+        item = QtWidgets.QTableWidgetItem(self.admin_MainWindow.user.school)
+        item.setFlags(QtCore.Qt.ItemIsEditable)
+        self.course_table_widget.setItem(0, 2, item)
+
+        self.course_table_widget.setHorizontalHeaderLabels(['Course ID', 'Course Name', 'School', 'Teacher Name',
+                                                           'Class Time', 'Location', 'Year', 'Semester', '', ''])
+
+        self.init_course_table()
+
+        self.verticalLayout_2.addWidget(self.course_table_widget)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -422,6 +416,10 @@ class Ui_admin_MainWindow(object):
     def welcome_info(admin_MainWindow):
         return f'Welcome, {admin_MainWindow.user.user_id} {admin_MainWindow.user.name}'
 
+    def init_course_table(self):
+        year = self.comboBox_10.currentText()
+        semester = self.comboBox_11.currentText()
+
     def init_teacher_table(self):
         teachers_data = Teacher.read_teachers(self.admin_MainWindow.user.school)
         for teacher_data in teachers_data:
@@ -640,24 +638,7 @@ class Ui_admin_MainWindow(object):
         self.label_23.setText(_translate("admin_MainWindow", "Semester:"))
         self.comboBox_11.setItemText(0, _translate("admin_MainWindow", "1"))
         self.comboBox_11.setItemText(1, _translate("admin_MainWindow", "2"))
-        item = self.tableWidget_7.verticalHeaderItem(0)
-        item.setText(_translate("admin_MainWindow", "1"))
-        item = self.tableWidget_7.horizontalHeaderItem(0)
-        item.setText(_translate("admin_MainWindow", "Course ID"))
-        item = self.tableWidget_7.horizontalHeaderItem(1)
-        item.setText(_translate("admin_MainWindow", "Course Name"))
-        item = self.tableWidget_7.horizontalHeaderItem(2)
-        item.setText(_translate("admin_MainWindow", "Teacher Name"))
-        item = self.tableWidget_7.horizontalHeaderItem(3)
-        item.setText(_translate("admin_MainWindow", "Class Time"))
-        item = self.tableWidget_7.horizontalHeaderItem(4)
-        item.setText(_translate("admin_MainWindow", "Location"))
-        item = self.tableWidget_7.horizontalHeaderItem(5)
-        item.setText(_translate("admin_MainWindow", "Year"))
-        item = self.tableWidget_7.horizontalHeaderItem(6)
-        item.setText(_translate("admin_MainWindow", "Semester"))
-        item = self.tableWidget_7.horizontalHeaderItem(7)
-        item.setText(_translate("admin_MainWindow", "Operation"))
+
         self.pushButton_3.setText(_translate("admin_MainWindow", "Course Query"))
         self.pushButton_4.setText(_translate("admin_MainWindow", "Print"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.course_tab),
