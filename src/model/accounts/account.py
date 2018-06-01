@@ -7,10 +7,11 @@ from src.model.users.user import User
 
 
 class Account:
-    def __init__(self, user_id, password, user_type):
+    def __init__(self, user_id, password, user_type, school):
         self.user_id = user_id
         self.password = password
         self.user_type = user_type
+        self.school = school
 
     def __str__(self):
         return f"user ID:{self.user_id}\nuser type:{self.user_type}"
@@ -54,7 +55,7 @@ class Account:
             return -2, None
 
     @staticmethod
-    def create_account(user_id, password, user_type):
+    def create_account(user_id, password, user_type, school):
         """
         This method registers a user using user id and password.
         The password already comes hashed as sha-512.
@@ -76,19 +77,52 @@ class Account:
         if not User.is_valid_user_id(user_id, user_type):
             return False
 
-        Account(user_id, Utils.hash_password(password, user_id), user_type).save_to_db()
+        Account(user_id, Utils.hash_password(password, user_id), user_type, school).save_to_db()
         return True
 
     @staticmethod
-    def modify_account(user_id, password, user_type):
+    def read_account(user_id):
+        sql = """
+                      SELECT * FROM accounts
+                      WHERE user_id = %s
+                    """
+
+        account_data = Database.query(sql, user_id)
+
+        if account_data:
+            account_data = list(account_data[0])
+            account_data = account_data[1:]
+
+            return Account(*account_data)
+        else:
+            print("Account do not exist!")
+            return None
+
+    @staticmethod
+    def read_accounts(school):
+        Database.initialize()
+
+        sql = "SELECT * FROM accounts WHERE school = %s"
+        accounts_data = Database.query(sql, school)
+
+        Database.close()
+
+        if accounts_data:
+            for account_data in accounts_data:
+                account_data = list(account_data)
+                account_data = account_data[1:]
+                yield account_data
+
+    @staticmethod
+    def modify_account(user_id, password, user_type, school):
         sql = """
               SELECT * FROM accounts
               WHERE user_id = (%s)
               """
-        user_data = Database.query(sql, user_id)
+        account_data = Database.query(sql, user_id)
 
-        if user_data:
-            Account(user_id, Utils.hash_password(password, user_id), user_type).save_to_db()
+        if account_data:
+            Account(user_id, Utils.hash_password(password, user_id), user_type, school).save_to_db()
             return True
         else:
             return False
@@ -109,11 +143,15 @@ class Account:
 
     def save_to_db(self):
         sql = """
-            REPLACE INTO accounts(user_id, password, user_type)
-            VALUES (%s, %s, %s)
+            INSERT INTO accounts(user_id, password, user_type, school)
+            VALUES (%s, %s, %s, %s)
+            ON DUPLICATE KEY UPDATE password = %s, user_type = %s, school = %s
             """
 
-        Database.data_handle(sql, self.user_id, self.password, self.user_type)
+        Database.data_handle(sql, *self.to_list())
+
+    def to_list(self):
+        return [self.user_id, self.password, self.user_type, self.school, self.password, self.user_type, self.school]
 
     @staticmethod
     def get_corresponding_user(user_id, user_type):
