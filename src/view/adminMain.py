@@ -100,9 +100,10 @@ class Ui_admin_MainWindow(object):
         self.course_year_comboBox.setEnabled(True)
         self.course_year_comboBox.setStyleSheet("font: 11pt \"Sans Serif\";")
 
+        years = create_year_generator()
+        for year in years:
+            self.course_year_comboBox.addItem(year)
 
-        self.course_year_comboBox.addItem("2015-2016")
-        self.course_year_comboBox.addItem("2016-2017")
         self.horizontalLayout_2.addWidget(self.course_year_comboBox)
         self.label_23 = QtWidgets.QLabel(self.course_tab)
         self.label_23.setStyleSheet("font: 12pt \"Sans Serif\";")
@@ -185,9 +186,11 @@ class Ui_admin_MainWindow(object):
         self.comboBox_14 = QtWidgets.QComboBox(self.enroll_tab)
         self.comboBox_14.setEnabled(False)
         self.comboBox_14.setStyleSheet("font: 11pt \"Sans Serif\";")
-        self.comboBox_14.setObjectName("comboBox_14")
-        self.comboBox_14.addItem("")
-        self.comboBox_14.addItem("")
+
+        current_year = datetime.datetime.now().year
+        year = f'{current_year}-{current_year+1}'
+        self.comboBox_14.addItem(year)
+
         self.horizontalLayout_4.addWidget(self.comboBox_14)
         self.label_28 = QtWidgets.QLabel(self.enroll_tab)
         self.label_28.setStyleSheet("font: 12pt \"Sans Serif\";")
@@ -842,8 +845,7 @@ class Ui_admin_MainWindow(object):
         self.label_11.setText(_translate("admin_MainWindow", "School:"))
         self.confirm_tab_school_comboBox.setItemText(0, _translate("admin_MainWindow", "Information"))
         self.label_27.setText(_translate("admin_MainWindow", "Year:"))
-        self.comboBox_14.setItemText(0, _translate("admin_MainWindow", "2015-2016"))
-        self.comboBox_14.setItemText(1, _translate("admin_MainWindow", "2016-2017"))
+
         self.label_28.setText(_translate("admin_MainWindow", "Semester:"))
         self.comboBox_15.setItemText(0, _translate("admin_MainWindow", "1"))
         self.comboBox_15.setItemText(1, _translate("admin_MainWindow", "2"))
