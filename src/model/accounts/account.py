@@ -1,3 +1,5 @@
+import pymysql
+
 from src.common.database import Database
 from src.common.utils import Utils
 from src.model.admins.admin import Admin
@@ -72,13 +74,19 @@ class Account:
 
         if user_data:
             # Tell user they are already registered
-            print("The user id you used to register already exists.")
-            return False
+            raise pymysql.DataError("The user id you used to register already exists.")
         if not User.is_valid_user_id(user_id, user_type):
-            return False
+            raise ValueError('Invalid user id!')
 
         Account(user_id, Utils.hash_password(password, user_id), user_type, school).save_to_db()
         return True
+
+    @staticmethod
+    def create_accounts(accounts_data):
+        Database.initialize()
+        for account_data in accounts_data:
+            Account.create_account(*account_data)
+        Database.close()
 
     @staticmethod
     def read_account(user_id):
