@@ -355,6 +355,8 @@ class Ui_admin_MainWindow(object):
         self.horizontalLayout_7.addItem(spacerItem13)
         self.auto_gen_button_2 = QtWidgets.QPushButton('Auto-Generate Relative Accounts', self.student_tab)
         self.auto_gen_button_2.setStyleSheet("font: 11pt \"Sans Serif\";")
+        self.auto_gen_button_2.clicked.connect(self.generate_all_students)
+
         self.horizontalLayout_7.addWidget(self.auto_gen_button_2)
         self.verticalLayout_8.addLayout(self.horizontalLayout_7)
         self.tabWidget.addTab(self.student_tab, "")
@@ -777,6 +779,30 @@ class Ui_admin_MainWindow(object):
             Account.create_accounts(accounts_data)
         except pymysql.DataError as error:
             msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', str(error), parent=self.admin_MainWindow)
+            msg_box.exec_()
+        except ValueError as error:
+            msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', str(error),
+                                            parent=self.admin_MainWindow)
+            msg_box.exec_()
+        else:
+            msg_box = QtWidgets.QMessageBox(parent=self.admin_MainWindow)
+            msg_box.setText('Generated Successfully!')
+            msg_box.exec_()
+
+    def generate_all_students(self):
+        try:
+            students_data = Student.read_students(self.admin_MainWindow.user.school)
+            accounts_data = list()
+            for student_data in students_data:
+                account_data = list()
+                account_data.extend([student_data[0], '000000', 2])
+                account_data.append(self.admin_MainWindow.user.school)
+                accounts_data.append(account_data)
+
+            Account.create_accounts(accounts_data)
+        except pymysql.DataError as error:
+            msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', str(error),
+                                            parent=self.admin_MainWindow)
             msg_box.exec_()
         except ValueError as error:
             msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', str(error),
