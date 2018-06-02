@@ -5,9 +5,10 @@
 # Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
+import datetime
+
 import pymysql
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QHeaderView
 
 from src.common.database import Database
 from src.model.accounts.account import Account
@@ -15,6 +16,12 @@ from src.model.courses.course import Course
 from src.model.students.student import Student
 from src.model.teachers.teacher import Teacher
 
+
+def create_year_generator():
+    now = datetime.datetime.now()
+    count = now.year - 2010
+    for i in range(count+1):
+        yield f'{2010+i}-{2010+i+1}'
 
 
 class Ui_admin_MainWindow(object):
@@ -92,6 +99,8 @@ class Ui_admin_MainWindow(object):
         self.course_year_comboBox = QtWidgets.QComboBox(self.course_tab)
         self.course_year_comboBox.setEnabled(True)
         self.course_year_comboBox.setStyleSheet("font: 11pt \"Sans Serif\";")
+
+
         self.course_year_comboBox.addItem("2015-2016")
         self.course_year_comboBox.addItem("2016-2017")
         self.horizontalLayout_2.addWidget(self.course_year_comboBox)
@@ -102,8 +111,10 @@ class Ui_admin_MainWindow(object):
         self.course_semester_comboBox = QtWidgets.QComboBox(self.course_tab)
         self.course_semester_comboBox.setEnabled(True)
         self.course_semester_comboBox.setStyleSheet("font: 11pt \"Sans Serif\";")
+        self.course_semester_comboBox.addItem("")
         self.course_semester_comboBox.addItem("1")
         self.course_semester_comboBox.addItem("2")
+
         self.horizontalLayout_2.addWidget(self.course_semester_comboBox)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem)
@@ -444,13 +455,12 @@ class Ui_admin_MainWindow(object):
         self.statusbar.setObjectName("statusbar")
         admin_MainWindow.setStatusBar(self.statusbar)
 
-        self.retranslateUi(admin_MainWindow)
+        self.retranslateUi()
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(admin_MainWindow)
 
-    @staticmethod
-    def welcome_info(admin_MainWindow):
-        return f'Welcome, {admin_MainWindow.user.user_id} {admin_MainWindow.user.name}'
+    def welcome_info(self):
+        return f'Welcome, {self.admin_MainWindow.user.user_id} {self.admin_MainWindow.user.name}'
 
     def init_table(self, table, data, school_pos, actions):
         for entity in data:
@@ -813,12 +823,12 @@ class Ui_admin_MainWindow(object):
             msg_box.setText('Generated Successfully!')
             msg_box.exec_()
 
-    def retranslateUi(self, admin_MainWindow):
+    def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        admin_MainWindow.setWindowTitle(_translate("admin_MainWindow", "Course Management System"))
-        self.label.setText(_translate("admin_MainWindow", Ui_admin_MainWindow.welcome_info(admin_MainWindow)))
+        self.admin_MainWindow.setWindowTitle(_translate("admin_MainWindow", "Course Management System"))
+        self.label.setText(_translate("admin_MainWindow", self.welcome_info()))
         self.logout_button.setText(_translate("admin_MainWindow", "Logout"))
-        self.welcome_label.setText(_translate("admin_MainWindow", Ui_admin_MainWindow.welcome_info(admin_MainWindow)))
+        self.welcome_label.setText(_translate("admin_MainWindow", self.welcome_info()))
         self.last_login_label.setText(_translate("admin_MainWindow", "Last login: 2018-XX-XX 12:00 Location"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.home_tab), _translate("admin_MainWindow", "Home"))
         self.label_6.setText(_translate("admin_MainWindow", "School:"))
