@@ -451,13 +451,13 @@ class Ui_admin_MainWindow(object):
 
     def init_table(self, table, data, school_pos, actions):
         for entity in data:
-            print(entity)
             last_row = table.rowCount() - 1
             for i in range(table.columnCount() - 2):
-                item = QtWidgets.QTableWidgetItem(str(entity[i]))
-                if i == school_pos:
-                    item.setFlags(QtCore.Qt.ItemIsEditable)
-                table.setItem(last_row, i, item)
+                if entity[i]:
+                    item = QtWidgets.QTableWidgetItem(str(entity[i]))
+                    if i == school_pos:
+                        item.setFlags(QtCore.Qt.ItemIsEditable)
+                    table.setItem(last_row, i, item)
 
             modify_button = QtWidgets.QPushButton("Modify")
             delete_button = QtWidgets.QPushButton("Delete")
