@@ -58,7 +58,7 @@
      </layout>
     </item>
     <item>
-     <widget class="QTabWidget" name="auto_gen_button2">
+     <widget class="QTabWidget" name="tab_widget">
       <property name="styleSheet">
        <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
       </property>
@@ -906,7 +906,7 @@ margin-right: 10px;</string>
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_11">
+           <widget class="QPushButton" name="auto_gen_button_2">
             <property name="styleSheet">
              <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
             </property>
