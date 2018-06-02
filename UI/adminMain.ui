@@ -58,7 +58,7 @@
      </layout>
     </item>
     <item>
-     <widget class="QTabWidget" name="tabWidget">
+     <widget class="QTabWidget" name="auto_gen_button2">
       <property name="styleSheet">
        <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
       </property>
@@ -117,7 +117,7 @@ margin-right: 10px;</string>
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="course_management_school_comboBox">
+           <widget class="QComboBox" name="course_school_comboBox">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -142,7 +142,7 @@ margin-right: 10px;</string>
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="comboBox_10">
+           <widget class="QComboBox" name="course_year_comboBox">
             <property name="enabled">
              <bool>true</bool>
             </property>
@@ -172,7 +172,7 @@ margin-right: 10px;</string>
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="comboBox_11">
+           <widget class="QComboBox" name="course_semester_comboBox">
             <property name="enabled">
              <bool>true</bool>
             </property>
@@ -207,7 +207,7 @@ margin-right: 10px;</string>
          </layout>
         </item>
         <item>
-         <widget class="QTableWidget" name="tableWidget_7">
+         <widget class="QTableWidget" name="course_table_widget">
           <row>
            <property name="text">
             <string>1</string>
@@ -341,7 +341,7 @@ margin-right: 10px;</string>
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="modify_course_school_comboBox_5">
+           <widget class="QComboBox" name="confirm_tab_school_comboBox">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -519,7 +519,7 @@ margin-right: 10px;</string>
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="modify_course_school_comboBox_3">
+           <widget class="QComboBox" name="teacher_tab_school_comboBox">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -549,7 +549,7 @@ margin-right: 10px;</string>
          </layout>
         </item>
         <item>
-         <widget class="QTableWidget" name="tableWidget_3">
+         <widget class="QTableWidget" name="teacher_table_widget">
           <row>
            <property name="text">
             <string>1</string>
@@ -663,12 +663,12 @@ margin-right: 10px;</string>
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_6">
+           <spacer name="horizontalSpacer_8">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Minimum</enum>
+             <enum>QSizePolicy::Fixed</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -689,7 +689,7 @@ margin-right: 10px;</string>
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_8">
+           <spacer name="horizontalSpacer_6">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -700,6 +700,16 @@ margin-right: 10px;</string>
              </size>
             </property>
            </spacer>
+          </item>
+          <item alignment="Qt::AlignRight">
+           <widget class="QPushButton" name="auto_gen_button">
+            <property name="styleSheet">
+             <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
+            </property>
+            <property name="text">
+             <string>Auto-Generate Relative Accounts</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -895,6 +905,16 @@ margin-right: 10px;</string>
             </property>
            </spacer>
           </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_11">
+            <property name="styleSheet">
+             <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
+            </property>
+            <property name="text">
+             <string>Auto-Generate Relative Accounts</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
        </layout>
@@ -1048,7 +1068,7 @@ margin-right: 10px;</string>
          </layout>
         </item>
         <item>
-         <widget class="QTableWidget" name="tableWidget_2">
+         <widget class="QTableWidget" name="account_table_widget">
           <column>
            <property name="text">
             <string>User ID</string>
