@@ -426,23 +426,6 @@ margin-right: 10px;</string>
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_15">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_10">
-          <item>
            <widget class="QLabel" name="label_12">
             <property name="styleSheet">
              <string notr="true">font: 12pt &quot;Sans Serif&quot;;</string>
@@ -463,7 +446,7 @@ margin-right: 10px;</string>
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_16">
+           <spacer name="horizontalSpacer_15">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>

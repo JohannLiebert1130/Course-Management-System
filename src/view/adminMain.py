@@ -204,30 +204,26 @@ class Ui_admin_MainWindow(object):
         self.comboBox_15 = QtWidgets.QComboBox(self.enroll_tab)
         self.comboBox_15.setEnabled(False)
         self.comboBox_15.setStyleSheet("font: 11pt \"Sans Serif\";")
-        self.comboBox_15.setObjectName("comboBox_15")
-        self.comboBox_15.addItem("")
-        self.comboBox_15.addItem("")
+
+        self.comboBox_15.addItem("1")
         self.horizontalLayout_4.addWidget(self.comboBox_15)
-        spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_4.addItem(spacerItem4)
-        self.verticalLayout_4.addLayout(self.horizontalLayout_4)
-        self.horizontalLayout_10 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_10.setObjectName("horizontalLayout_10")
-        self.label_12 = QtWidgets.QLabel(self.enroll_tab)
+
+        self.label_12 = QtWidgets.QLabel('Course:', self.enroll_tab)
         self.label_12.setStyleSheet("font: 12pt \"Sans Serif\";")
-        self.label_12.setObjectName("label_12")
-        self.horizontalLayout_10.addWidget(self.label_12)
+        self.horizontalLayout_4.addWidget(self.label_12)
+
         self.comboBox_5 = QtWidgets.QComboBox(self.enroll_tab)
         self.comboBox_5.setObjectName("comboBox_5")
-        self.horizontalLayout_10.addWidget(self.comboBox_5)
+        self.horizontalLayout_4.addWidget(self.comboBox_5)
 
         self.enroll_query_button = QtWidgets.QPushButton('Query')
         self.enroll_query_button.setStyleSheet("font: 11pt \"Sans Serif\";")
-        self.horizontalLayout_10.addWidget(self.enroll_query_button)
+        self.horizontalLayout_4.addWidget(self.enroll_query_button)
 
-        spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_10.addItem(spacerItem5)
-        self.verticalLayout_4.addLayout(self.horizontalLayout_10)
+        spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_4.addItem(spacerItem4)
+        self.verticalLayout_4.addLayout(self.horizontalLayout_4)
+
         self.tableWidget_5 = QtWidgets.QTableWidget(self.enroll_tab)
         self.tableWidget_5.setObjectName("tableWidget_5")
         self.tableWidget_5.setColumnCount(5)
@@ -857,9 +853,7 @@ class Ui_admin_MainWindow(object):
         self.label_27.setText(_translate("admin_MainWindow", "Year:"))
 
         self.label_28.setText(_translate("admin_MainWindow", "Semester:"))
-        self.comboBox_15.setItemText(0, _translate("admin_MainWindow", "1"))
-        self.comboBox_15.setItemText(1, _translate("admin_MainWindow", "2"))
-        self.label_12.setText(_translate("admin_MainWindow", "Course:"))
+
         item = self.tableWidget_5.horizontalHeaderItem(0)
         item.setText(_translate("admin_MainWindow", "Student Name"))
         item = self.tableWidget_5.horizontalHeaderItem(1)
