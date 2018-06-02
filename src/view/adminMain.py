@@ -450,7 +450,7 @@ class Ui_admin_MainWindow(object):
             print(entity)
             last_row = table.rowCount() - 1
             for i in range(table.columnCount() - 2):
-                item = QtWidgets.QTableWidgetItem(entity[i])
+                item = QtWidgets.QTableWidgetItem(str(entity[i]))
                 if i == school_pos:
                     item.setFlags(QtCore.Qt.ItemIsEditable)
                 table.setItem(last_row, i, item)
@@ -555,26 +555,35 @@ class Ui_admin_MainWindow(object):
         last_row = self.account_tableWidget.rowCount() - 1
 
         account_data = list()
+        valid_account = True
         for i in range(4):
             if self.account_tableWidget.item(last_row, i) is None \
                     or self.account_tableWidget.item(last_row, i).text() == '':
-                account_data.append(None)
-                item = QtWidgets.QTableWidgetItem()
-                self.account_tableWidget.setItem(last_row, i, item)
-            else:
-                account_data.append(self.account_tableWidget.item(last_row, i).text())
+                msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', 'Do you forget to input?',
+                                                parent=self.admin_MainWindow)
+                msg_box.exec_()
+                valid_account = False
+                break
 
-        print(account_data)
-        try:
-            Database.initialize()
-            Account.create_account(*account_data)
-            Database.close()
-        except:
-            msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', 'Create account failed!\n'
-                                            'please check the information you input', parent=self.admin_MainWindow)
-            msg_box.exec_()
-        else:
-            self.update_row(self.account_tableWidget, 3)
+            else:
+                value = self.account_tableWidget.item(last_row, i).text()
+                value = int(value) if i == 2 else value
+
+                account_data.append(value)
+
+        if valid_account:
+            print(account_data)
+            try:
+                Database.initialize()
+                Account.create_account(*account_data)
+                Database.close()
+            except:
+                msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', 'Create account failed!\n'
+                                                'please check the information you input',
+                                                parent=self.admin_MainWindow)
+                msg_box.exec_()
+            else:
+                self.update_row(self.account_tableWidget, 3)
 
     def update_row(self, table, school_pos):
         row_count = table.rowCount()
