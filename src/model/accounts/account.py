@@ -110,6 +110,7 @@ class Account:
         if accounts_data:
             for account_data in accounts_data:
                 account_data = list(account_data)
+                account_data[3] = str(account_data[3])
                 account_data = account_data[1:]
                 yield account_data
 
