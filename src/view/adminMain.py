@@ -5,7 +5,7 @@
 # Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
-
+import pymysql
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QHeaderView
 
@@ -286,6 +286,7 @@ class Ui_admin_MainWindow(object):
         self.horizontalLayout_5.addItem(spacerItem9)
         self.auto_gen_button = QtWidgets.QPushButton('Auto-Generate Relative Accounts', self.teacher_tab)
         self.auto_gen_button.setStyleSheet("font: 11pt \"Sans Serif\";")
+        self.auto_gen_button.clicked.connect(self.generate_all_teachers)
         self.horizontalLayout_5.addWidget(self.auto_gen_button, 0, QtCore.Qt.AlignRight)
         self.verticalLayout_7.addLayout(self.horizontalLayout_5)
 
@@ -762,6 +763,29 @@ class Ui_admin_MainWindow(object):
             current_row = self.account_tableWidget.currentRow()
             Account.delete_account(self.account_tableWidget.item(current_row, 0).text())
             self.account_tableWidget.removeRow(current_row)
+
+    def generate_all_teachers(self):
+        try:
+            teachers_data = Teacher.read_teachers(self.admin_MainWindow.user.school)
+            accounts_data = list()
+            for teacher_data in teachers_data:
+                account_data = list()
+                account_data.extend([teacher_data[0], '000000', 1])
+                account_data.append(self.admin_MainWindow.user.school)
+                accounts_data.append(account_data)
+
+            Account.create_accounts(accounts_data)
+        except pymysql.DataError as error:
+            msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', str(error), parent=self.admin_MainWindow)
+            msg_box.exec_()
+        except ValueError as error:
+            msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', str(error),
+                                            parent=self.admin_MainWindow)
+            msg_box.exec_()
+        else:
+            msg_box = QtWidgets.QMessageBox(parent=self.admin_MainWindow)
+            msg_box.setText('Generated Successfully!')
+            msg_box.exec_()
 
     def retranslateUi(self, admin_MainWindow):
         _translate = QtCore.QCoreApplication.translate
