@@ -107,7 +107,7 @@ class Ui_admin_MainWindow(object):
         self.horizontalLayout_2.addWidget(self.course_year_comboBox)
         self.label_23 = QtWidgets.QLabel(self.course_tab)
         self.label_23.setStyleSheet("font: 12pt \"Sans Serif\";")
-        self.label_23.setObjectName("label_23")
+
         self.horizontalLayout_2.addWidget(self.label_23)
         self.course_semester_comboBox = QtWidgets.QComboBox(self.course_tab)
         self.course_semester_comboBox.setEnabled(True)
@@ -117,6 +117,11 @@ class Ui_admin_MainWindow(object):
         self.course_semester_comboBox.addItem("2")
 
         self.horizontalLayout_2.addWidget(self.course_semester_comboBox)
+
+        self.course_query_button = QtWidgets.QPushButton('Query')
+        self.course_query_button.setStyleSheet("font: 11pt \"Sans Serif\";")
+        self.horizontalLayout_2.addWidget(self.course_query_button)
+
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem)
         self.verticalLayout_2.addLayout(self.horizontalLayout_2)
@@ -215,6 +220,11 @@ class Ui_admin_MainWindow(object):
         self.comboBox_5 = QtWidgets.QComboBox(self.enroll_tab)
         self.comboBox_5.setObjectName("comboBox_5")
         self.horizontalLayout_10.addWidget(self.comboBox_5)
+
+        self.enroll_query_button = QtWidgets.QPushButton('Query')
+        self.enroll_query_button.setStyleSheet("font: 11pt \"Sans Serif\";")
+        self.horizontalLayout_10.addWidget(self.enroll_query_button)
+
         spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_10.addItem(spacerItem5)
         self.verticalLayout_4.addLayout(self.horizontalLayout_10)

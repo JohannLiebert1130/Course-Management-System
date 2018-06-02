@@ -192,6 +192,16 @@ margin-right: 10px;</string>
            </widget>
           </item>
           <item>
+           <widget class="QPushButton" name="pushButton_10">
+            <property name="styleSheet">
+             <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
+            </property>
+            <property name="text">
+             <string>Query</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <spacer name="horizontalSpacer_4">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -276,7 +286,7 @@ margin-right: 10px;</string>
              <string notr="true">font: 12pt &quot;Sans Serif&quot;;</string>
             </property>
             <property name="text">
-             <string>Course Query</string>
+             <string>Course Search</string>
             </property>
            </widget>
           </item>
@@ -444,6 +454,13 @@ margin-right: 10px;</string>
           </item>
           <item>
            <widget class="QComboBox" name="comboBox_5"/>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_11">
+            <property name="text">
+             <string>Query</string>
+            </property>
+           </widget>
           </item>
           <item>
            <spacer name="horizontalSpacer_16">
