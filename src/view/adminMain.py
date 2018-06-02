@@ -270,7 +270,6 @@ class Ui_admin_MainWindow(object):
         self.init_table(*teachers_info)
 
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         spacerItem7 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_5.addItem(spacerItem7)
         self.pushButton = QtWidgets.QPushButton(self.teacher_tab)
@@ -286,6 +285,7 @@ class Ui_admin_MainWindow(object):
         spacerItem9 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_5.addItem(spacerItem9)
         self.verticalLayout_7.addLayout(self.horizontalLayout_5)
+
         self.tabWidget.addTab(self.teacher_tab, "")
         self.student_tab = QtWidgets.QWidget()
         self.student_tab.setObjectName("student_tab")
@@ -324,8 +324,6 @@ class Ui_admin_MainWindow(object):
                                                              '', ''])
 
         self.verticalLayout_8.addWidget(self.student_table_widget)
-
-        self.verticalLayout_7.addWidget(self.teacher_table_widget)
 
         students_data = Student.read_students(self.admin_MainWindow.user.school)
 
