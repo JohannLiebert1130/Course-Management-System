@@ -67,11 +67,9 @@ class User:
             # an student type
             pattern = re.compile('\d{13}$')
         else:
-            print("invalid user type!")
-            return False
+            raise ValueError("invalid user type!")
 
         if pattern.match(user_id):
             return True
         else:
-            print("The user id does not have the right format.")
-            return False
+            raise ValueError("invalid user type!")
