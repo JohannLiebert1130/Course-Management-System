@@ -656,21 +656,20 @@ class Ui_student_MainWindow(object):
         self.statusbar.setObjectName("statusbar")
         student_MainWindow.setStatusBar(self.statusbar)
 
-        self.retranslateUi(student_MainWindow)
+        self.retranslateUi()
         self.tabWidget.setCurrentIndex(0)
         self.tabWidget_2.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(student_MainWindow)
 
-    @staticmethod
-    def welcome_info(student_MainWindow):
-        return f'Welcome, {student_MainWindow.user.user_id} {student_MainWindow.user.name}'
+    def welcome_info(self):
+        return f'Welcome, {self.admin_MainWindow.user.user_id} {self.admin_MainWindow.user.name}'
 
     def retranslateUi(self, student_MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        student_MainWindow.setWindowTitle(_translate("student_MainWindow", "Course Management System"))
-        self.user_top_label.setText(_translate("student_MainWindow", Ui_student_MainWindow.welcome_info(student_MainWindow)))
+        self.student_MainWindow.setWindowTitle(_translate("student_MainWindow", "Course Management System"))
+        self.user_top_label.setText(_translate("student_MainWindow", self.welcome_info()))
         self.logout_button.setText(_translate("student_MainWindow", "Logout"))
-        self.welcome_label.setText(_translate("student_MainWindow", Ui_student_MainWindow.welcome_info(student_MainWindow)))
+        self.welcome_label.setText(_translate("student_MainWindow", self.welcome_info()))
         self.last_login_label.setText(_translate("student_MainWindow", "Last login: 2018-XX-XX 12:00 Location"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.home_tab), _translate("student_MainWindow", "Home"))
         self.label.setText(_translate("student_MainWindow", "Year:"))
