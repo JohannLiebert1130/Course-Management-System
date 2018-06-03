@@ -191,13 +191,14 @@ class Ui_admin_MainWindow(object):
         self.label_28.setStyleSheet("font: 12pt \"Sans Serif\";")
         self.label_28.setObjectName("label_28")
         self.horizontalLayout_4.addWidget(self.label_28)
+
         self.confirm_semester_comboBox = QtWidgets.QComboBox(self.enroll_tab)
         self.confirm_semester_comboBox.setEnabled(False)
         self.confirm_semester_comboBox.setStyleSheet("font: 11pt \"Sans Serif\";")
         self.confirm_semester_comboBox.setObjectName("confirm_semester_comboBox")
-        self.confirm_semester_comboBox.addItem("")
-        self.confirm_semester_comboBox.addItem("")
+        self.confirm_semester_comboBox.addItem("1")
         self.horizontalLayout_4.addWidget(self.confirm_semester_comboBox)
+
         self.label_12 = QtWidgets.QLabel(self.enroll_tab)
         self.label_12.setStyleSheet("font: 12pt \"Sans Serif\";")
         self.label_12.setObjectName("label_12")
@@ -205,7 +206,7 @@ class Ui_admin_MainWindow(object):
         self.confirm_course_comboBox = QtWidgets.QComboBox(self.enroll_tab)
         self.confirm_course_comboBox.setObjectName("confirm_course_comboBox")
         self.horizontalLayout_4.addWidget(self.confirm_course_comboBox)
-        self.confirm_query_button = QtWidgets.QPushButton(self.enroll_tab)
+        self.confirm_query_button = QtWidgets.QPushButton('Query', self.enroll_tab)
         self.confirm_query_button.setStyleSheet("font: 11pt \"Sans Serif\";")
         self.confirm_query_button.setObjectName("confirm_query_button")
         self.horizontalLayout_4.addWidget(self.confirm_query_button)
@@ -651,9 +652,8 @@ class Ui_admin_MainWindow(object):
             current_row = table.currentRow()
             column_count = table.columnCount()
             data = list()
-            for i in range(column_count-2):
-                if table.item(current_row, i) is None \
-                        or table.item(current_row, i).text() == '':
+            for i in range(column_count -2):
+                if table.item(current_row, i) is None or table.item(current_row, i).text() == '':
                     data.append(None)
                 else:
                     data.append(table.item(current_row, i).text())
@@ -663,12 +663,12 @@ class Ui_admin_MainWindow(object):
                 modify_func(*data)
                 Database.close()
             except:
-                msg_box = QtWidgets.QMessageBox('Error', f'Modify {type} failed!\n'
+                msg_box = QtWidgets.QMessageBox('Error', f'Modify {type_str} failed!\n'
                                                 f'please check the information you input',
                                                 parent=self.admin_MainWindow)
                 msg_box.exec_()
             else:
-                msg_box = QtWidgets.QMessageBox('', 'Modified Successfully!', parent=self.admin_MainWindow)
+                msg_box = QtWidgets.QMessageBox('', f'Modified {type_str} Successfully!', parent=self.admin_MainWindow)
                 msg_box.exec_()
 
     def delete(self, type_str):
@@ -695,12 +695,12 @@ class Ui_admin_MainWindow(object):
                 delete_func(table.item(current_row, 0).text())
                 table.removeRow(current_row)
             except:
-                msg_box = QtWidgets.QMessageBox('Error', f'Delete {type} failed!\n'
+                msg_box = QtWidgets.QMessageBox('Error', f'Delete {type_str} failed!\n'
                                                          f'please check the information you input',
                                                 parent=self.admin_MainWindow)
                 msg_box.exec_()
             else:
-                msg_box = QtWidgets.QMessageBox('', 'Deleted Successfully!', parent=self.admin_MainWindow)
+                msg_box = QtWidgets.QMessageBox('', f'Deleted {type_str} Successfully!', parent=self.admin_MainWindow)
                 msg_box.exec_()
 
     def generate_all_teachers(self):
@@ -771,13 +771,10 @@ class Ui_admin_MainWindow(object):
         self.label_11.setText(_translate("admin_MainWindow", "School:"))
         self.confirm_school_comboBox.setItemText(0, _translate("admin_MainWindow", "Information"))
         self.label_27.setText(_translate("admin_MainWindow", "Year:"))
-        self.confrim_year_comboBox.setItemText(0, _translate("admin_MainWindow", "2015-2016"))
-        self.confrim_year_comboBox.setItemText(1, _translate("admin_MainWindow", "2016-2017"))
+
         self.label_28.setText(_translate("admin_MainWindow", "Semester:"))
-        self.confirm_semester_comboBox.setItemText(0, _translate("admin_MainWindow", "1"))
-        self.confirm_semester_comboBox.setItemText(1, _translate("admin_MainWindow", "2"))
+
         self.label_12.setText(_translate("admin_MainWindow", "Course:"))
-        self.confirm_query_button.setText(_translate("admin_MainWindow", "Query"))
         item = self.confirm_tableWidget.horizontalHeaderItem(0)
         item.setText(_translate("admin_MainWindow", "Student Name"))
         item = self.confirm_tableWidget.horizontalHeaderItem(1)
