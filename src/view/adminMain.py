@@ -534,6 +534,7 @@ class Ui_admin_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(admin_MainWindow)
 
     def init_table(self, table, type_str, data, school_pos):
+        table.setRowCount(1)
         for entity in data:
             last_row = table.rowCount() - 1
             for i in range(table.columnCount() - 2):
@@ -595,20 +596,22 @@ class Ui_admin_MainWindow(object):
                 if table.item(last_row, i) is None or table.item(last_row, i).text() == '':
                     data.append(None)
                 else:
-                    data.append(self.teacher_tableWidget.item(last_row, i).text())
+                    data.append(table.item(last_row, i).text())
 
         try:
             Database.initialize()
+            print('creating...data:', data)
             create_func(*data)
             Database.close()
         except:
-            msg_box = QtWidgets.QMessageBox('Error', f'Create {type_str} failed! Please check the information you input',
-                                            parent=self.admin_MainWindow)
+            msg_box = QtWidgets.QMessageBox(parent=self.admin_MainWindow)
+            msg_box.setWindowTitle('Error')
+            msg_box.setText(f'Create {type_str} failed!\nPlease check the information you input')
             msg_box.exec_()
         else:
-            self.update_row(table, school_pos)
-            msg_box = QtWidgets.QMessageBox('', f'Created {type_str} Successfully!',
-                                            parent=self.admin_MainWindow)
+            self.update_row(table, type_str, school_pos)
+            msg_box = QtWidgets.QMessageBox(parent=self.admin_MainWindow)
+            msg_box.setText(f'Created {type_str} Successfully!')
             msg_box.exec_()
 
     def update_row(self, table, type_str, school_pos):
@@ -671,12 +674,13 @@ class Ui_admin_MainWindow(object):
                 modify_func(*data)
                 Database.close()
             except:
-                msg_box = QtWidgets.QMessageBox('Error', f'Modify {type_str} failed!\n'
-                                                f'please check the information you input',
-                                                parent=self.admin_MainWindow)
+                msg_box = QtWidgets.QMessageBox(parent=self.admin_MainWindow)
+                msg_box.setText(f'Modify {type_str} failed!\nplease check the information you input')
+                msg_box.setWindowTitle('Error')
                 msg_box.exec_()
             else:
-                msg_box = QtWidgets.QMessageBox('', f'Modified {type_str} Successfully!', parent=self.admin_MainWindow)
+                msg_box = QtWidgets.QMessageBox(parent=self.admin_MainWindow)
+                msg_box.setText(f'Modified {type_str} Successfully!')
                 msg_box.exec_()
 
     def delete(self, type_str):
@@ -703,12 +707,13 @@ class Ui_admin_MainWindow(object):
                 delete_func(table.item(current_row, 0).text())
                 table.removeRow(current_row)
             except:
-                msg_box = QtWidgets.QMessageBox('Error', f'Delete {type_str} failed!\n'
-                                                         f'please check the information you input',
-                                                parent=self.admin_MainWindow)
+                msg_box = QtWidgets.QMessageBox(parent=self.admin_MainWindow)
+                msg_box.setWindowTitle('Error')
+                msg_box.setText(f'Delete {type_str} failed!\nPlease check the information you input')
                 msg_box.exec_()
             else:
-                msg_box = QtWidgets.QMessageBox('', f'Deleted {type_str} Successfully!', parent=self.admin_MainWindow)
+                msg_box = QtWidgets.QMessageBox(parent=self.admin_MainWindow)
+                msg_box.setText(f'Deleted {type_str} Successfully!')
                 msg_box.exec_()
 
     def generate_all_teachers(self):
