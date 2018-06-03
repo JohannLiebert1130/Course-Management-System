@@ -120,6 +120,14 @@ class Ui_admin_MainWindow(object):
 
         self.course_query_button = QtWidgets.QPushButton('Query')
         self.course_query_button.setStyleSheet("font: 11pt \"Sans Serif\";")
+
+        self.course_query_button.clicked.connect(
+            lambda: self.init_table(table=self.course_table_widget,
+                                    data=Course.read_courses(self.admin_MainWindow.user.school),
+                                    school_pos=2,
+                                    actions=[self.modify_course, self.delete_course, self.create_new_course])
+                                    )
+
         self.horizontalLayout_2.addWidget(self.course_query_button)
 
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -140,14 +148,6 @@ class Ui_admin_MainWindow(object):
                                                             'Class Time', 'Location', 'Year', 'Semester', '', ''])
 
         self.verticalLayout_2.addWidget(self.course_table_widget)
-
-        courses_data = Course.read_courses(self.admin_MainWindow.user.school)
-
-        actions = [self.modify_course, self.delete_course, self.create_new_course]
-
-        course_info = [self.course_table_widget, courses_data, 2, actions]
-
-        self.init_table(*course_info)
 
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
