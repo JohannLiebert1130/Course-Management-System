@@ -127,11 +127,9 @@ class Ui_admin_MainWindow(object):
 
         self.course_query_button.clicked.connect(
             lambda: self.init_table(table=self.course_tableWidget,
+                                    type_str='course',
                                     data=Course.read_courses(self.admin_MainWindow.user.school),
-                                    school_pos=2,
-                                    actions=[lambda: self.modify('course'),
-                                             lambda: self.delete('course'),
-                                             lambda: self.create('course')]
+                                    school_pos=2
                                     )
         )
 
@@ -206,10 +204,12 @@ class Ui_admin_MainWindow(object):
         self.confirm_course_comboBox = QtWidgets.QComboBox(self.enroll_tab)
         self.confirm_course_comboBox.setObjectName("confirm_course_comboBox")
         self.horizontalLayout_4.addWidget(self.confirm_course_comboBox)
+
         self.confirm_query_button = QtWidgets.QPushButton('Query', self.enroll_tab)
         self.confirm_query_button.setStyleSheet("font: 11pt \"Sans Serif\";")
         self.confirm_query_button.setObjectName("confirm_query_button")
         self.horizontalLayout_4.addWidget(self.confirm_query_button)
+
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_4.addItem(spacerItem1)
         self.verticalLayout_4.addLayout(self.horizontalLayout_4)
@@ -266,7 +266,14 @@ class Ui_admin_MainWindow(object):
 
         self.teacher_query_button = QtWidgets.QPushButton(self.teacher_tab)
         self.teacher_query_button.setStyleSheet("font: 12pt \"Sans Serif\";")
-        self.teacher_query_button.setObjectName("teacher_query_button")
+
+        self.teacher_query_button.clicked.connect(
+            lambda: self.init_table(table=self.teacher_tableWidget,
+                                    type_str='teacher',
+                                    data=Teacher.read_teachers(self.admin_MainWindow.user.school),
+                                    school_pos=8
+                                    )
+        )
         self.horizontalLayout_6.addWidget(self.teacher_query_button)
 
         self.label_4 = QtWidgets.QLabel(self.teacher_tab)
@@ -288,11 +295,6 @@ class Ui_admin_MainWindow(object):
                                                              'Birthday', 'Birth Place', 'Folk', 'Political Status',
                                                              'School', 'Position', 'Phone', '', ''])
         self.verticalLayout_7.addWidget(self.teacher_tableWidget)
-
-        teachers_data = Teacher.read_teachers(self.admin_MainWindow.user.school)
-        actions = [self.modify_teacher, self.delete_teacher, self.create_new_teacher]
-        teachers_info = [self.teacher_tableWidget, teachers_data, 8, actions]
-        self.init_table(*teachers_info)
 
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
@@ -355,10 +357,19 @@ class Ui_admin_MainWindow(object):
         self.student_name_lineEdit.setMaximumSize(QtCore.QSize(110, 16777215))
         self.student_name_lineEdit.setObjectName("student_name_lineEdit")
         self.horizontalLayout_9.addWidget(self.student_name_lineEdit)
+
         self.student_query_button = QtWidgets.QPushButton(self.student_tab)
         self.student_query_button.setStyleSheet("font: 11pt \"Sans Serif\";")
-        self.student_query_button.setObjectName("student_query_button")
+
+        self.student_query_button.clicked.connect(
+            lambda: self.init_table(table=self.student_tableWidget,
+                                    type_str='student',
+                                    data=Student.read_students(self.admin_MainWindow.user.school),
+                                    school_pos=8
+                                    )
+        )
         self.horizontalLayout_9.addWidget(self.student_query_button)
+
         self.label_7 = QtWidgets.QLabel(self.student_tab)
         self.label_7.setObjectName("label_7")
         self.horizontalLayout_9.addWidget(self.label_7)
@@ -379,14 +390,6 @@ class Ui_admin_MainWindow(object):
                                                             'School', 'Department', 'Class', 'Phone',
                                                             '', ''])
         self.verticalLayout_8.addWidget(self.student_tableWidget)
-
-        students_data = Student.read_students(self.admin_MainWindow.user.school)
-
-        actions = [self.modify_student, self.delete_student, self.create_new_student]
-
-        students_info = [self.student_tableWidget, students_data, 8, actions]
-
-        self.init_table(*students_info)
 
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
@@ -435,10 +438,12 @@ class Ui_admin_MainWindow(object):
         self.horizontalLayout_8.addWidget(self.grade_lineEdit)
         spacerItem10 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_8.addItem(spacerItem10)
+
         self.grade_query_button = QtWidgets.QPushButton(self.grade_tab)
         self.grade_query_button.setStyleSheet("font: 11pt \"Sans Serif\";")
         self.grade_query_button.setObjectName("grade_query_button")
         self.horizontalLayout_8.addWidget(self.grade_query_button)
+
         spacerItem11 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_8.addItem(spacerItem11)
         self.verticalLayout_5.addLayout(self.horizontalLayout_8)
@@ -492,10 +497,19 @@ class Ui_admin_MainWindow(object):
         self.horizontalLayout_11.addWidget(self.account_type_comboBox)
         spacerItem15 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_11.addItem(spacerItem15)
+
         self.account_query_button = QtWidgets.QPushButton(self.account_tab)
         self.account_query_button.setStyleSheet("font: 11pt \"Sans Serif\";")
-        self.account_query_button.setObjectName("account_query_button")
+
+        self.account_query_button.clicked.connect(
+            lambda: self.init_table(table=self.account_tableWidget,
+                                    type_str='account',
+                                    data=Account.read_accounts(self.admin_MainWindow.user.school),
+                                    school_pos=3
+                                    )
+        )
         self.horizontalLayout_11.addWidget(self.account_query_button)
+
         spacerItem16 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_11.addItem(spacerItem16)
         self.verticalLayout_6.addLayout(self.horizontalLayout_11)
@@ -507,12 +521,6 @@ class Ui_admin_MainWindow(object):
 
         self.account_tableWidget.setHorizontalHeaderLabels(['User ID', 'Password', 'User Type', 'School', '', ''])
         self.verticalLayout_6.addWidget(self.account_tableWidget)
-
-        accounts_data = Account.read_accounts(self.admin_MainWindow.user.school)
-        actions = [self.modify_account, self.delete_account, self.create_new_account]
-        accounts_info = [self.account_tableWidget, accounts_data, 3, actions]
-
-        self.init_table(*accounts_info)
 
         self.tab_widget.addTab(self.account_tab, "")
         self.verticalLayout.addWidget(self.tab_widget)
@@ -545,7 +553,7 @@ class Ui_admin_MainWindow(object):
             table.insertRow(table.rowCount())
 
         create_button = QtWidgets.QPushButton("Create")
-        create_button.clicked.connect(actions[2])
+        create_button.clicked.connect(lambda: self.create(type_str))
         table.setCellWidget(table.rowCount() - 1, table.columnCount() - 2, create_button)
 
         item = QtWidgets.QTableWidgetItem(self.admin_MainWindow.user.school)
