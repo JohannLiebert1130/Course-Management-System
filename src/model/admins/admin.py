@@ -1,3 +1,5 @@
+import pymysql
+
 from src.common.database import Database
 from src.model.users.user import User
 
@@ -32,7 +34,10 @@ class Admin(User):
             # Tell user they are already registered
             raise ValueError('The user id you used to register already exists.')
 
-        admin.save_to_db()
+        try:
+            admin.save_to_db()
+        except pymysql.Error as error:
+            raise error
 
     @staticmethod
     def read_admin(user_id):

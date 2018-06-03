@@ -603,10 +603,10 @@ class Ui_admin_MainWindow(object):
             print('creating...data:', data)
             create_func(*data)
             Database.close()
-        except:
+        except Exception as error:
             msg_box = QtWidgets.QMessageBox(parent=self.admin_MainWindow)
             msg_box.setWindowTitle('Error')
-            msg_box.setText(f'Create {type_str} failed!\nPlease check the information you input')
+            msg_box.setText(f'Create {type_str} failed!\nError: {error}')
             msg_box.exec_()
         else:
             self.update_row(table, type_str, school_pos)

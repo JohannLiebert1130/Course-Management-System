@@ -24,8 +24,11 @@ class Course:
         if course_data:
             raise ValueError('The course id you used to register already exists.')
 
-        Course(course_id, course_name, school, teacher_name,
-               class_time, location, year, semester).save_to_db()
+        try:
+            Course(course_id, course_name, school, teacher_name,
+                   class_time, location, year, semester).save_to_db()
+        except pymysql.Error as error:
+            raise error
 
     @staticmethod
     def read_course(course_id):

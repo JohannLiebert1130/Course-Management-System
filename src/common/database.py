@@ -25,10 +25,10 @@ class Database:
             # 提交到数据库执行
             Database.DATABASE.commit()
             print('committed successfully!')
-        except pymysql.Error as e:
+        except pymysql.Error as error:
             # 如果发生错误则回滚
             Database.DATABASE.rollback()
-            print(e)
+            raise error
 
     @staticmethod
     def query(sql, *arg):
@@ -41,9 +41,9 @@ class Database:
             # 获取所有记录列表
             results = cursor.fetchall()
             return results
-        except pymysql.Error as e:
+        except pymysql.Error as error:
             print("Error: unable to fetch data")
-            print(e)
+            raise error
 
     @staticmethod
     def close():

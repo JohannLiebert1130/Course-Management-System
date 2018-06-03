@@ -64,7 +64,7 @@ class Account:
         :param user_id: user's id (might be invalid)
         :param password: user's password in plain text
         :param user_type: user's type (can be admin, teacher, or student)
-        :return: True if registered successfully, or False otherwise (exceptions can also be raised)
+        :return:
         """
         sql = """
               SELECT * FROM accounts
@@ -74,12 +74,14 @@ class Account:
 
         if user_data:
             # Tell user they are already registered
-            raise pymysql.DataError("The user id you used to register already exists.")
+            raise ValueError("The user id you used to register already exists.")
         if not User.is_valid_user_id(user_id, user_type):
             raise ValueError('Invalid user id!')
 
-        Account(user_id, Utils.hash_password(password, user_id), user_type, school).save_to_db()
-        return True
+        try:
+            Account(user_id, Utils.hash_password(password, user_id), user_type, school).save_to_db()
+        except pymysql.Error as error:
+            raise error
 
     @staticmethod
     def create_accounts(accounts_data):

@@ -1,3 +1,5 @@
+import pymysql
+
 from src.common.database import Database
 from src.model.users.user import User
 
@@ -23,8 +25,11 @@ class Teacher(User):
             # Tell user they are already registered
             raise ValueError('The user id you used to register already exists.')
 
-        Teacher(user_id, name, p_id, gender, birthday, birth_place, folk,
-                political_status, school, position, phone).save_to_db()
+        try:
+            Teacher(user_id, name, p_id, gender, birthday, birth_place, folk,
+                    political_status, school, position, phone).save_to_db()
+        except pymysql.Error as error:
+            raise error
 
     @staticmethod
     def read_teacher(user_id):
