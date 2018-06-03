@@ -524,7 +524,7 @@ class Ui_admin_MainWindow(object):
         self.tab_widget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(admin_MainWindow)
 
-    def init_table(self, table, data, school_pos, actions):
+    def init_table(self, table, type_str, data, school_pos):
         for entity in data:
             last_row = table.rowCount() - 1
             for i in range(table.columnCount() - 2):
@@ -536,8 +536,8 @@ class Ui_admin_MainWindow(object):
 
             modify_button = QtWidgets.QPushButton("Modify")
             delete_button = QtWidgets.QPushButton("Delete")
-            modify_button.clicked.connect(actions[0])
-            delete_button.clicked.connect(actions[1])
+            modify_button.clicked.connect(lambda: self.modify(type_str))
+            delete_button.clicked.connect(lambda: self.delete(type_str))
             table.setCellWidget(last_row, table.columnCount() - 2, modify_button)
             table.setCellWidget(last_row, table.columnCount() - 1, delete_button)
 
@@ -664,7 +664,7 @@ class Ui_admin_MainWindow(object):
             else:
                 self.update_row(self.account_tableWidget, 3)
 
-    def update_row(self, table, school_pos):
+    def update_row(self, table, type_str, school_pos):
         row_count = table.rowCount()
         table.insertRow(row_count - 1)
 
@@ -684,39 +684,30 @@ class Ui_admin_MainWindow(object):
 
         modify_button = QtWidgets.QPushButton("Modify")
         delete_button = QtWidgets.QPushButton("Delete")
-        if table == self.student_table_widget:
-            modify_button.clicked.connect(self.modify_student)
-            delete_button.clicked.connect(self.delete_student)
-        elif table == self.teacher_table_widget:
-            modify_button.clicked.connect(self.modify_teacher)
-            delete_button.clicked.connect(self.delete_teacher)
-        elif table == self.student_table_widget:
-            modify_button.clicked.connect(self.modify_course)
-            delete_button.clicked.connect(self.delete_course)
-        elif table == self.account_tableWidget:
-            modify_button.clicked.connect(self.modify_account)
-            delete_button.clicked.connect(self.delete_account)
+
+        modify_button.clicked.connect(lambda: self.modify(type_str))
+        delete_button.clicked.connect(lambda: self.delete(type_str))
 
         table.setCellWidget(row_count - 1, table.columnCount() - 2, modify_button)
         table.setCellWidget(row_count - 1, table.columnCount() - 1, delete_button)
 
-    def modify(self, type):
+    def modify(self, type_str):
         msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Warning', 'Do you really want to modify it?',
                                         QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
                                         parent=self.admin_MainWindow)
         response = msg_box.exec_()
         if response == QtWidgets.QMessageBox.Yes:
-            if type == 'teacher':
+            if type_str == 'teacher':
                 table = self.teacher_tableWidget
                 modify_func = Teacher.modify_teacher
-            elif type == 'student':
+            elif type_str == 'student':
                 table = self.student_tableWidget
                 modify_func = Student.modify_student
-            elif type == 'course':
+            elif type_str == 'course':
                 table = self.course_tableWidget
                 modify_func = Course.modify_course
             else:
-                table == self.account_tableWidget
+                table = self.account_tableWidget
                 modify_func = Account.modify_account
 
             current_row = table.currentRow()
@@ -733,8 +724,8 @@ class Ui_admin_MainWindow(object):
                 Database.initialize()
                 modify_func(*data)
                 Database.close()
-            except ValueError:
-                msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', f'Modify {type} failed!\n'
+            except:
+                msg_box = QtWidgets.QMessageBox('Error', f'Modify {type} failed!\n'
                                                 f'please check the information you input',
                                                 parent=self.admin_MainWindow)
                 msg_box.exec_()
@@ -742,45 +733,37 @@ class Ui_admin_MainWindow(object):
                 msg_box = QtWidgets.QMessageBox('', 'Modified Successfully!', parent=self.admin_MainWindow)
                 msg_box.exec_()
 
-    def delete_teacher(self):
+    def delete(self, type_str):
         msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Warning', 'Do you really want to delete it?',
                                         QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
                                         parent=self.admin_MainWindow)
         response = msg_box.exec_()
         if response == QtWidgets.QMessageBox.Yes:
-            current_row = self.teacher_tableWidget.currentRow()
-            Teacher.delete_teacher(self.teacher_tableWidget.item(current_row, 0).text())
-            self.teacher_tableWidget.removeRow(current_row)
+            if type_str == 'teacher':
+                table = self.teacher_tableWidget
+                delete_func = Teacher.delete_teacher
+            elif type_str == 'student':
+                table = self.student_tableWidget
+                delete_func = Student.delete_student
+            elif type_str == 'course':
+                table = self.course_tableWidget
+                delete_func = Course.delete_course
+            else:
+                table = self.account_tableWidget
+                delete_func = Account.delete_account
 
-    def delete_student(self):
-        msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Warning', 'Do you really want to delete it?',
-                                        QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
-                                        parent=self.admin_MainWindow)
-        response = msg_box.exec_()
-        if response == QtWidgets.QMessageBox.Yes:
-            current_row = self.student_tableWidget.currentRow()
-            Student.delete_student(self.student_tableWidget.item(current_row, 0).text())
-            self.student_tableWidget.removeRow(current_row)
-
-    def delete_course(self):
-        msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Warning', 'Do you really want to delete it?',
-                                        QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
-                                        parent=self.admin_MainWindow)
-        response = msg_box.exec_()
-        if response == QtWidgets.QMessageBox.Yes:
-            current_row = self.course_tableWidget.currentRow()
-            Course.delete_course(self.course_tableWidget.item(current_row, 0).text())
-            self.course_tableWidget.removeRow(current_row)
-
-    def delete_account(self):
-        msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Warning', 'Do you really want to delete it?',
-                                        QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
-                                        parent=self.admin_MainWindow)
-        response = msg_box.exec_()
-        if response == QtWidgets.QMessageBox.Yes:
-            current_row = self.account_tableWidget.currentRow()
-            Account.delete_account(self.account_tableWidget.item(current_row, 0).text())
-            self.account_tableWidget.removeRow(current_row)
+            current_row = table.currentRow()
+            try:
+                delete_func(table.item(current_row, 0).text())
+                table.removeRow(current_row)
+            except:
+                msg_box = QtWidgets.QMessageBox('Error', f'Delete {type} failed!\n'
+                                                         f'please check the information you input',
+                                                parent=self.admin_MainWindow)
+                msg_box.exec_()
+            else:
+                msg_box = QtWidgets.QMessageBox('', 'Deleted Successfully!', parent=self.admin_MainWindow)
+                msg_box.exec_()
 
     def generate_all_teachers(self):
         try:
