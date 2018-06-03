@@ -551,118 +551,56 @@ class Ui_admin_MainWindow(object):
         item.setFlags(QtCore.Qt.ItemIsEditable)
         table.setItem(table.rowCount() - 1, school_pos, item)
 
-    def create_new_teacher(self):
-        last_row = self.teacher_tableWidget.rowCount() - 1
+    def create(self, type_str):
+        if type_str == 'teacher':
+            table = self.teacher_tableWidget
+            create_func = Teacher.create_teacher
+            school_pos = 8
+        elif type_str == 'student':
+            table = self.student_tableWidget
+            create_func = Student.create_student
+            school_pos = 8
+        elif type_str == 'course':
+            table = self.course_tableWidget
+            create_func = Course.create_course
+            school_pos = 2
+        else:
+            table = self.account_tableWidget
+            create_func = Account.create_account
+            school_pos = 3
 
-        teacher_data = list()
-        for i in range(11):
-            if self.teacher_tableWidget.item(last_row, i) is None \
-                    or self.teacher_tableWidget.item(last_row, i).text() == '':
-                teacher_data.append(None)
-                item = QtWidgets.QTableWidgetItem()
-                self.teacher_tableWidget.setItem(last_row, i, item)
-            else:
-                teacher_data.append(self.teacher_tableWidget.item(last_row, i).text())
-        print(teacher_data)
+        last_row = table.rowCount() - 1
+        column_count = table.columnCount()
+
+        data = list()
+        if type_str == 'account':
+            for i in range(column_count - 2):
+                if table.item(last_row, i) is None or table.item(last_row, i).text() == '':
+                    data.append(None)
+                else:
+                    value = table.item(last_row, i).text()
+                    value = int(value) if i == 2 else value
+                    data.append(value)
+        else:
+            for i in range(column_count - 2):
+                if table.item(last_row, i) is None or table.item(last_row, i).text() == '':
+                    data.append(None)
+                else:
+                    data.append(self.teacher_tableWidget.item(last_row, i).text())
+
         try:
             Database.initialize()
-            Teacher.create_teacher(*teacher_data)
+            create_func(*data)
             Database.close()
         except:
-            msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', 'Create teacher failed!\n'
-                                                                                     'please check the information you input',
+            msg_box = QtWidgets.QMessageBox('Error', f'Create {type_str} failed! Please check the information you input',
                                             parent=self.admin_MainWindow)
             msg_box.exec_()
         else:
-            print(self.teacher_tableWidget.item(last_row, 2).text())
-
-            self.update_row(self.teacher_tableWidget, 8)
-
-    def create_new_student(self):
-        last_row = self.student_tableWidget.rowCount() - 1
-
-        student_data = list()
-        for i in range(12):
-            if self.student_tableWidget.item(last_row, i) is None \
-                    or self.student_tableWidget.item(last_row, i).text() == '':
-                student_data.append(None)
-                item = QtWidgets.QTableWidgetItem()
-                self.student_tableWidget.setItem(last_row, i, item)
-            else:
-                student_data.append(self.student_tableWidget.item(last_row, i).text())
-
-        print(student_data)
-        try:
-            Database.initialize()
-            Student.create_student(*student_data)
-            Database.close()
-        except:
-            msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', 'Create student failed!\n'
-                                                                                     'please check the information you input',
+            self.update_row(table, school_pos)
+            msg_box = QtWidgets.QMessageBox('', f'Created {type_str} Successfully!',
                                             parent=self.admin_MainWindow)
             msg_box.exec_()
-        else:
-            self.update_row(self.student_tableWidget, 8)
-
-    def create_new_course(self):
-        last_row = self.course_tableWidget.rowCount() - 1
-
-        course_data = list()
-        for i in range(8):
-            if self.course_tableWidget.item(last_row, i) is None \
-                    or self.course_tableWidget.item(last_row, i).text() == '':
-                course_data.append(None)
-                item = QtWidgets.QTableWidgetItem()
-                self.course_tableWidget.setItem(last_row, i, item)
-            else:
-                course_data.append(self.course_tableWidget.item(last_row, i).text())
-
-        print(course_data)
-        try:
-            Database.initialize()
-            Course.create_course(*course_data)
-            Database.close()
-        except:
-            msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', 'Create course failed!\n'
-                                                                                     'please check the information you input',
-                                            parent=self.admin_MainWindow)
-            msg_box.exec_()
-        else:
-            self.update_row(self.course_tableWidget, 2)
-
-    def create_new_account(self):
-        last_row = self.account_tableWidget.rowCount() - 1
-
-        account_data = list()
-        valid_account = True
-        for i in range(4):
-            if self.account_tableWidget.item(last_row, i) is None \
-                    or self.account_tableWidget.item(last_row, i).text() == '':
-                msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', 'Do you forget to input?',
-                                                parent=self.admin_MainWindow)
-                msg_box.exec_()
-                valid_account = False
-                break
-
-            else:
-                value = self.account_tableWidget.item(last_row, i).text()
-                value = int(value) if i == 2 else value
-
-                account_data.append(value)
-
-        if valid_account:
-            print(account_data)
-            try:
-                Database.initialize()
-                Account.create_account(*account_data)
-                Database.close()
-            except:
-                msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Error', 'Create account failed!\n'
-                                                                                         'please check the information you input',
-                                                parent=self.admin_MainWindow)
-                msg_box.exec_()
-            else:
-                self.update_row(self.account_tableWidget, 3)
 
     def update_row(self, table, type_str, school_pos):
         row_count = table.rowCount()
