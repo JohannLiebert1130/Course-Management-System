@@ -192,7 +192,53 @@ margin-right: 10px;</string>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_10">
+           <widget class="QLineEdit" name="course_id_lineEdit">
+            <property name="maximumSize">
+             <size>
+              <width>80</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="placeholderText">
+             <string>Course ID</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="course_name_lineEdit">
+            <property name="maximumSize">
+             <size>
+              <width>100</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="placeholderText">
+             <string>Course Name</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_5">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="teacher_lineEdit">
+            <property name="maximumSize">
+             <size>
+              <width>100</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="placeholderText">
+             <string>Teacher</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="course_query_button">
             <property name="styleSheet">
              <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
             </property>
@@ -217,7 +263,7 @@ margin-right: 10px;</string>
          </layout>
         </item>
         <item>
-         <widget class="QTableWidget" name="course_table_widget">
+         <widget class="QTableWidget" name="course_tableWidget">
           <row>
            <property name="text">
             <string>1</string>
@@ -231,6 +277,11 @@ margin-right: 10px;</string>
           <column>
            <property name="text">
             <string>Course Name</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>School</string>
            </property>
           </column>
           <column>
@@ -260,54 +311,20 @@ margin-right: 10px;</string>
           </column>
           <column>
            <property name="text">
-            <string>Operation</string>
+            <string/>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string/>
            </property>
           </column>
          </widget>
         </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
-          <item>
-           <spacer name="horizontalSpacer">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_3">
-            <property name="styleSheet">
-             <string notr="true">font: 12pt &quot;Sans Serif&quot;;</string>
-            </property>
-            <property name="text">
-             <string>Course Search</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_3">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Minimum</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_4">
+          <item alignment="Qt::AlignHCenter">
+           <widget class="QPushButton" name="print_course_button">
             <property name="styleSheet">
              <string notr="true">font: 12pt &quot;Sans Serif&quot;;</string>
             </property>
@@ -315,19 +332,6 @@ margin-right: 10px;</string>
              <string>Print</string>
             </property>
            </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_2">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
           </item>
          </layout>
         </item>
@@ -351,7 +355,7 @@ margin-right: 10px;</string>
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="confirm_tab_school_comboBox">
+           <widget class="QComboBox" name="confirm_school_comboBox">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -376,7 +380,7 @@ margin-right: 10px;</string>
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="comboBox_14">
+           <widget class="QComboBox" name="confrim_year_comboBox">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -406,7 +410,7 @@ margin-right: 10px;</string>
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="comboBox_15">
+           <widget class="QComboBox" name="confirm_semester_comboBox">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -436,10 +440,13 @@ margin-right: 10px;</string>
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="comboBox_5"/>
+           <widget class="QComboBox" name="confirm_course_comboBox"/>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_11">
+           <widget class="QPushButton" name="confirm_query_button">
+            <property name="styleSheet">
+             <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
+            </property>
             <property name="text">
              <string>Query</string>
             </property>
@@ -461,7 +468,7 @@ margin-right: 10px;</string>
          </layout>
         </item>
         <item>
-         <widget class="QTableWidget" name="tableWidget_5">
+         <widget class="QTableWidget" name="confirm_tableWidget">
           <column>
            <property name="text">
             <string>Student Name</string>
@@ -490,7 +497,7 @@ margin-right: 10px;</string>
          </widget>
         </item>
         <item alignment="Qt::AlignHCenter">
-         <widget class="QPushButton" name="pushButton_7">
+         <widget class="QPushButton" name="confirm_button">
           <property name="styleSheet">
            <string notr="true">font: 12pt &quot;Sans Serif&quot;;</string>
           </property>
@@ -519,7 +526,7 @@ margin-right: 10px;</string>
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="teacher_tab_school_comboBox">
+           <widget class="QComboBox" name="teacher_school_comboBox">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -531,6 +538,68 @@ margin-right: 10px;</string>
               <string>Information</string>
              </property>
             </item>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="teacher_id_lineEdit">
+            <property name="maximumSize">
+             <size>
+              <width>100</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="placeholderText">
+             <string>Teacher ID</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="teacher_name_lineEdit">
+            <property name="maximumSize">
+             <size>
+              <width>120</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="placeholderText">
+             <string>Teacher Name</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="position_lineEdit">
+            <property name="maximumSize">
+             <size>
+              <width>80</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="placeholderText">
+             <string>Position</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="teacher_query_button">
+            <property name="styleSheet">
+             <string notr="true">font: 12pt &quot;Sans Serif&quot;;</string>
+            </property>
+            <property name="text">
+             <string>Qeury</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_4">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>留空则不以其为关键词进行查询</string>
+            </property>
            </widget>
           </item>
           <item>
@@ -549,7 +618,7 @@ margin-right: 10px;</string>
          </layout>
         </item>
         <item>
-         <widget class="QTableWidget" name="teacher_table_widget">
+         <widget class="QTableWidget" name="teacher_tableWidget">
           <row>
            <property name="text">
             <string>1</string>
@@ -612,7 +681,12 @@ margin-right: 10px;</string>
           </column>
           <column>
            <property name="text">
-            <string>Operations</string>
+            <string/>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string/>
            </property>
           </column>
           <item row="0" column="0">
@@ -653,12 +727,30 @@ margin-right: 10px;</string>
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton">
+           <widget class="QPushButton" name="teacher_print_button">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>150</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
             <property name="styleSheet">
              <string notr="true">font: 12pt &quot;Sans Serif&quot;;</string>
             </property>
             <property name="text">
-             <string>Teacher Query</string>
+             <string>Print</string>
             </property>
            </widget>
           </item>
@@ -668,7 +760,7 @@ margin-right: 10px;</string>
              <enum>Qt::Horizontal</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
+             <enum>QSizePolicy::Minimum</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -679,12 +771,24 @@ margin-right: 10px;</string>
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_5">
+           <widget class="QPushButton" name="auto_gen_teacher_button">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
             <property name="styleSheet">
-             <string notr="true">font: 12pt &quot;Sans Serif&quot;;</string>
+             <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
             </property>
             <property name="text">
-             <string>Print</string>
+             <string>Auto-Generate Accounts</string>
             </property>
            </widget>
           </item>
@@ -700,16 +804,6 @@ margin-right: 10px;</string>
              </size>
             </property>
            </spacer>
-          </item>
-          <item alignment="Qt::AlignRight">
-           <widget class="QPushButton" name="auto_gen_button">
-            <property name="styleSheet">
-             <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
-            </property>
-            <property name="text">
-             <string>Auto-Generate Relative Accounts</string>
-            </property>
-           </widget>
           </item>
          </layout>
         </item>
@@ -733,7 +827,7 @@ margin-right: 10px;</string>
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="modify_course_school_comboBox_4">
+           <widget class="QComboBox" name="student_school_comboBox">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -745,6 +839,75 @@ margin-right: 10px;</string>
               <string>Information</string>
              </property>
             </item>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="major_lineEdit">
+            <property name="maximumSize">
+             <size>
+              <width>100</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="placeholderText">
+             <string>Major</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="class_lineEdit">
+            <property name="maximumSize">
+             <size>
+              <width>100</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="placeholderText">
+             <string>Class</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="student_id_lineEdit">
+            <property name="maximumSize">
+             <size>
+              <width>110</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="placeholderText">
+             <string>Student ID</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="student_name_lineEdit">
+            <property name="maximumSize">
+             <size>
+              <width>110</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="placeholderText">
+             <string>Student Name</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="student_query_button">
+            <property name="styleSheet">
+             <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
+            </property>
+            <property name="text">
+             <string>Query</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_7">
+            <property name="text">
+             <string>留空则不以其为关键词进行查询</string>
+            </property>
            </widget>
           </item>
           <item>
@@ -763,7 +926,7 @@ margin-right: 10px;</string>
          </layout>
         </item>
         <item>
-         <widget class="QTableWidget" name="tableWidget_4">
+         <widget class="QTableWidget" name="student_tableWidget">
           <row>
            <property name="text">
             <string>1</string>
@@ -821,11 +984,6 @@ margin-right: 10px;</string>
           </column>
           <column>
            <property name="text">
-            <string>Major</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
             <string>Class</string>
            </property>
           </column>
@@ -836,7 +994,12 @@ margin-right: 10px;</string>
           </column>
           <column>
            <property name="text">
-            <string>Operations</string>
+            <string/>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string/>
            </property>
           </column>
          </widget>
@@ -857,17 +1020,29 @@ margin-right: 10px;</string>
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_2">
+           <widget class="QPushButton" name="student_print_button">
+            <property name="minimumSize">
+             <size>
+              <width>150</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
             <property name="styleSheet">
              <string notr="true">font: 12pt &quot;Sans Serif&quot;;</string>
             </property>
             <property name="text">
-             <string>Student Query</string>
+             <string>Print</string>
             </property>
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer_12">
+           <spacer name="horizontalSpacer_2">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -883,12 +1058,12 @@ margin-right: 10px;</string>
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_6">
+           <widget class="QPushButton" name="auto_gen_student_button">
             <property name="styleSheet">
-             <string notr="true">font: 12pt &quot;Sans Serif&quot;;</string>
+             <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
             </property>
             <property name="text">
-             <string>Print</string>
+             <string>Auto-Generate Accounts</string>
             </property>
            </widget>
           </item>
@@ -905,16 +1080,6 @@ margin-right: 10px;</string>
             </property>
            </spacer>
           </item>
-          <item>
-           <widget class="QPushButton" name="auto_gen_button_2">
-            <property name="styleSheet">
-             <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
-            </property>
-            <property name="text">
-             <string>Auto-Generate Relative Accounts</string>
-            </property>
-           </widget>
-          </item>
          </layout>
         </item>
        </layout>
@@ -927,27 +1092,20 @@ margin-right: 10px;</string>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_8">
           <item>
-           <spacer name="horizontalSpacer_13">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
            <widget class="QLabel" name="label_2">
+            <property name="styleSheet">
+             <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
+            </property>
             <property name="text">
-             <string>Show Grades By:</string>
+             <string>Query Grades By:</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="comboBox">
+           <widget class="QComboBox" name="grade_comboBox">
+            <property name="styleSheet">
+             <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
+            </property>
             <item>
              <property name="text">
               <string>Course ID</string>
@@ -961,9 +1119,44 @@ margin-right: 10px;</string>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_8">
+           <widget class="QLineEdit" name="grade_lineEdit">
+            <property name="maximumSize">
+             <size>
+              <width>140</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
             <property name="text">
-             <string>Show</string>
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_13">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Minimum</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="grade_query_button">
+            <property name="styleSheet">
+             <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
+            </property>
+            <property name="text">
+             <string>Query</string>
             </property>
            </widget>
           </item>
@@ -983,7 +1176,7 @@ margin-right: 10px;</string>
          </layout>
         </item>
         <item>
-         <widget class="QTableWidget" name="tableWidget">
+         <widget class="QTableWidget" name="grade_tableWidget">
           <column>
            <property name="text">
             <string>Student Name</string>
@@ -1006,15 +1199,71 @@ margin-right: 10px;</string>
           </column>
          </widget>
         </item>
-        <item alignment="Qt::AlignHCenter">
-         <widget class="QPushButton" name="pushButton_9">
-          <property name="styleSheet">
-           <string notr="true">font: 12pt &quot;Sans Serif&quot;;</string>
-          </property>
-          <property name="text">
-           <string>Grade Analysis</string>
-          </property>
-         </widget>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_10">
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton">
+            <property name="styleSheet">
+             <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
+            </property>
+            <property name="text">
+             <string>Print</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_12">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Minimum</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_2">
+            <property name="styleSheet">
+             <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
+            </property>
+            <property name="text">
+             <string>Grade Analysis</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>
@@ -1028,7 +1277,7 @@ margin-right: 10px;</string>
           <item>
            <widget class="QLabel" name="label_3">
             <property name="styleSheet">
-             <string notr="true">font: 12pt &quot;Sans Serif&quot;;</string>
+             <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
             </property>
             <property name="text">
              <string>Account Type:</string>
@@ -1036,10 +1285,15 @@ margin-right: 10px;</string>
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="comboBox_2">
+           <widget class="QComboBox" name="account_type_comboBox">
             <property name="styleSheet">
-             <string notr="true">font: 12pt &quot;Sans Serif&quot;;</string>
+             <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
             </property>
+            <item>
+             <property name="text">
+              <string>Admin</string>
+             </property>
+            </item>
             <item>
              <property name="text">
               <string>Teacher</string>
@@ -1050,6 +1304,32 @@ margin-right: 10px;</string>
               <string>Student</string>
              </property>
             </item>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_19">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Minimum</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="account_query_button">
+            <property name="styleSheet">
+             <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
+            </property>
+            <property name="text">
+             <string>Query</string>
+            </property>
            </widget>
           </item>
           <item>
@@ -1068,7 +1348,12 @@ margin-right: 10px;</string>
          </layout>
         </item>
         <item>
-         <widget class="QTableWidget" name="account_table_widget">
+         <widget class="QTableWidget" name="account_tableWidget">
+          <row>
+           <property name="text">
+            <string>1</string>
+           </property>
+          </row>
           <column>
            <property name="text">
             <string>User ID</string>
@@ -1086,7 +1371,17 @@ margin-right: 10px;</string>
           </column>
           <column>
            <property name="text">
-            <string>Operations</string>
+            <string>School</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string/>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string/>
            </property>
           </column>
          </widget>
