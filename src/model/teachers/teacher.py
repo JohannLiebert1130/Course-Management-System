@@ -17,14 +17,13 @@ class Teacher(User):
 
         sql = """
               SELECT * FROM teachers
-              WHERE user_id = %s
+              WHERE user_id = %s or p_id = %s
             """
-        user_data = Database.query(sql, user_id)
-
+        user_data = Database.query(sql, user_id, p_id)
+        print('user data', user_data)
         if user_data:
             # Tell user they are already registered
-            raise ValueError('The user id you used to register already exists.')
-
+            raise ValueError('The user_id or Official ID you used to register already exists.')
         try:
             Teacher(user_id, name, p_id, gender, birthday, birth_place, folk,
                     political_status, school, position, phone).save_to_db()

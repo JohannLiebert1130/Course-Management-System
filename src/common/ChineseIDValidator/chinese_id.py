@@ -21,7 +21,7 @@ class ChineseID:
         self.check_code = id_str[17]
 
         if not self.is_valid_id():
-            raise ValueError("invalid ID!")
+            raise ValueError("invalid official ID!")
 
     def __str__(self):
         return f"Address code:{self.address_code}\nBirth date code:{self.birth_date_code}\nsequence code:" \
@@ -71,11 +71,11 @@ class ChineseID:
             return self.id_str[17] == 'X'
 
     def is_valid_id(self):
-        print(f'is valid length: {self.is_valid_length()}\n'
-              f'is valid address: {self.is_valid_addr_code()}\n'
-              f'is valid birth: {self.is_valid_birth_date()}\n'
-              f'is valid sequence code: {self.is_valid_sequence_code()}\n'
-              f'is valid check code: {self.is_valid_check_code()}')
+        # print(f'is valid length: {self.is_valid_length()}\n'
+        #       f'is valid address: {self.is_valid_addr_code()}\n'
+        #       f'is valid birth: {self.is_valid_birth_date()}\n'
+        #       f'is valid sequence code: {self.is_valid_sequence_code()}\n'
+        #       f'is valid check code: {self.is_valid_check_code()}')
         if self.is_valid_length() and self.is_valid_addr_code() and self.is_valid_birth_date() \
                 and self.is_valid_sequence_code() and self.is_valid_check_code():
             return True
