@@ -330,10 +330,10 @@ class Ui_admin_MainWindow(object):
         self.student_school_comboBox.addItem(self.admin_MainWindow.user.school)
         self.horizontalLayout_9.addWidget(self.student_school_comboBox)
 
-        self.major_lineEdit = QtWidgets.QLineEdit(self.student_tab)
-        self.major_lineEdit.setMaximumSize(QtCore.QSize(100, 16777215))
-        self.major_lineEdit.setObjectName("major_lineEdit")
-        self.horizontalLayout_9.addWidget(self.major_lineEdit)
+        self.department_lineEdit = QtWidgets.QLineEdit(self.student_tab)
+        self.department_lineEdit.setMaximumSize(QtCore.QSize(100, 16777215))
+        self.department_lineEdit.setObjectName("major_lineEdit")
+        self.horizontalLayout_9.addWidget(self.department_lineEdit)
         self.class_lineEdit = QtWidgets.QLineEdit(self.student_tab)
         self.class_lineEdit.setMaximumSize(QtCore.QSize(100, 16777215))
         self.class_lineEdit.setObjectName("class_lineEdit")
@@ -350,13 +350,7 @@ class Ui_admin_MainWindow(object):
         self.student_query_button = QtWidgets.QPushButton('Query', self.student_tab)
         self.student_query_button.setStyleSheet("font: 11pt \"Sans Serif\";")
 
-        self.student_query_button.clicked.connect(
-            lambda: self.init_table(table=self.student_tableWidget,
-                                    type_str='student',
-                                    data=Student.read_students(self.admin_MainWindow.user.school),
-                                    school_pos=8
-                                    )
-        )
+        self.student_query_button.clicked.connect(self.init_student_table)
         self.horizontalLayout_9.addWidget(self.student_query_button)
 
         self.label_7 = QtWidgets.QLabel(self.student_tab)
@@ -479,10 +473,10 @@ class Ui_admin_MainWindow(object):
         self.horizontalLayout_11.addWidget(self.label_3)
         self.account_type_comboBox = QtWidgets.QComboBox(self.account_tab)
         self.account_type_comboBox.setStyleSheet("font: 11pt \"Sans Serif\";")
-        self.account_type_comboBox.setObjectName("account_type_comboBox")
-        self.account_type_comboBox.addItem("")
-        self.account_type_comboBox.addItem("")
-        self.account_type_comboBox.addItem("")
+        self.account_type_comboBox.addItem(" ")
+        self.account_type_comboBox.addItem("Admin")
+        self.account_type_comboBox.addItem("Teacher")
+        self.account_type_comboBox.addItem("Student")
         self.horizontalLayout_11.addWidget(self.account_type_comboBox)
         spacerItem15 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_11.addItem(spacerItem15)
@@ -547,14 +541,31 @@ class Ui_admin_MainWindow(object):
         text = self.position_lineEdit.text()
         position = text if text and text != '' else None
 
-        teacher_data = Teacher.read_teachers(self.admin_MainWindow.user.school,
+        teachers_data = Teacher.read_teachers(self.admin_MainWindow.user.school,
                                              teacher_id, teacher_name, position)
 
-        self.init_table(self.teacher_tableWidget, 'teacher', teacher_data, 8)
+        self.init_table(self.teacher_tableWidget, 'teacher', teachers_data, 8)
+
+    def init_student_table(self):
+        self.student_tableWidget.setRowCount(1)
+
+        text = self.department_lineEdit.text()
+        department = text if text and text != '' else None
+        text = self.class_lineEdit.text()
+        class_name = text if text and text != '' else None
+        text = self.student_id_lineEdit.text()
+        student_id = text if text and text != '' else None
+        text = self.student_name_lineEdit.text()
+        student_name = text if text and text != '' else None
+
+        students_data = Student.read_students(self.admin_MainWindow.user.school,
+                                              department, class_name, student_id, student_name)
+        self.init_table(self.student_tableWidget, 'student', students_data, 8)
+
+
 
     def init_table(self, table, type_str, data, school_pos):
         for entity in data:
-            print(entity)
             last_row = table.rowCount() - 1
             for i in range(table.columnCount() - 2):
                 if entity[i]:
@@ -864,7 +875,7 @@ class Ui_admin_MainWindow(object):
                                    _translate("admin_MainWindow", "Teacher Management"))
         self.label_10.setText(_translate("admin_MainWindow", "School:"))
         self.student_school_comboBox.setItemText(0, _translate("admin_MainWindow", "Information"))
-        self.major_lineEdit.setPlaceholderText(_translate("admin_MainWindow", "Major"))
+        self.department_lineEdit.setPlaceholderText(_translate("admin_MainWindow", "Department"))
         self.class_lineEdit.setPlaceholderText(_translate("admin_MainWindow", "Class"))
         self.student_id_lineEdit.setPlaceholderText(_translate("admin_MainWindow", "Student ID"))
         self.student_name_lineEdit.setPlaceholderText(_translate("admin_MainWindow", "Student Name"))
@@ -890,9 +901,6 @@ class Ui_admin_MainWindow(object):
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.grade_tab),
                                    _translate("admin_MainWindow", "Grade Management"))
         self.label_3.setText(_translate("admin_MainWindow", "Account Type:"))
-        self.account_type_comboBox.setItemText(0, _translate("admin_MainWindow", "Admin"))
-        self.account_type_comboBox.setItemText(1, _translate("admin_MainWindow", "Teacher"))
-        self.account_type_comboBox.setItemText(2, _translate("admin_MainWindow", "Student"))
 
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.account_tab),
                                    _translate("admin_MainWindow", "Account Management"))

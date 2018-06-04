@@ -53,12 +53,20 @@ class Student(User):
             return None
 
     @staticmethod
-    def read_students(school):
+    def read_students(school, department, class_name, student_id, student_name):
         Database.initialize()
 
-        sql = "SELECT * FROM students WHERE school = %s"
-        users_data = Database.query(sql, school)
+        sql = f"SELECT * FROM students WHERE school = '{school}'"
+        if department:
+            sql += f" and department = '{department}'"
+        if class_name:
+            sql += f" and class = '{class_name}'"
+        if student_id:
+            sql += f" and user_id = '{student_id}'"
+        if student_name:
+            sql += f" and name = '{student_name}'"
 
+        users_data = Database.query(sql)
         Database.close()
 
         if users_data:
@@ -70,7 +78,6 @@ class Student(User):
                     user_data[5] = str(birthday)
 
                 user_data = user_data[1:]
-                print(user_data)
                 yield user_data
 
     @staticmethod
