@@ -161,7 +161,7 @@ margin-right: 10px;</string>
                </widget>
               </item>
               <item>
-               <widget class="QComboBox" name="comboBox_8">
+               <widget class="QComboBox" name="course_year_comboBox">
                 <property name="enabled">
                  <bool>true</bool>
                 </property>
@@ -191,7 +191,7 @@ margin-right: 10px;</string>
                </widget>
               </item>
               <item>
-               <widget class="QComboBox" name="comboBox_9">
+               <widget class="QComboBox" name="course_semester_comboBox">
                 <property name="enabled">
                  <bool>true</bool>
                 </property>
@@ -211,9 +211,50 @@ margin-right: 10px;</string>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="pushButton_6">
+               <widget class="QLabel" name="label">
+                <property name="styleSheet">
+                 <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
+                </property>
                 <property name="text">
-                 <string>Show Courses</string>
+                 <string>My Courses:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="course_name_comboBox">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>Java</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>C++ GUI Programming</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Data Structures and Algorithms</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="course_query_button">
+                <property name="styleSheet">
+                 <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
+                </property>
+                <property name="text">
+                 <string>Query</string>
                 </property>
                </widget>
               </item>
@@ -240,76 +281,11 @@ margin-right: 10px;</string>
              </widget>
             </item>
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_2">
-              <item>
-               <widget class="QLabel" name="label">
-                <property name="styleSheet">
-                 <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
-                </property>
-                <property name="text">
-                 <string>My Courses:</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QComboBox" name="comboBox">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <item>
-                 <property name="text">
-                  <string>Java</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>C++ GUI Programming</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Data Structures and Algorithms</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_4">
-                <property name="styleSheet">
-                 <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
-                </property>
-                <property name="text">
-                 <string>Show Course Details</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_2">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::MinimumExpanding</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </item>
-            <item>
              <layout class="QGridLayout" name="gridLayout_2">
               <item row="0" column="0">
-               <widget class="QLabel" name="label_2">
+               <widget class="QLabel" name="course_id_label">
                 <property name="styleSheet">
-                 <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
+                 <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
                 </property>
                 <property name="text">
                  <string>Course ID: 666</string>
@@ -324,9 +300,9 @@ margin-right: 10px;</string>
                </widget>
               </item>
               <item row="0" column="2">
-               <widget class="QLabel" name="label_11">
+               <widget class="QLabel" name="teacher_label">
                 <property name="styleSheet">
-                 <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
+                 <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
                 </property>
                 <property name="text">
                  <string>Teacher Name: zf</string>
@@ -341,9 +317,9 @@ margin-right: 10px;</string>
                </widget>
               </item>
               <item row="0" column="4">
-               <widget class="QLabel" name="label_12">
+               <widget class="QLabel" name="class_time_label">
                 <property name="styleSheet">
-                 <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
+                 <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
                 </property>
                 <property name="text">
                  <string>Class Time: Monday 8:10-9:45</string>
@@ -365,16 +341,19 @@ margin-right: 10px;</string>
                </widget>
               </item>
               <item row="2" column="4" rowspan="2">
-               <widget class="QLabel" name="label_14">
+               <widget class="QLabel" name="school_label">
+                <property name="styleSheet">
+                 <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
+                </property>
                 <property name="text">
-                 <string>开课学院: shit</string>
+                 <string>School: shit</string>
                 </property>
                </widget>
               </item>
               <item row="3" column="0" colspan="3">
-               <widget class="QLabel" name="label_13">
+               <widget class="QLabel" name="location_label">
                 <property name="styleSheet">
-                 <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
+                 <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
                 </property>
                 <property name="text">
                  <string>Location: fuck</string>
@@ -391,7 +370,7 @@ margin-right: 10px;</string>
              </layout>
             </item>
             <item>
-             <widget class="QTableWidget" name="tableWidget">
+             <widget class="QTableWidget" name="course_tableWidget">
               <property name="styleSheet">
                <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
               </property>
@@ -425,6 +404,11 @@ margin-right: 10px;</string>
                 <string>Phone Number</string>
                </property>
               </column>
+              <column>
+               <property name="text">
+                <string>Grade</string>
+               </property>
+              </column>
               <item row="0" column="0">
                <property name="text">
                 <string>Bob</string>
@@ -453,96 +437,19 @@ margin-right: 10px;</string>
              </widget>
             </item>
             <item alignment="Qt::AlignHCenter">
-             <widget class="QPushButton" name="pushButton_3">
+             <widget class="QPushButton" name="confirm_grade_button">
               <property name="styleSheet">
-               <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
+               <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
               </property>
               <property name="text">
-               <string>Print Info of The Current Course</string>
+               <string>Confirm Grades</string>
               </property>
              </widget>
             </item>
-           </layout>
-          </widget>
-          <widget class="QWidget" name="grades_tab">
-           <attribute name="title">
-            <string>Grades Query</string>
-           </attribute>
-           <layout class="QVBoxLayout" name="verticalLayout_5">
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_9">
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
               <item>
-               <widget class="QLabel" name="label_23">
-                <property name="styleSheet">
-                 <string notr="true">font: 12pt &quot;Sans Serif&quot;;</string>
-                </property>
-                <property name="text">
-                 <string>Year:</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QComboBox" name="comboBox_10">
-                <property name="enabled">
-                 <bool>true</bool>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
-                </property>
-                <item>
-                 <property name="text">
-                  <string>2015-2016</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>2016-2017</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_24">
-                <property name="styleSheet">
-                 <string notr="true">font: 12pt &quot;Sans Serif&quot;;</string>
-                </property>
-                <property name="text">
-                 <string>Semester:</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QComboBox" name="comboBox_11">
-                <property name="enabled">
-                 <bool>true</bool>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
-                </property>
-                <item>
-                 <property name="text">
-                  <string>1</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>2</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_7">
-                <property name="styleSheet">
-                 <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
-                </property>
-                <property name="text">
-                 <string>Show Courses</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_8">
+               <spacer name="horizontalSpacer_2">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
@@ -554,43 +461,46 @@ margin-right: 10px;</string>
                 </property>
                </spacer>
               </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_3">
               <item>
-               <widget class="QLabel" name="label_3">
+               <widget class="QPushButton" name="print_button">
+                <property name="minimumSize">
+                 <size>
+                  <width>130</width>
+                  <height>0</height>
+                 </size>
+                </property>
                 <property name="styleSheet">
-                 <string notr="true">font: 12pt &quot;Sans Serif&quot;;</string>
+                 <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
                 </property>
                 <property name="text">
-                 <string>My Courses:</string>
+                 <string>Print</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QComboBox" name="comboBox_2">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
+               <spacer name="horizontalSpacer_5">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
                 </property>
-                <item>
-                 <property name="text">
-                  <string>Java</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>C++ GUI Programming</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Data Structures and Algorithms</string>
-                 </property>
-                </item>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Minimum</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="grade_analysis_button">
+                <property name="styleSheet">
+                 <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
+                </property>
+                <property name="text">
+                 <string>Grades Analysis</string>
+                </property>
                </widget>
               </item>
               <item>
@@ -605,99 +515,6 @@ margin-right: 10px;</string>
                  </size>
                 </property>
                </spacer>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <widget class="QTableWidget" name="tableWidget_2">
-              <property name="styleSheet">
-               <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
-              </property>
-              <property name="sortingEnabled">
-               <bool>true</bool>
-              </property>
-              <row>
-               <property name="text">
-                <string>1</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>2</string>
-               </property>
-              </row>
-              <row>
-               <property name="text">
-                <string>3</string>
-               </property>
-              </row>
-              <column>
-               <property name="text">
-                <string>Name</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Student ID</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Class</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Grade</string>
-               </property>
-              </column>
-              <item row="0" column="0">
-               <property name="text">
-                <string>A</string>
-               </property>
-              </item>
-              <item row="0" column="3">
-               <property name="text">
-                <string>12</string>
-               </property>
-              </item>
-              <item row="1" column="0">
-               <property name="text">
-                <string>B</string>
-               </property>
-              </item>
-              <item row="1" column="3">
-               <property name="text">
-                <string>45</string>
-               </property>
-              </item>
-              <item row="2" column="0">
-               <property name="text">
-                <string>C</string>
-               </property>
-              </item>
-              <item row="2" column="3">
-               <property name="text">
-                <string>34</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_7">
-              <item alignment="Qt::AlignHCenter">
-               <widget class="QPushButton" name="pushButton_2">
-                <property name="text">
-                 <string>Save My Grades to Local</string>
-                </property>
-               </widget>
-              </item>
-              <item alignment="Qt::AlignHCenter">
-               <widget class="QPushButton" name="pushButton">
-                <property name="text">
-                 <string>Grade Data Analysis</string>
-                </property>
-               </widget>
               </item>
              </layout>
             </item>
@@ -1184,150 +1001,6 @@ margin-right: 10px;</string>
             </item>
            </layout>
           </widget>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="tab_2">
-       <attribute name="title">
-        <string>Set Grades</string>
-       </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_6">
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_5">
-          <item>
-           <widget class="QLabel" name="label_5">
-            <property name="styleSheet">
-             <string notr="true">font: 12pt &quot;Sans Serif&quot;;</string>
-            </property>
-            <property name="text">
-             <string>Your Courses:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="comboBox_4">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <item>
-             <property name="text">
-              <string>Java</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>C++ GUI Programming</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Data Structures and Algorithms</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_4">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="QTableWidget" name="tableWidget_3">
-          <property name="styleSheet">
-           <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
-          </property>
-          <property name="sortingEnabled">
-           <bool>true</bool>
-          </property>
-          <row>
-           <property name="text">
-            <string>1</string>
-           </property>
-          </row>
-          <row>
-           <property name="text">
-            <string>2</string>
-           </property>
-          </row>
-          <row>
-           <property name="text">
-            <string>3</string>
-           </property>
-          </row>
-          <column>
-           <property name="text">
-            <string>Name</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Student ID</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Class</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Grade</string>
-           </property>
-          </column>
-          <item row="0" column="0">
-           <property name="text">
-            <string>A</string>
-           </property>
-          </item>
-          <item row="0" column="3">
-           <property name="text">
-            <string>12</string>
-           </property>
-          </item>
-          <item row="1" column="0">
-           <property name="text">
-            <string>B</string>
-           </property>
-          </item>
-          <item row="1" column="3">
-           <property name="text">
-            <string>45</string>
-           </property>
-          </item>
-          <item row="2" column="0">
-           <property name="text">
-            <string>C</string>
-           </property>
-          </item>
-          <item row="2" column="3">
-           <property name="text">
-            <string>34</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-        <item alignment="Qt::AlignHCenter">
-         <widget class="QPushButton" name="pushButton_10">
-          <property name="styleSheet">
-           <string notr="true">font: 12pt &quot;Sans Serif&quot;;</string>
-          </property>
-          <property name="text">
-           <string>Confirm</string>
-          </property>
          </widget>
         </item>
        </layout>
