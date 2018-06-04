@@ -37,7 +37,7 @@ class User:
         self.school = school
         self.phone = phone
 
-        if p_id is None or p_id == '':
+        if p_id == 'foreigner':
             self.birth_place = birth_place
             self.birthday = None if birthday == '' else birthday
             self.gender = gender

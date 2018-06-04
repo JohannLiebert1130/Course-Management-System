@@ -262,13 +262,7 @@ class Ui_admin_MainWindow(object):
         self.teacher_query_button = QtWidgets.QPushButton('Query', self.teacher_tab)
         self.teacher_query_button.setStyleSheet("font: 12pt \"Sans Serif\";")
 
-        self.teacher_query_button.clicked.connect(
-            lambda: self.init_table(table=self.teacher_tableWidget,
-                                    type_str='teacher',
-                                    data=Teacher.read_teachers(self.admin_MainWindow.user.school),
-                                    school_pos=8
-                                    )
-        )
+        self.teacher_query_button.clicked.connect(self.init_teacher_table)
         self.horizontalLayout_6.addWidget(self.teacher_query_button)
 
         self.label_4 = QtWidgets.QLabel(self.teacher_tab)
@@ -530,7 +524,6 @@ class Ui_admin_MainWindow(object):
 
     def init_course_talbe(self):
         self.course_tableWidget.setRowCount(1)
-        print('course_id', self.course_id_lineEdit.text())
 
         text = self.course_id_lineEdit.text()
         course_id = text if text and text != '' else None
@@ -539,14 +532,29 @@ class Ui_admin_MainWindow(object):
         text = self.teacher_lineEdit.text()
         teacher = text if text and text != '' else None
 
-        print(course_id, course_name, teacher)
         courses_data = Course.read_courses(self.admin_MainWindow.user.school,
                                            course_id, course_name, teacher)
 
         self.init_table(self.course_tableWidget, 'course', courses_data, 2)
 
+    def init_teacher_table(self):
+        self.teacher_tableWidget.setRowCount(1)
+
+        text = self.teacher_id_lineEdit.text()
+        teacher_id = text if text and text != '' else None
+        text = self.teacher_name_lineEdit.text()
+        teacher_name = text if text and text != '' else None
+        text = self.position_lineEdit.text()
+        position = text if text and text != '' else None
+
+        teacher_data = Teacher.read_teachers(self.admin_MainWindow.user.school,
+                                             teacher_id, teacher_name, position)
+
+        self.init_table(self.teacher_tableWidget, 'teacher', teacher_data, 8)
+
     def init_table(self, table, type_str, data, school_pos):
         for entity in data:
+            print(entity)
             last_row = table.rowCount() - 1
             for i in range(table.columnCount() - 2):
                 if entity[i]:
@@ -639,6 +647,7 @@ class Ui_admin_MainWindow(object):
 
         try:
             Database.initialize()
+            print('creating...:data', data)
             create_func(*data)
             Database.close()
         except Exception as error:

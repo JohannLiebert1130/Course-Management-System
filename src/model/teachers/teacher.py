@@ -1,3 +1,5 @@
+import re
+
 import pymysql
 
 from src.common.database import Database
@@ -14,16 +16,25 @@ class Teacher(User):
     @staticmethod
     def create_teacher(user_id, name, p_id=None, gender=None, birthday=None, birth_place=None,
                        folk=None, political_status=None, school=None, position=None, phone=None):
+        if re.compile('\d{18}$').match(p_id):
+            sql = """
+                  SELECT * FROM teachers
+                  WHERE user_id = %s or p_id = %s
+                """
+            user_data = Database.query(sql, user_id, p_id)
+        elif p_id == 'foreigner':
+            sql = """
+                  SELECT * FROM teachers
+                  WHERE user_id = %s
+                """
+            user_data = Database.query(sql, user_id)
+        else:
+            raise ValueError('Invalid official ID.')
 
-        sql = """
-              SELECT * FROM teachers
-              WHERE user_id = %s or p_id = %s
-            """
-        user_data = Database.query(sql, user_id, p_id)
         print('user data', user_data)
         if user_data:
             # Tell user they are already registered
-            raise ValueError('The user_id or Official ID you used to register already exists.')
+            raise ValueError('The user already exists.')
         try:
             Teacher(user_id, name, p_id, gender, birthday, birth_place, folk,
                     political_status, school, position, phone).save_to_db()
@@ -51,24 +62,31 @@ class Teacher(User):
             return None
 
     @staticmethod
-    def read_teachers(school):
+    def read_teachers(school, teacher_id, teacher_name, position):
         Database.initialize()
 
-        sql = "SELECT * FROM teachers WHERE school = %s"
-        users_data = Database.query(sql, school)
+        sql = f"SELECT * FROM teachers WHERE school = '{school}'"
+        if teacher_id:
+            sql += f" and user_id = '{teacher_id}'"
+        if teacher_name:
+            sql += f" and name = '{teacher_name}'"
+        if position:
+            sql += f" and position = '{position}'"
 
+        print(sql)
+        teachers_data = Database.query(sql)
         Database.close()
 
-        if users_data:
-            for user_data in users_data:
-                user_data = list(user_data)
+        if teachers_data:
+            for teacher_data in teachers_data:
+                teacher_data = list(teacher_data)
 
-                birthday = user_data[5]
+                birthday = teacher_data[5]
                 if birthday is not None:
-                    user_data[5] = str(birthday)
+                    teacher_data[5] = str(birthday)
 
-                user_data = user_data[1:]
-                yield user_data
+                teacher_data = teacher_data[1:]
+                yield teacher_data
 
     @staticmethod
     def modify_teacher(user_id, name, p_id=None, gender=None, birthday=None, birth_place=None,
