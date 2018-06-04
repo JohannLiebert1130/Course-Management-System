@@ -6,6 +6,7 @@
 #
 # WARNING! All changes made in this file will be lost!
 import datetime
+import re
 
 import pymysql
 from PyQt5 import QtCore, QtWidgets
@@ -122,7 +123,7 @@ class Ui_admin_MainWindow(object):
         self.teacher_lineEdit.setMaximumSize(QtCore.QSize(100, 16777215))
         self.horizontalLayout_2.addWidget(self.teacher_lineEdit)
 
-        self.course_query_button = QtWidgets.QPushButton(self.course_tab)
+        self.course_query_button = QtWidgets.QPushButton('Query', self.course_tab)
         self.course_query_button.setStyleSheet("font: 11pt \"Sans Serif\";")
 
         self.course_query_button.clicked.connect(
@@ -264,7 +265,7 @@ class Ui_admin_MainWindow(object):
         self.position_lineEdit.setObjectName("position_lineEdit")
         self.horizontalLayout_6.addWidget(self.position_lineEdit)
 
-        self.teacher_query_button = QtWidgets.QPushButton(self.teacher_tab)
+        self.teacher_query_button = QtWidgets.QPushButton('Query', self.teacher_tab)
         self.teacher_query_button.setStyleSheet("font: 12pt \"Sans Serif\";")
 
         self.teacher_query_button.clicked.connect(
@@ -358,7 +359,7 @@ class Ui_admin_MainWindow(object):
         self.student_name_lineEdit.setObjectName("student_name_lineEdit")
         self.horizontalLayout_9.addWidget(self.student_name_lineEdit)
 
-        self.student_query_button = QtWidgets.QPushButton(self.student_tab)
+        self.student_query_button = QtWidgets.QPushButton('Query', self.student_tab)
         self.student_query_button.setStyleSheet("font: 11pt \"Sans Serif\";")
 
         self.student_query_button.clicked.connect(
@@ -439,7 +440,7 @@ class Ui_admin_MainWindow(object):
         spacerItem10 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_8.addItem(spacerItem10)
 
-        self.grade_query_button = QtWidgets.QPushButton(self.grade_tab)
+        self.grade_query_button = QtWidgets.QPushButton('Query', self.grade_tab)
         self.grade_query_button.setStyleSheet("font: 11pt \"Sans Serif\";")
         self.grade_query_button.setObjectName("grade_query_button")
         self.horizontalLayout_8.addWidget(self.grade_query_button)
@@ -498,7 +499,7 @@ class Ui_admin_MainWindow(object):
         spacerItem15 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_11.addItem(spacerItem15)
 
-        self.account_query_button = QtWidgets.QPushButton(self.account_tab)
+        self.account_query_button = QtWidgets.QPushButton('Query', self.account_tab)
         self.account_query_button.setStyleSheet("font: 11pt \"Sans Serif\";")
 
         self.account_query_button.clicked.connect(
@@ -600,7 +601,6 @@ class Ui_admin_MainWindow(object):
 
         try:
             Database.initialize()
-            print('creating...data:', data)
             create_func(*data)
             Database.close()
         except Exception as error:
@@ -619,12 +619,13 @@ class Ui_admin_MainWindow(object):
         table.insertRow(row_count - 1)
 
         for i in range(table.columnCount() - 2):
-            text = table.item(row_count, i).text()
-            if text and text != '':
-                item = QtWidgets.QTableWidgetItem(text)
-                if i == school_pos:
-                    item.setFlags(QtCore.Qt.ItemIsEditable)
-                table.setItem(row_count - 1, i, item)
+            if table.item(row_count, i):
+                text = table.item(row_count, i).text()
+                if not re.compile('\s*$').match(text):
+                    item = QtWidgets.QTableWidgetItem(text)
+                    if i == school_pos:
+                        item.setFlags(QtCore.Qt.ItemIsEditable)
+                    table.setItem(row_count - 1, i, item)
 
             table.setItem(row_count, i, None)
 
@@ -776,7 +777,6 @@ class Ui_admin_MainWindow(object):
         self.course_id_lineEdit.setPlaceholderText(_translate("admin_MainWindow", "Course ID"))
         self.course_name_lineEdit.setPlaceholderText(_translate("admin_MainWindow", "Course Name"))
         self.teacher_lineEdit.setPlaceholderText(_translate("admin_MainWindow", "Teacher"))
-        self.course_query_button.setText(_translate("admin_MainWindow", "Query"))
 
         self.print_course_button.setText(_translate("admin_MainWindow", "Print"))
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.course_tab),
@@ -806,7 +806,6 @@ class Ui_admin_MainWindow(object):
         self.teacher_id_lineEdit.setPlaceholderText(_translate("admin_MainWindow", "Teacher ID"))
         self.teacher_name_lineEdit.setPlaceholderText(_translate("admin_MainWindow", "Teacher Name"))
         self.position_lineEdit.setPlaceholderText(_translate("admin_MainWindow", "Position"))
-        self.teacher_query_button.setText(_translate("admin_MainWindow", "Qeury"))
         self.label_4.setText(_translate("admin_MainWindow", "留空则不以其为关键词进行查询"))
 
         __sortingEnabled = self.teacher_tableWidget.isSortingEnabled()
@@ -822,7 +821,6 @@ class Ui_admin_MainWindow(object):
         self.class_lineEdit.setPlaceholderText(_translate("admin_MainWindow", "Class"))
         self.student_id_lineEdit.setPlaceholderText(_translate("admin_MainWindow", "Student ID"))
         self.student_name_lineEdit.setPlaceholderText(_translate("admin_MainWindow", "Student Name"))
-        self.student_query_button.setText(_translate("admin_MainWindow", "Query"))
         self.label_7.setText(_translate("admin_MainWindow", "留空则不以其为关键词进行查询"))
 
         self.student_print_button.setText(_translate("admin_MainWindow", "Print"))
@@ -832,7 +830,6 @@ class Ui_admin_MainWindow(object):
         self.label_2.setText(_translate("admin_MainWindow", "Query Grades By:"))
         self.grade_comboBox.setItemText(0, _translate("admin_MainWindow", "Course ID"))
         self.grade_comboBox.setItemText(1, _translate("admin_MainWindow", "Student ID"))
-        self.grade_query_button.setText(_translate("admin_MainWindow", "Query"))
         item = self.grade_tableWidget.horizontalHeaderItem(0)
         item.setText(_translate("admin_MainWindow", "Student Name"))
         item = self.grade_tableWidget.horizontalHeaderItem(1)
@@ -849,7 +846,6 @@ class Ui_admin_MainWindow(object):
         self.account_type_comboBox.setItemText(0, _translate("admin_MainWindow", "Admin"))
         self.account_type_comboBox.setItemText(1, _translate("admin_MainWindow", "Teacher"))
         self.account_type_comboBox.setItemText(2, _translate("admin_MainWindow", "Student"))
-        self.account_query_button.setText(_translate("admin_MainWindow", "Query"))
 
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.account_tab),
                                    _translate("admin_MainWindow", "Account Management"))
