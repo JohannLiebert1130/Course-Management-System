@@ -484,13 +484,7 @@ class Ui_admin_MainWindow(object):
         self.account_query_button = QtWidgets.QPushButton('Query', self.account_tab)
         self.account_query_button.setStyleSheet("font: 11pt \"Sans Serif\";")
 
-        self.account_query_button.clicked.connect(
-            lambda: self.init_table(table=self.account_tableWidget,
-                                    type_str='account',
-                                    data=Account.read_accounts(self.admin_MainWindow.user.school),
-                                    school_pos=3
-                                    )
-        )
+        self.account_query_button.clicked.connect(self.init_account_table)
         self.horizontalLayout_11.addWidget(self.account_query_button)
 
         spacerItem16 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -562,7 +556,25 @@ class Ui_admin_MainWindow(object):
                                               department, class_name, student_id, student_name)
         self.init_table(self.student_tableWidget, 'student', students_data, 8)
 
+    def init_account_table(self):
+        self.account_tableWidget.setRowCount(1)
 
+        account_type = self.account_type_comboBox.currentText()
+        print(account_type)
+        if account_type == ' ':
+            account_type = None
+        elif account_type == 'Admin':
+            account_type = 0
+        elif account_type == 'Teacher':
+            account_type = 1
+        elif account_type == 'Student':
+            account_type = 2
+        else:
+            raise ValueError('Unknown account type!')
+
+        accounts_data = Account.read_accounts(self.admin_MainWindow.user.school, account_type)
+
+        self.init_table(self.account_tableWidget, 'account', accounts_data, 3)
 
     def init_table(self, table, type_str, data, school_pos):
         for entity in data:

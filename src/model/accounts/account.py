@@ -109,11 +109,14 @@ class Account:
             return None
 
     @staticmethod
-    def read_accounts(school):
+    def read_accounts(school, account_type):
         Database.initialize()
 
-        sql = "SELECT * FROM accounts WHERE school = %s"
-        accounts_data = Database.query(sql, school)
+        sql = f"SELECT * FROM accounts WHERE school='{school}'"
+        if account_type is not None:
+            sql += f" and user_type = {account_type}"
+        print(sql)
+        accounts_data = Database.query(sql)
 
         Database.close()
 
