@@ -126,13 +126,7 @@ class Ui_admin_MainWindow(object):
         self.course_query_button = QtWidgets.QPushButton('Query', self.course_tab)
         self.course_query_button.setStyleSheet("font: 11pt \"Sans Serif\";")
 
-        self.course_query_button.clicked.connect(
-            lambda: self.init_table(table=self.course_tableWidget,
-                                    type_str='course',
-                                    data=Course.read_courses(self.admin_MainWindow.user.school),
-                                    school_pos=2
-                                    )
-        )
+        self.course_query_button.clicked.connect(self.init_course_talbe)
 
         self.horizontalLayout_2.addWidget(self.course_query_button)
 
@@ -533,6 +527,46 @@ class Ui_admin_MainWindow(object):
         self.retranslateUi()
         self.tab_widget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(admin_MainWindow)
+
+    def init_course_talbe(self):
+        self.course_tableWidget.setRowCount(1)
+        print('course_id', self.course_id_lineEdit.text())
+
+        text = self.course_id_lineEdit.text()
+        course_id = text if text and text != '' else None
+        text = self.course_name_lineEdit.text()
+        course_name = text if text and text != '' else None
+        text = self.teacher_lineEdit.text()
+        teacher = text if text and text != '' else None
+
+        print(course_id, course_name, teacher)
+        courses_data = Course.read_courses(self.admin_MainWindow.user.school,
+                                           course_id, course_name, teacher)
+        for entity in courses_data:
+            last_row = self.course_tableWidget.rowCount() - 1
+            for i in range(self.course_tableWidget.columnCount() - 2):
+                if entity[i]:
+                    item = QtWidgets.QTableWidgetItem(str(entity[i]))
+                    if i == 2:
+                        item.setFlags(QtCore.Qt.ItemIsEditable)
+                    self.course_tableWidget.setItem(last_row, i, item)
+
+            modify_button = QtWidgets.QPushButton("Modify")
+            delete_button = QtWidgets.QPushButton("Delete")
+            modify_button.clicked.connect(lambda: self.modify('course'))
+            delete_button.clicked.connect(lambda: self.delete('course'))
+            self.course_tableWidget.setCellWidget(last_row, self.course_tableWidget.columnCount() - 2, modify_button)
+            self.course_tableWidget.setCellWidget(last_row, self.course_tableWidget.columnCount() - 1, delete_button)
+
+            self.course_tableWidget.insertRow(self.course_tableWidget.rowCount())
+
+        create_button = QtWidgets.QPushButton("Create")
+        create_button.clicked.connect(lambda: self.create('course'))
+        self.course_tableWidget.setCellWidget(self.course_tableWidget.rowCount() - 1, self.course_tableWidget.columnCount() - 2, create_button)
+
+        item = QtWidgets.QTableWidgetItem(self.admin_MainWindow.user.school)
+        item.setFlags(QtCore.Qt.ItemIsEditable)
+        self.course_tableWidget.setItem(self.course_tableWidget.rowCount() - 1, 2, item)
 
     def init_table(self, table, type_str, data, school_pos):
         table.setRowCount(1)
