@@ -10,6 +10,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 from src.common.utils import Utils
 from src.model.courses.course import Course
+from src.model.student_courses import get_students_data
 
 
 class Ui_teacher_MainWindow(object):
@@ -132,7 +133,7 @@ class Ui_teacher_MainWindow(object):
 
         self.course_query_button = QtWidgets.QPushButton('Query', self.courses_tab)
         self.course_query_button.setStyleSheet("font: 11pt \"Sans Serif\";")
-        self.course_query_button.clicked.connect(self.init_course)
+        self.course_query_button.clicked.connect(self.init_course_tab)
         self.horizontalLayout_8.addWidget(self.course_query_button)
 
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -195,31 +196,11 @@ class Ui_teacher_MainWindow(object):
         self.course_tableWidget.setStyleSheet("font: 10pt \"Sans Serif\";")
         self.course_tableWidget.setObjectName("course_tableWidget")
         self.course_tableWidget.setColumnCount(6)
-        self.course_tableWidget.setRowCount(1)
-        item = QtWidgets.QTableWidgetItem()
-        self.course_tableWidget.setVerticalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.course_tableWidget.setHorizontalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.course_tableWidget.setHorizontalHeaderItem(1, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.course_tableWidget.setHorizontalHeaderItem(2, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.course_tableWidget.setHorizontalHeaderItem(3, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.course_tableWidget.setHorizontalHeaderItem(4, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.course_tableWidget.setHorizontalHeaderItem(5, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.course_tableWidget.setItem(0, 0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.course_tableWidget.setItem(0, 1, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.course_tableWidget.setItem(0, 2, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.course_tableWidget.setItem(0, 3, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.course_tableWidget.setItem(0, 4, item)
+
+
+        self.course_tableWidget.setHorizontalHeaderLabels(['Student Name', 'Student ID', 'School', 'Class',
+                                                           'Phone Number', 'Grade'])
+
         self.verticalLayout_3.addWidget(self.course_tableWidget)
         self.confirm_grade_button = QtWidgets.QPushButton(self.courses_tab)
         self.confirm_grade_button.setStyleSheet("font: 11pt \"Sans Serif\";")
@@ -489,7 +470,7 @@ class Ui_teacher_MainWindow(object):
         self.tabWidget_2.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(teacher_MainWindow)
 
-    def init_course(self):
+    def init_course_tab(self):
         course_name = self.course_name_comboBox.currentText()
         index = self.course_name_comboBox.currentIndex()
         course_info = Course.read_course(self.courses_id[index])
@@ -503,6 +484,21 @@ class Ui_teacher_MainWindow(object):
         self.teacher_label.setText('Teacher Name: '+course_info[5])
         self.class_time_label.setText('Class Time: '+course_info[6])
         self.location_label.setText('Location: '+course_info[7])
+
+        students_data = get_students_data(course_info[0])
+        self.init_course_table(students_data)
+
+    def init_course_table(self, students_data):
+        table = self.course_tableWidget
+        table.setRowCount(1)
+        for student_data in students_data:
+            last_row = table.rowCount() - 1
+            for i in range(table.columnCount() - 1):
+                if student_data[i]:
+                    item = QtWidgets.QTableWidgetItem(str(student_data[i]))
+                    table.setItem(last_row, i, item)
+
+            table.insertRow(table.rowCount())
 
     def retranslateUi(self, teacher_MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -520,32 +516,10 @@ class Ui_teacher_MainWindow(object):
         self.class_time_label.setText(_translate("teacher_MainWindow", "Class Time: Monday 8:10-9:45"))
         self.school_label.setText(_translate("teacher_MainWindow", "School: shit"))
         self.location_label.setText(_translate("teacher_MainWindow", "Location: fuck"))
-        item = self.course_tableWidget.verticalHeaderItem(0)
-        item.setText(_translate("teacher_MainWindow", "1"))
-        item = self.course_tableWidget.horizontalHeaderItem(0)
-        item.setText(_translate("teacher_MainWindow", "Student Name"))
-        item = self.course_tableWidget.horizontalHeaderItem(1)
-        item.setText(_translate("teacher_MainWindow", "Student ID"))
-        item = self.course_tableWidget.horizontalHeaderItem(2)
-        item.setText(_translate("teacher_MainWindow", "School"))
-        item = self.course_tableWidget.horizontalHeaderItem(3)
-        item.setText(_translate("teacher_MainWindow", "Classs"))
-        item = self.course_tableWidget.horizontalHeaderItem(4)
-        item.setText(_translate("teacher_MainWindow", "Phone Number"))
-        item = self.course_tableWidget.horizontalHeaderItem(5)
-        item.setText(_translate("teacher_MainWindow", "Grade"))
+
         __sortingEnabled = self.course_tableWidget.isSortingEnabled()
         self.course_tableWidget.setSortingEnabled(False)
-        item = self.course_tableWidget.item(0, 0)
-        item.setText(_translate("teacher_MainWindow", "Bob"))
-        item = self.course_tableWidget.item(0, 1)
-        item.setText(_translate("teacher_MainWindow", "201123415"))
-        item = self.course_tableWidget.item(0, 2)
-        item.setText(_translate("teacher_MainWindow", "Information"))
-        item = self.course_tableWidget.item(0, 3)
-        item.setText(_translate("teacher_MainWindow", "   CS15(1)"))
-        item = self.course_tableWidget.item(0, 4)
-        item.setText(_translate("teacher_MainWindow", "66666666"))
+
         self.course_tableWidget.setSortingEnabled(__sortingEnabled)
         self.confirm_grade_button.setText(_translate("teacher_MainWindow", "Confirm Grades"))
         self.print_button.setText(_translate("teacher_MainWindow", "Print"))
