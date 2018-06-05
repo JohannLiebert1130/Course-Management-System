@@ -33,24 +33,24 @@ class Student(User):
             raise error
 
     @staticmethod
-    def read_student(user_id):
+    def read_student(student_key):
         sql = """
                   SELECT * FROM students
-                  WHERE user_id = %s
+                  WHERE id = %s
                 """
 
-        user_data = Database.query(sql, user_id)
+        user_data = Database.query(sql, student_key)
 
         if user_data:
             user_data = list(user_data[0])
             user_data[6] = str(user_data[6])
 
-            user_data = user_data[1:]
-
-            return Student(*user_data)
+            return user_data
         else:
             print("user do not exist!")
             return None
+
+
 
     @staticmethod
     def read_students(school, department, class_name, student_id, student_name):
