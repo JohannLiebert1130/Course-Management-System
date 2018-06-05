@@ -1,4 +1,5 @@
 import datetime
+import re
 
 from passlib.hash import pbkdf2_sha512
 
@@ -23,7 +24,6 @@ class Utils(object):
         :param hashed_password: pbkdf2_sha512 encrypted password
         :return: true if passwords match, false otherwise
         """
-        print(password + user_id)
         return pbkdf2_sha512.verify(password + user_id, hashed_password)
 
     @staticmethod
@@ -51,8 +51,14 @@ class Utils(object):
         for i in range(count + 1):
             yield f'{2010+i}-{2010+i+1}'
 
+    @staticmethod
+    def check_whitespace(str):
+        pattern = re.compile(r'\s*$')
+        return pattern.match(str)
+
 
 if __name__ == '__main__':
     hashed_pw = Utils.hash_password('fuck', 'shit')
     print(len(hashed_pw))
     print(Utils.check_hashed_password('fuck', 'shit', hashed_pw))
+    print(Utils.check_whitespace(' a'))
