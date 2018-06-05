@@ -21,6 +21,7 @@ def get_students_data(course_key):
         student_data.append(temp[9])
         student_data.append(temp[11])
         student_data.append(temp[12])
+        student_data.append(row[3])
         students_data.append(student_data)
 
     return students_data
