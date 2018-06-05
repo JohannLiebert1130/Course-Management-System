@@ -8,18 +8,26 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+from src.common.utils import Utils
+from src.model.courses.course import Course
+
+
 class Ui_teacher_MainWindow(object):
     def setupUi(self, teacher_MainWindow):
-        teacher_MainWindow.setObjectName("teacher_MainWindow")
-        teacher_MainWindow.resize(1368, 768)
+        self.teacher_MainWindow = teacher_MainWindow
+        self.teacher_MainWindow.resize(1368, 768)
+        self.teacher_MainWindow.setWindowTitle("Course Management System")
+
+        self.school = self.teacher_MainWindow.user.school
+        self.teacher_id = self.teacher_MainWindow.user.user_id
+        self.teacher_name = self.teacher_MainWindow.user.name
+
         self.centralwidget = QtWidgets.QWidget(teacher_MainWindow)
-        self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
-        self.verticalLayout.setObjectName("verticalLayout")
         self.horizontalLayout = QtWidgets.QHBoxLayout()
-        self.horizontalLayout.setObjectName("horizontalLayout")
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
+
         self.user_top_label = QtWidgets.QLabel(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -27,8 +35,9 @@ class Ui_teacher_MainWindow(object):
         sizePolicy.setHeightForWidth(self.user_top_label.sizePolicy().hasHeightForWidth())
         self.user_top_label.setSizePolicy(sizePolicy)
         self.user_top_label.setStyleSheet("font: 10pt \"Sans Serif\";")
-        self.user_top_label.setObjectName("user_top_label")
+        self.user_top_label.setText(f'Welcome, {self.teacher_id} {self.teacher_name}')
         self.horizontalLayout.addWidget(self.user_top_label)
+
         self.logout_button = QtWidgets.QCommandLinkButton(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -36,7 +45,6 @@ class Ui_teacher_MainWindow(object):
         sizePolicy.setHeightForWidth(self.logout_button.sizePolicy().hasHeightForWidth())
         self.logout_button.setSizePolicy(sizePolicy)
         self.logout_button.setMaximumSize(QtCore.QSize(85, 16777215))
-        self.logout_button.setStyleSheet("")
         self.logout_button.setIconSize(QtCore.QSize(20, 20))
         self.logout_button.setObjectName("logout_button")
         self.horizontalLayout.addWidget(self.logout_button)
@@ -50,6 +58,7 @@ class Ui_teacher_MainWindow(object):
         self.home_tab.setObjectName("home_tab")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.home_tab)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
+
         self.welcome_label = QtWidgets.QLabel(self.home_tab)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -57,13 +66,14 @@ class Ui_teacher_MainWindow(object):
         sizePolicy.setHeightForWidth(self.welcome_label.sizePolicy().hasHeightForWidth())
         self.welcome_label.setSizePolicy(sizePolicy)
         self.welcome_label.setStyleSheet("font: 14pt \"Sans Serif\";")
-        self.welcome_label.setObjectName("welcome_label")
-        self.verticalLayout_2.addWidget(self.welcome_label, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
+        self.welcome_label.setText(f'Welcome, {self.teacher_id} {self.teacher_name}')
+        self.verticalLayout_2.addWidget(self.welcome_label, 0, QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+
         self.last_login_label = QtWidgets.QLabel(self.home_tab)
         self.last_login_label.setStyleSheet("font: 12pt \"Sans Serif\";\n"
-"margin-right: 10px;")
+                                            "margin-right: 10px;")
         self.last_login_label.setObjectName("last_login_label")
-        self.verticalLayout_2.addWidget(self.last_login_label, 0, QtCore.Qt.AlignRight|QtCore.Qt.AlignBottom)
+        self.verticalLayout_2.addWidget(self.last_login_label, 0, QtCore.Qt.AlignRight | QtCore.Qt.AlignBottom)
         self.tabWidget.addTab(self.home_tab, "")
         self.query_tab = QtWidgets.QWidget()
         self.query_tab.setObjectName("query_tab")
@@ -83,44 +93,48 @@ class Ui_teacher_MainWindow(object):
         self.label_21.setStyleSheet("font: 12pt \"Sans Serif\";")
         self.label_21.setObjectName("label_21")
         self.horizontalLayout_8.addWidget(self.label_21)
+
         self.course_year_comboBox = QtWidgets.QComboBox(self.courses_tab)
         self.course_year_comboBox.setEnabled(True)
         self.course_year_comboBox.setStyleSheet("font: 11pt \"Sans Serif\";")
-        self.course_year_comboBox.setObjectName("course_year_comboBox")
-        self.course_year_comboBox.addItem("")
-        self.course_year_comboBox.addItem("")
+        years = Utils.create_year_generator()
+        for year in years:
+            self.course_year_comboBox.addItem(year)
         self.horizontalLayout_8.addWidget(self.course_year_comboBox)
+
         self.label_22 = QtWidgets.QLabel(self.courses_tab)
         self.label_22.setStyleSheet("font: 12pt \"Sans Serif\";")
         self.label_22.setObjectName("label_22")
         self.horizontalLayout_8.addWidget(self.label_22)
+
         self.course_semester_comboBox = QtWidgets.QComboBox(self.courses_tab)
         self.course_semester_comboBox.setEnabled(True)
         self.course_semester_comboBox.setStyleSheet("font: 11pt \"Sans Serif\";")
-        self.course_semester_comboBox.setObjectName("course_semester_comboBox")
         self.course_semester_comboBox.addItem("")
-        self.course_semester_comboBox.addItem("")
+        self.course_semester_comboBox.addItem("1")
+        self.course_semester_comboBox.addItem("2")
         self.horizontalLayout_8.addWidget(self.course_semester_comboBox)
+
         self.label = QtWidgets.QLabel(self.courses_tab)
         self.label.setStyleSheet("font: 11pt \"Sans Serif\";")
         self.label.setObjectName("label")
         self.horizontalLayout_8.addWidget(self.label)
         self.course_name_comboBox = QtWidgets.QComboBox(self.courses_tab)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.course_name_comboBox.sizePolicy().hasHeightForWidth())
-        self.course_name_comboBox.setSizePolicy(sizePolicy)
         self.course_name_comboBox.setStyleSheet("font: 11pt \"Sans Serif\";")
-        self.course_name_comboBox.setObjectName("course_name_comboBox")
-        self.course_name_comboBox.addItem("")
-        self.course_name_comboBox.addItem("")
-        self.course_name_comboBox.addItem("")
+
+        courses_data = Course.read_courses(self.school, teacher_id=self.teacher_id)
+        self.courses_id = list()
+        for course_data in courses_data:
+            self.course_name_comboBox.addItem(course_data[1])
+            self.courses_id.append(course_data[0])
+
         self.horizontalLayout_8.addWidget(self.course_name_comboBox)
-        self.course_query_button = QtWidgets.QPushButton(self.courses_tab)
+
+        self.course_query_button = QtWidgets.QPushButton('Query', self.courses_tab)
         self.course_query_button.setStyleSheet("font: 11pt \"Sans Serif\";")
-        self.course_query_button.setObjectName("course_query_button")
+        self.course_query_button.clicked.connect(self.init_course)
         self.horizontalLayout_8.addWidget(self.course_query_button)
+
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_8.addItem(spacerItem1)
         self.verticalLayout_3.addLayout(self.horizontalLayout_8)
@@ -475,25 +489,32 @@ class Ui_teacher_MainWindow(object):
         self.tabWidget_2.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(teacher_MainWindow)
 
+    def init_course(self):
+        course_name = self.course_name_comboBox.currentText()
+        index = self.course_name_comboBox.currentIndex()
+        course_info = Course.read_course(self.courses_id[index])
+
+        for i in range(len(course_info)):
+            if not course_info[i]:
+                course_info[i] = ''
+        print(course_info)
+        self.course_id_label.setText('Course ID: '+course_info[1])
+        self.school_label.setText('School: '+course_info[3])
+        self.teacher_label.setText('Teacher Name: '+course_info[5])
+        self.class_time_label.setText('Class Time: '+course_info[6])
+        self.location_label.setText('Location: '+course_info[7])
+
     def retranslateUi(self, teacher_MainWindow):
         _translate = QtCore.QCoreApplication.translate
         teacher_MainWindow.setWindowTitle(_translate("teacher_MainWindow", "Course Management System"))
-        self.user_top_label.setText(_translate("teacher_MainWindow", "2015329620057 HP."))
         self.logout_button.setText(_translate("teacher_MainWindow", "Logout"))
-        self.welcome_label.setText(_translate("teacher_MainWindow", "Welcome, 20031111 HP"))
         self.last_login_label.setText(_translate("teacher_MainWindow", "Last login: 2018-XX-XX 12:00 Location"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.home_tab), _translate("teacher_MainWindow", "Home"))
         self.label_21.setText(_translate("teacher_MainWindow", "Year:"))
-        self.course_year_comboBox.setItemText(0, _translate("teacher_MainWindow", "2015-2016"))
-        self.course_year_comboBox.setItemText(1, _translate("teacher_MainWindow", "2016-2017"))
+
         self.label_22.setText(_translate("teacher_MainWindow", "Semester:"))
-        self.course_semester_comboBox.setItemText(0, _translate("teacher_MainWindow", "1"))
-        self.course_semester_comboBox.setItemText(1, _translate("teacher_MainWindow", "2"))
         self.label.setText(_translate("teacher_MainWindow", "My Courses:"))
-        self.course_name_comboBox.setItemText(0, _translate("teacher_MainWindow", "Java"))
-        self.course_name_comboBox.setItemText(1, _translate("teacher_MainWindow", "C++ GUI Programming"))
-        self.course_name_comboBox.setItemText(2, _translate("teacher_MainWindow", "Data Structures and Algorithms"))
-        self.course_query_button.setText(_translate("teacher_MainWindow", "Query"))
+
         self.course_id_label.setText(_translate("teacher_MainWindow", "Course ID: 666"))
         self.teacher_label.setText(_translate("teacher_MainWindow", "Teacher Name: zf"))
         self.class_time_label.setText(_translate("teacher_MainWindow", "Class Time: Monday 8:10-9:45"))
@@ -529,7 +550,8 @@ class Ui_teacher_MainWindow(object):
         self.confirm_grade_button.setText(_translate("teacher_MainWindow", "Confirm Grades"))
         self.print_button.setText(_translate("teacher_MainWindow", "Print"))
         self.grade_analysis_button.setText(_translate("teacher_MainWindow", "Grades Analysis"))
-        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.courses_tab), _translate("teacher_MainWindow", "My Courses"))
+        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.courses_tab),
+                                    _translate("teacher_MainWindow", "My Courses"))
         self.label_18.setText(_translate("teacher_MainWindow", "Year:"))
         self.comboBox_6.setItemText(0, _translate("teacher_MainWindow", "2015-2016"))
         self.comboBox_6.setItemText(1, _translate("teacher_MainWindow", "2016-2017"))
@@ -545,7 +567,8 @@ class Ui_teacher_MainWindow(object):
         item.setText(_translate("teacher_MainWindow", "Exam TIme"))
         item = self.tableWidget_4.horizontalHeaderItem(3)
         item.setText(_translate("teacher_MainWindow", "Exam Location"))
-        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.exam_tab), _translate("teacher_MainWindow", "Exam Query"))
+        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.exam_tab),
+                                    _translate("teacher_MainWindow", "Exam Query"))
         self.label_25.setText(_translate("teacher_MainWindow", "Year:"))
         self.comboBox_12.setItemText(0, _translate("teacher_MainWindow", "2015-2016"))
         self.comboBox_12.setItemText(1, _translate("teacher_MainWindow", "2016-2017"))
@@ -572,7 +595,8 @@ class Ui_teacher_MainWindow(object):
         item.setText(_translate("teacher_MainWindow", "88"))
         self.tableWidget_6.setSortingEnabled(__sortingEnabled)
         self.pushButton_9.setText(_translate("teacher_MainWindow", "Data Analysis"))
-        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab), _translate("teacher_MainWindow", " My Courses Evaluation"))
+        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab),
+                                    _translate("teacher_MainWindow", " My Courses Evaluation"))
         item = self.tableWidget_5.verticalHeaderItem(0)
         item.setText(_translate("teacher_MainWindow", "New Row"))
         item = self.tableWidget_5.verticalHeaderItem(1)
@@ -620,21 +644,24 @@ class Ui_teacher_MainWindow(object):
         item = self.tableWidget_5.item(6, 0)
         item.setText(_translate("teacher_MainWindow", "Political Status:"))
         self.tableWidget_5.setSortingEnabled(__sortingEnabled)
-        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.personal_info_tab), _translate("teacher_MainWindow", "Personal Information"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.query_tab), _translate("teacher_MainWindow", "Information Query"))
+        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.personal_info_tab),
+                                    _translate("teacher_MainWindow", "Personal Information"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.query_tab),
+                                  _translate("teacher_MainWindow", "Information Query"))
         self.old_password_line_edit.setPlaceholderText(_translate("teacher_MainWindow", "Old Password"))
         self.new_password_line_edit.setPlaceholderText(_translate("teacher_MainWindow", "New Password"))
         self.confirm_password_line_edit.setPlaceholderText(_translate("teacher_MainWindow", "Confirm Password"))
         self.change_password_button.setText(_translate("teacher_MainWindow", "Change"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.change_pw_tab), _translate("teacher_MainWindow", "Change Password"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.change_pw_tab),
+                                  _translate("teacher_MainWindow", "Change Password"))
 
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     teacher_MainWindow = QtWidgets.QMainWindow()
     ui = Ui_teacher_MainWindow()
     ui.setupUi(teacher_MainWindow)
     teacher_MainWindow.show()
     sys.exit(app.exec_())
-
