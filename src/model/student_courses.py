@@ -1,3 +1,5 @@
+import pymysql
+
 from src.common.database import Database
 from src.model.students.student import Student
 
@@ -22,3 +24,32 @@ def get_students_data(course_key):
         students_data.append(student_data)
 
     return students_data
+
+
+def save_grade(course_id, student_id, grade):
+    sql = """
+              update student_courses set grade = %s
+              where student_courses.course_id=(SELECT id FROM courses WHERE course_id = %s) and
+	          student_courses.student_id=(SELECT id FROM students WHERE user_id = %s)
+        """
+    try:
+        Database.data_handle(sql, grade, course_id, student_id)
+    except pymysql.Error as error:
+        raise error
+
+
+def save_grades(course_ids, student_ids, grades):
+    Database.initialize()
+
+    sql = """
+                  update student_courses set grade = %s
+              where student_courses.course_id=(SELECT id FROM courses WHERE course_id = %s) and
+	          student_courses.student_id=(SELECT id FROM students WHERE user_id = %s)
+            """
+    try:
+        for course_id, student_id, grade in zip(course_ids, student_ids, grades):
+            Database.data_handle(sql, course_id, student_id, grade)
+    except pymysql.Error as error:
+        raise error
+    finally:
+        Database.close()
