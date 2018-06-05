@@ -5,12 +5,13 @@
 # Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
-
+import pymysql
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+from src.common.database import Database
 from src.common.utils import Utils
 from src.model.courses.course import Course
-from src.model.student_courses import get_students_data
+from src.model.student_courses import get_students_data, save_grade
 
 
 class Ui_teacher_MainWindow(object):
@@ -197,15 +198,16 @@ class Ui_teacher_MainWindow(object):
         self.course_tableWidget.setObjectName("course_tableWidget")
         self.course_tableWidget.setColumnCount(6)
 
-
         self.course_tableWidget.setHorizontalHeaderLabels(['Student Name', 'Student ID', 'School', 'Class',
                                                            'Phone Number', 'Grade'])
 
         self.verticalLayout_3.addWidget(self.course_tableWidget)
-        self.confirm_grade_button = QtWidgets.QPushButton(self.courses_tab)
+
+        self.confirm_grade_button = QtWidgets.QPushButton('onfirm Grades', self.courses_tab)
         self.confirm_grade_button.setStyleSheet("font: 11pt \"Sans Serif\";")
-        self.confirm_grade_button.setObjectName("confirm_grade_button")
+        self.confirm_grade_button.clicked.connect(self.confrim_grades)
         self.verticalLayout_3.addWidget(self.confirm_grade_button, 0, QtCore.Qt.AlignHCenter)
+
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -491,15 +493,38 @@ class Ui_teacher_MainWindow(object):
     def init_course_table(self, students_data):
         table = self.course_tableWidget
         table.setRowCount(0)
-        table.insertRow(0)
+
         for student_data in students_data:
+            table.insertRow(table.rowCount())
             last_row = table.rowCount() - 1
             for i in range(table.columnCount() - 1):
                 if student_data[i]:
                     item = QtWidgets.QTableWidgetItem(str(student_data[i]))
                     table.setItem(last_row, i, item)
 
-            table.insertRow(table.rowCount())
+    def confrim_grades(self):
+        table = self.course_tableWidget
+        row_counts = table.rowCount()
+        course_id = self.course_id_label.text()[11:]
+
+        Database.initialize()
+        for current_row in range(row_counts):
+            if table.item(current_row, 5):
+                try:
+                    grade = int(table.item(current_row, 5).text())
+                    student_id = table.item(current_row, 1).text()
+
+                    save_grade(course_id, student_id, grade)
+                except Exception as error:
+                    msg_box = QtWidgets.QMessageBox(parent=self.teacher_MainWindow)
+                    msg_box.setWindowTitle('Error')
+                    msg_box.setText(f'Confirm grades failed!\nError: {error}')
+                    msg_box.exec_()
+
+        Database.close()
+
+
+
 
     def retranslateUi(self, teacher_MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -522,7 +547,6 @@ class Ui_teacher_MainWindow(object):
         self.course_tableWidget.setSortingEnabled(False)
 
         self.course_tableWidget.setSortingEnabled(__sortingEnabled)
-        self.confirm_grade_button.setText(_translate("teacher_MainWindow", "Confirm Grades"))
         self.print_button.setText(_translate("teacher_MainWindow", "Print"))
         self.grade_analysis_button.setText(_translate("teacher_MainWindow", "Grades Analysis"))
         self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.courses_tab),
