@@ -49,7 +49,7 @@ class Course:
             return None
 
     @staticmethod
-    def read_courses(school, course_id=None, course_name=None, teacher=None):
+    def read_courses(school, course_id=None, course_name=None, teacher_name=None, teacher_id=None):
         Database.initialize()
 
         sql = f"SELECT * FROM courses WHERE school = '{school}'"
@@ -57,8 +57,10 @@ class Course:
             sql += f" and course_id = '{course_id}'"
         if course_name:
             sql += f" and course_name = '{course_name}'"
-        if teacher:
-            sql += f" and teacher_name = '{teacher}'"
+        if teacher_name:
+            sql += f" and teacher_name = '{teacher_name}'"
+        if teacher_id:
+            sql += f" and teacher_id = '{teacher_id}'"
 
         print(sql)
         courses_data = Database.query(sql)
