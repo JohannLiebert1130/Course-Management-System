@@ -490,7 +490,8 @@ class Ui_teacher_MainWindow(object):
 
     def init_course_table(self, students_data):
         table = self.course_tableWidget
-        table.setRowCount(1)
+        table.setRowCount(0)
+        table.insertRow(0)
         for student_data in students_data:
             last_row = table.rowCount() - 1
             for i in range(table.columnCount() - 1):
@@ -511,11 +512,11 @@ class Ui_teacher_MainWindow(object):
         self.label_22.setText(_translate("teacher_MainWindow", "Semester:"))
         self.label.setText(_translate("teacher_MainWindow", "My Courses:"))
 
-        self.course_id_label.setText(_translate("teacher_MainWindow", "Course ID: 666"))
-        self.teacher_label.setText(_translate("teacher_MainWindow", "Teacher Name: zf"))
-        self.class_time_label.setText(_translate("teacher_MainWindow", "Class Time: Monday 8:10-9:45"))
-        self.school_label.setText(_translate("teacher_MainWindow", "School: shit"))
-        self.location_label.setText(_translate("teacher_MainWindow", "Location: fuck"))
+        self.course_id_label.setText(_translate("teacher_MainWindow", "Course ID: "))
+        self.teacher_label.setText(_translate("teacher_MainWindow", "Teacher Name: "))
+        self.class_time_label.setText(_translate("teacher_MainWindow", "Class Time: "))
+        self.school_label.setText(_translate("teacher_MainWindow", "School: "))
+        self.location_label.setText(_translate("teacher_MainWindow", "Location: "))
 
         __sortingEnabled = self.course_tableWidget.isSortingEnabled()
         self.course_tableWidget.setSortingEnabled(False)

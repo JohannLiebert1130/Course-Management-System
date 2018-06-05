@@ -488,7 +488,6 @@ class Ui_admin_MainWindow(object):
         self.account_tableWidget = QtWidgets.QTableWidget(self.account_tab)
 
         self.account_tableWidget.setColumnCount(6)
-        self.account_tableWidget.setRowCount(1)
 
         self.account_tableWidget.setHorizontalHeaderLabels(['User ID', 'Password', 'User Type', 'School', '', ''])
         self.verticalLayout_6.addWidget(self.account_tableWidget)
@@ -505,7 +504,8 @@ class Ui_admin_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(admin_MainWindow)
 
     def init_course_talbe(self):
-        self.course_tableWidget.setRowCount(1)
+        self.course_tableWidget.setRowCount(0)
+        self.course_tableWidget.insertRow(0)
 
         text = self.course_id_lineEdit.text()
         course_id = text if text and text != '' else None
@@ -515,12 +515,13 @@ class Ui_admin_MainWindow(object):
         teacher = text if text and text != '' else None
 
         courses_data = Course.read_courses(self.admin_MainWindow.user.school,
-                                           course_id, course_name, teacher)
+                                           course_id, course_name, teacher, None)
 
         self.init_table(self.course_tableWidget, 'course', courses_data, 2)
 
     def init_teacher_table(self):
-        self.teacher_tableWidget.setRowCount(1)
+        self.teacher_tableWidget.setRowCount(0)
+        self.teacher_tableWidget.insertRow(0)
 
         text = self.teacher_id_lineEdit.text()
         teacher_id = text if text and text != '' else None
@@ -535,7 +536,8 @@ class Ui_admin_MainWindow(object):
         self.init_table(self.teacher_tableWidget, 'teacher', teachers_data, 8)
 
     def init_student_table(self):
-        self.student_tableWidget.setRowCount(1)
+        self.student_tableWidget.setRowCount(0)
+        self.student_tableWidget.insertRow(0)
 
         text = self.department_lineEdit.text()
         department = text if text and text != '' else None
@@ -551,7 +553,8 @@ class Ui_admin_MainWindow(object):
         self.init_table(self.student_tableWidget, 'student', students_data, 8)
 
     def init_account_table(self):
-        self.account_tableWidget.setRowCount(1)
+        self.account_tableWidget.setRowCount(0)
+        self.account_tableWidget.insertRow(0)
 
         account_type = self.account_type_comboBox.currentText()
         print(account_type)
