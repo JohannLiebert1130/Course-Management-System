@@ -42,7 +42,6 @@ class Course:
         Database.close()
         if course_data:
             course_data = list(course_data[0])
-            course_data = course_data[1:]
 
             return course_data
         else:
