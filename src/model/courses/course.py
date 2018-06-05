@@ -32,18 +32,19 @@ class Course:
 
     @staticmethod
     def read_course(course_id):
+        Database.initialize()
         sql = """
                   SELECT * FROM courses
                   WHERE course_id = %s
                 """
 
         course_data = Database.query(sql, course_id)
-
+        Database.close()
         if course_data:
             course_data = list(course_data[0])
             course_data = course_data[1:]
 
-            return Course(*course_data)
+            return course_data
         else:
             print("course do not exist!")
             return None
