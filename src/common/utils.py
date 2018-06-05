@@ -44,6 +44,13 @@ class Utils(object):
         else:
             return True
 
+    @staticmethod
+    def create_year_generator():
+        now = datetime.datetime.now()
+        count = now.year - 2010
+        for i in range(count + 1):
+            yield f'{2010+i}-{2010+i+1}'
+
 
 if __name__ == '__main__':
     hashed_pw = Utils.hash_password('fuck', 'shit')

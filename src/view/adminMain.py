@@ -12,17 +12,11 @@ import pymysql
 from PyQt5 import QtCore, QtWidgets
 
 from src.common.database import Database
+from src.common.utils import Utils
 from src.model.accounts.account import Account
 from src.model.courses.course import Course
 from src.model.students.student import Student
 from src.model.teachers.teacher import Teacher
-
-
-def create_year_generator():
-    now = datetime.datetime.now()
-    count = now.year - 2010
-    for i in range(count+1):
-        yield f'{2010+i}-{2010+i+1}'
 
 
 class Ui_admin_MainWindow(object):
@@ -93,7 +87,7 @@ class Ui_admin_MainWindow(object):
         self.course_year_comboBox.setEnabled(True)
         self.course_year_comboBox.setStyleSheet("font: 11pt \"Sans Serif\";")
 
-        years = create_year_generator()
+        years = Utils.create_year_generator()
         for year in years:
             self.course_year_comboBox.addItem(year)
 
