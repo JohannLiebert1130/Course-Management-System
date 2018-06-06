@@ -11,6 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from src.common.database import Database
 from src.common.utils import Utils
 from src.model.courses.course import Course
+from src.model.exams.exam import Exam
 from src.model.student_courses import get_students_data, save_grade
 
 
@@ -261,14 +262,9 @@ class Ui_teacher_MainWindow(object):
         self.exam_semester_comboBox.addItem("2")
         self.horizontalLayout_6.addWidget(self.exam_semester_comboBox)
 
-        self.label_20 = QtWidgets.QLabel(self.exam_tab)
-        self.label_20.setText("")
-        self.label_20.setObjectName("label_20")
-        self.horizontalLayout_6.addWidget(self.label_20)
-
         self.exam_query_button = QtWidgets.QPushButton('Query', self.exam_tab)
         self.exam_query_button.setStyleSheet("font: 12pt \"Sans Serif\";")
-        self.exam_query_button.clicked.connect(self.exam_query)
+        self.exam_query_button.clicked.connect(self.init_exam_table)
         self.horizontalLayout_6.addWidget(self.exam_query_button)
 
         spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -277,11 +273,10 @@ class Ui_teacher_MainWindow(object):
 
         self.exam_tableWidget = QtWidgets.QTableWidget(self.exam_tab)
         self.exam_tableWidget.setStyleSheet("font: 10pt \"Sans Serif\";")
-        self.exam_tableWidget.setHorizontalHeaderLabels(['Course ID', 'Course Name',
-                                                         'Exam Time', 'Exam Location'])
-
         self.exam_tableWidget.setColumnCount(4)
         self.exam_tableWidget.setRowCount(0)
+        self.exam_tableWidget.setHorizontalHeaderLabels(['Course ID', 'Course Name',
+                                                         'Exam Time', 'Exam Location'])
         self.verticalLayout_7.addWidget(self.exam_tableWidget)
 
         self.tabWidget_2.addTab(self.exam_tab, "")
@@ -494,8 +489,6 @@ class Ui_teacher_MainWindow(object):
                 if student_data[i]:
                     item = QtWidgets.QTableWidgetItem(str(student_data[i]))
                     table.setItem(last_row, i, item)
-                    if i != table.columnCount()-1:
-                        table.item(last_row, i).setFlags(QtCore.Qt.ItemIsEditable)
 
     def confrim_grades(self):
         table = self.course_tableWidget
@@ -522,8 +515,20 @@ class Ui_teacher_MainWindow(object):
 
         Database.close()
 
-    def exam_query(self):
-        pass
+    def init_exam_table(self):
+        table = self.exam_tableWidget
+        year = self.exam_year_comboBox.currentText()
+        semester = self.exam_semester_comboBox.currentText()
+        exams_data = Exam.read_exams(self.teacher_id, year, semester)
+        table.setRowCount(0)
+
+        for exam_data in exams_data:
+            table.insertRow(table.rowCount())
+            last_row = table.rowCount() - 1
+            for i in range(table.columnCount()):
+                if exam_data[i]:
+                    item = QtWidgets.QTableWidgetItem(str(exam_data[i]))
+                    table.setItem(last_row, i, item)
 
     def evaluation_query(self):
         pass
