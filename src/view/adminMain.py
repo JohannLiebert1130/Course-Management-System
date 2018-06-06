@@ -624,28 +624,10 @@ class Ui_admin_MainWindow(object):
             create_func = Account.create_account
             school_pos = 3
 
-        last_row = table.rowCount() - 1
-        column_count = table.columnCount()
-
-        data = list()
-        if type_str == 'account':
-            for i in range(column_count - 2):
-                if table.item(last_row, i) is None or table.item(last_row, i).text() == '':
-                    data.append(None)
-                else:
-                    value = table.item(last_row, i).text()
-                    value = int(value) if i == 2 else value
-                    data.append(value)
-        else:
-            for i in range(column_count - 2):
-                if table.item(last_row, i) is None or table.item(last_row, i).text() == '':
-                    data.append(None)
-                else:
-                    data.append(table.item(last_row, i).text())
-
+        data = self.init_data(type_str, table)
         try:
             Database.initialize()
-            print('creating...:data', data)
+            print(f'adminMain.create: creating {type_str}...: {data}')
             create_func(*data)
             Database.close()
         except Exception as error:
@@ -706,17 +688,11 @@ class Ui_admin_MainWindow(object):
                 table = self.account_tableWidget
                 modify_func = Account.modify_account
 
-            current_row = table.currentRow()
-            column_count = table.columnCount()
-            data = list()
-            for i in range(column_count -2):
-                if table.item(current_row, i) is None or table.item(current_row, i).text() == '':
-                    data.append(None)
-                else:
-                    data.append(table.item(current_row, i).text())
+            data = self.init_data(type_str, table)
 
             try:
                 Database.initialize()
+                print(f'adminMain.modify...try to modify {type_str}, data:{data}')
                 modify_func(*data)
                 Database.close()
             except:
@@ -728,6 +704,40 @@ class Ui_admin_MainWindow(object):
                 msg_box = QtWidgets.QMessageBox(parent=self.admin_MainWindow)
                 msg_box.setText(f'Modified {type_str} Successfully!')
                 msg_box.exec_()
+
+    def init_data(self, type_str, table):
+        last_row = table.rowCount() - 1
+        column_count = table.columnCount()
+
+        data = list()
+        if type_str == 'account':
+            for i in range(column_count - 2):
+                item = table.item(last_row, i)
+                if Utils.check_qt_item(item):
+                    value = item.text()
+                    value = int(value) if i == 2 else value
+                    data.append(value)
+                else:
+                    data.append(None)
+
+        elif type_str == 'course':
+            for i in range(column_count - 2):
+                item = table.item(last_row, i)
+                if Utils.check_qt_item(item):
+                    value = item.text()
+                    value = int(value) if i == 0 else value
+                    data.append(value)
+                else:
+                    data.append(None)
+        else:
+            for i in range(column_count - 2):
+                item = table.item(last_row, i)
+                if Utils.check_qt_item(item):
+                    data.append(item.text())
+                else:
+                    data.append(None)
+
+        return data
 
     def delete(self, type_str):
         msg_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Critical, 'Warning', 'Do you really want to delete it?',
