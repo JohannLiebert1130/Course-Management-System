@@ -10,6 +10,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 from src.common.database import Database
 from src.common.utils import Utils
+from src.model.accounts.account import Account
 from src.model.courses.course import Course
 from src.model.exams.exam import Exam
 from src.model.student_courses import get_students_data, save_grade
@@ -402,7 +403,35 @@ class Ui_teacher_MainWindow(object):
         self.info_tableWidget.setItem(6, 0, item)
         item = QtWidgets.QTableWidgetItem()
         self.info_tableWidget.setItem(6, 2, item)
+
+        item = QtWidgets.QTableWidgetItem(self.teacher_id)
+        self.info_tableWidget.setItem(0, 1, item)
         self.verticalLayout_8.addWidget(self.info_tableWidget)
+
+        item = QtWidgets.QTableWidgetItem(self.teacher_name)
+        self.info_tableWidget.setItem(1, 1, item)
+        self.verticalLayout_8.addWidget(self.info_tableWidget)
+
+        item = QtWidgets.QTableWidgetItem(self.teacher_MainWindow.user.gender)
+        self.info_tableWidget.setItem(2, 1, item)
+        self.verticalLayout_8.addWidget(self.info_tableWidget)
+
+        item = QtWidgets.QTableWidgetItem(self.teacher_MainWindow.user.birthday)
+        self.info_tableWidget.setItem(3, 1, item)
+        self.verticalLayout_8.addWidget(self.info_tableWidget)
+
+        item = QtWidgets.QTableWidgetItem(self.teacher_MainWindow.user.folk)
+        self.info_tableWidget.setItem(4, 1, item)
+        self.verticalLayout_8.addWidget(self.info_tableWidget)
+
+        item = QtWidgets.QTableWidgetItem(self.teacher_MainWindow.user.birth_place)
+        self.info_tableWidget.setItem(5, 1, item)
+        self.verticalLayout_8.addWidget(self.info_tableWidget)
+
+        item = QtWidgets.QTableWidgetItem(self.teacher_MainWindow.user.political_status)
+        self.info_tableWidget.setItem(7, 1, item)
+        self.verticalLayout_8.addWidget(self.info_tableWidget)
+
         self.tabWidget_2.addTab(self.personal_info_tab, "")
         self.verticalLayout_4.addWidget(self.tabWidget_2)
         self.tabWidget.addTab(self.query_tab, "")
@@ -430,10 +459,11 @@ class Ui_teacher_MainWindow(object):
         self.confirm_password_line_edit.setStyleSheet("font: 10pt \"Sans Serif\";")
         self.confirm_password_line_edit.setObjectName("confirm_password_line_edit")
         self.verticalLayout_10.addWidget(self.confirm_password_line_edit, 0, QtCore.Qt.AlignHCenter)
+
         self.change_password_button = QtWidgets.QPushButton(self.change_pw_tab)
         self.change_password_button.setMinimumSize(QtCore.QSize(100, 0))
         self.change_password_button.setStyleSheet("font: 11pt \"Sans Serif\";")
-        self.change_password_button.setObjectName("change_password_button")
+        self.change_password_button.clicked.connect(self.change_password)
         self.verticalLayout_10.addWidget(self.change_password_button, 0, QtCore.Qt.AlignHCenter)
         spacerItem10 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_10.addItem(spacerItem10)
@@ -532,6 +562,29 @@ class Ui_teacher_MainWindow(object):
 
     def evaluation_query(self):
         pass
+
+    def change_password(self):
+        Database.initialize()
+        account = Account.read_account(self.teacher_id)
+        if Utils.check_hashed_password(self.old_password_line_edit.text(), self.teacher_id, account.password):
+            try:
+                Account.modify_account(self.teacher_id, self.new_password_line_edit.text(), 1, self.school)
+            except pymysql.Error as error:
+                msg_box = QtWidgets.QMessageBox(parent=self.teacher_MainWindow)
+                msg_box.setWindowTitle('Error')
+                msg_box.setText(f'read courses failed!\nError: {error}')
+                msg_box.exec_()
+            else:
+                msg_box = QtWidgets.QMessageBox(parent=self.teacher_MainWindow)
+                msg_box.setWindowTitle('Succress')
+                msg_box.setText('Modified password successfully!')
+                msg_box.exec_()
+        else:
+            msg_box = QtWidgets.QMessageBox(parent=self.teacher_MainWindow)
+            msg_box.setWindowTitle('Error')
+            msg_box.setText(f'The old password you input is wrong!')
+            msg_box.exec_()
+        Database.close()
 
     def retranslateUi(self, teacher_MainWindow):
         _translate = QtCore.QCoreApplication.translate
