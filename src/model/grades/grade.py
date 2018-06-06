@@ -7,7 +7,7 @@ from src.model.students.student import Student
 def get_students_data(course_key):
     Database.initialize()
 
-    sql = 'select * from student_courses where course_id= %s'
+    sql = 'select * from grades where course_key= %s'
     data = Database.query(sql, course_key)
     print(data)
 
@@ -29,9 +29,9 @@ def get_students_data(course_key):
 
 def save_grade(course_id, student_id, grade):
     sql = """
-              update student_courses set grade = %s
-              where student_courses.course_id=(SELECT id FROM courses WHERE course_id = %s) and
-	          student_courses.student_id=(SELECT id FROM students WHERE user_id = %s)
+              update grades set grade = %s
+              where grades.course_key=(SELECT id FROM courses WHERE course_id = %s) and
+	          grades.student_key=(SELECT id FROM students WHERE user_id = %s)
         """
     try:
         Database.data_handle(sql, grade, course_id, student_id)
@@ -43,9 +43,9 @@ def save_grades(course_ids, student_ids, grades):
     Database.initialize()
 
     sql = """
-                  update student_courses set grade = %s
-              where student_courses.course_id=(SELECT id FROM courses WHERE course_id = %s) and
-	          student_courses.student_id=(SELECT id FROM students WHERE user_id = %s)
+              update grades set grade = %s
+              where grades.course_key=(SELECT id FROM courses WHERE course_id = %s) and
+	          grades.student_key=(SELECT id FROM students WHERE user_id = %s)
             """
     try:
         for course_id, student_id, grade in zip(course_ids, student_ids, grades):
@@ -54,3 +54,24 @@ def save_grades(course_ids, student_ids, grades):
         raise error
     finally:
         Database.close()
+
+
+def read_grades(query_key, data):
+    if query_key == 'Course ID':
+        sql = """select name, user_id, class,grade from students inner join grades where 
+                (students.id,grade) in (select student_key, grade from grades where course_key =
+                 (select id from courses where course_id = %s))
+
+              """
+    else:
+        sql = """select name, user_id, class,grade from students inner join grades where user_id = %s and grade = 
+                      """
+    try:
+        data = Database.query(sql, data)
+    except pymysql.Error as error:
+        raise error
+    else:
+        for row in data:
+            sql = None
+
+
