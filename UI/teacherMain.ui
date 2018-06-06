@@ -138,7 +138,7 @@ margin-right: 10px;</string>
            <string notr="true">QTabBar::tab { height: 45px}</string>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>3</number>
           </property>
           <property name="movable">
            <bool>true</bool>
@@ -538,7 +538,7 @@ margin-right: 10px;</string>
                </widget>
               </item>
               <item>
-               <widget class="QComboBox" name="comboBox_6">
+               <widget class="QComboBox" name="exam_year_comboBox">
                 <property name="enabled">
                  <bool>true</bool>
                 </property>
@@ -568,7 +568,7 @@ margin-right: 10px;</string>
                </widget>
               </item>
               <item>
-               <widget class="QComboBox" name="comboBox_7">
+               <widget class="QComboBox" name="exam_semester_comboBox">
                 <property name="enabled">
                  <bool>true</bool>
                 </property>
@@ -595,7 +595,7 @@ margin-right: 10px;</string>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="pushButton_5">
+               <widget class="QPushButton" name="exam_query_button">
                 <property name="styleSheet">
                  <string notr="true">font: 12pt &quot;Sans Serif&quot;;</string>
                 </property>
@@ -620,7 +620,7 @@ margin-right: 10px;</string>
              </layout>
             </item>
             <item>
-             <widget class="QTableWidget" name="tableWidget_4">
+             <widget class="QTableWidget" name="exam_tableWidget">
               <property name="styleSheet">
                <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
               </property>
@@ -666,7 +666,7 @@ margin-right: 10px;</string>
                </widget>
               </item>
               <item>
-               <widget class="QComboBox" name="comboBox_12">
+               <widget class="QComboBox" name="evaluation_year_comboBox">
                 <property name="enabled">
                  <bool>true</bool>
                 </property>
@@ -696,7 +696,7 @@ margin-right: 10px;</string>
                </widget>
               </item>
               <item>
-               <widget class="QComboBox" name="comboBox_13">
+               <widget class="QComboBox" name="evaluation_semester_comboBox">
                 <property name="enabled">
                  <bool>true</bool>
                 </property>
@@ -716,44 +716,17 @@ margin-right: 10px;</string>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="pushButton_8">
-                <property name="styleSheet">
-                 <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
-                </property>
-                <property name="text">
-                 <string>Show Courses</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_9">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_11">
-              <item>
                <widget class="QLabel" name="label_4">
                 <property name="styleSheet">
                  <string notr="true">font: 12pt &quot;Sans Serif&quot;;</string>
                 </property>
                 <property name="text">
-                 <string>My Courses:</string>
+                 <string>Courses:</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QComboBox" name="comboBox_3">
+               <widget class="QComboBox" name="course_comboBox">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -778,7 +751,17 @@ margin-right: 10px;</string>
                </widget>
               </item>
               <item>
-               <spacer name="horizontalSpacer_10">
+               <widget class="QPushButton" name="evaluation_query_button">
+                <property name="styleSheet">
+                 <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
+                </property>
+                <property name="text">
+                 <string>Show Evaluation</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_9">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
@@ -795,7 +778,7 @@ margin-right: 10px;</string>
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_12">
               <item>
-               <widget class="QTableWidget" name="tableWidget_6">
+               <widget class="QTableWidget" name="evaluation_tableWidget">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                   <horstretch>0</horstretch>
@@ -850,16 +833,6 @@ margin-right: 10px;</string>
               </item>
              </layout>
             </item>
-            <item alignment="Qt::AlignHCenter">
-             <widget class="QPushButton" name="pushButton_9">
-              <property name="styleSheet">
-               <string notr="true">font: 12pt &quot;Sans Serif&quot;;</string>
-              </property>
-              <property name="text">
-               <string>Data Analysis</string>
-              </property>
-             </widget>
-            </item>
            </layout>
           </widget>
           <widget class="QWidget" name="personal_info_tab">
@@ -868,7 +841,7 @@ margin-right: 10px;</string>
            </attribute>
            <layout class="QVBoxLayout" name="verticalLayout_8">
             <item>
-             <widget class="QTableWidget" name="tableWidget_5">
+             <widget class="QTableWidget" name="info_tableWidget">
               <property name="styleSheet">
                <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
               </property>
