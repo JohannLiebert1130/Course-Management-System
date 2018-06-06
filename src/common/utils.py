@@ -56,6 +56,13 @@ class Utils(object):
         pattern = re.compile(r'\s*$')
         return pattern.match(str)
 
+    @staticmethod
+    def check_qt_item(item):
+        if item is None or Utils.check_whitespace(item.text()):
+            return False
+        else:
+            return True
+
 
 if __name__ == '__main__':
     hashed_pw = Utils.hash_password('fuck', 'shit')
