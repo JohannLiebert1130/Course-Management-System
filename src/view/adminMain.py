@@ -399,7 +399,7 @@ class Ui_admin_MainWindow(object):
 
         self.grade_query_button = QtWidgets.QPushButton('Query', self.grade_tab)
         self.grade_query_button.setStyleSheet("font: 11pt \"Sans Serif\";")
-        self.grade_query_button.setObjectName("grade_query_button")
+        self.grade_query_button.clicked.connect(self.init_grade_table)
         self.horizontalLayout_8.addWidget(self.grade_query_button)
 
         spacerItem11 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -407,16 +407,11 @@ class Ui_admin_MainWindow(object):
         self.verticalLayout_5.addLayout(self.horizontalLayout_8)
         self.grade_tableWidget = QtWidgets.QTableWidget(self.grade_tab)
         self.grade_tableWidget.setObjectName("grade_tableWidget")
-        self.grade_tableWidget.setColumnCount(4)
+        self.grade_tableWidget.setColumnCount(6)
         self.grade_tableWidget.setRowCount(0)
-        item = QtWidgets.QTableWidgetItem()
-        self.grade_tableWidget.setHorizontalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.grade_tableWidget.setHorizontalHeaderItem(1, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.grade_tableWidget.setHorizontalHeaderItem(2, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.grade_tableWidget.setHorizontalHeaderItem(3, item)
+
+        self.grade_tableWidget.setHorizontalHeaderLabels(['Course ID', 'Course Name', 'Student ID', 'Student Name',
+                                                          'Class', 'Grade'])
         self.verticalLayout_5.addWidget(self.grade_tableWidget)
         self.horizontalLayout_10 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_10.setObjectName("horizontalLayout_10")
@@ -489,16 +484,16 @@ class Ui_admin_MainWindow(object):
         self.course_tableWidget.insertRow(0)
 
         text = self.course_id_lineEdit.text()
-        course_id = text if text and text != '' else None
+        course_id = text if text and not Utils.check_whitespace(text) else None
         text = self.course_name_lineEdit.text()
-        course_name = text if text and text != '' else None
+        course_name = text if text and not Utils.check_whitespace(text) else None
         text = self.course_teacher_name_lineEdit.text()
-        teacher_name = text if text and text != '' else None
+        teacher_name = text if text and not Utils.check_whitespace(text) else None
         text = self.course_teacher_id_lineEdit.text()
-        teacher_id = text if text and text != '' else None
+        teacher_id = text if text and not Utils.check_whitespace(text) else None
 
         courses_data = Course.read_courses(self.admin_MainWindow.user.school,
-                                           course_id, course_name, teacher, None)
+                                           course_id, course_name, teacher_name, teacher_id)
 
         self.init_table(self.course_tableWidget, 'course', courses_data, 2)
 
@@ -507,11 +502,11 @@ class Ui_admin_MainWindow(object):
         self.teacher_tableWidget.insertRow(0)
 
         text = self.teacher_id_lineEdit.text()
-        teacher_id = text if text and text != '' else None
+        teacher_id = text if text and not Utils.check_whitespace(text) else None
         text = self.teacher_name_lineEdit.text()
-        teacher_name = text if text and text != '' else None
+        teacher_name = text if text and not Utils.check_whitespace(text) else None
         text = self.position_lineEdit.text()
-        position = text if text and text != '' else None
+        position = text if text and not Utils.check_whitespace(text) else None
 
         teachers_data = Teacher.read_teachers(self.admin_MainWindow.user.school,
                                              teacher_id, teacher_name, position)
@@ -523,13 +518,13 @@ class Ui_admin_MainWindow(object):
         self.student_tableWidget.insertRow(0)
 
         text = self.department_lineEdit.text()
-        department = text if text and text != '' else None
+        department = text if text and not Utils.check_whitespace(text) else None
         text = self.class_lineEdit.text()
-        class_name = text if text and text != '' else None
+        class_name = text if text and not Utils.check_whitespace(text) else None
         text = self.student_id_lineEdit.text()
-        student_id = text if text and text != '' else None
+        student_id = text if text and not Utils.check_whitespace(text) else None
         text = self.student_name_lineEdit.text()
-        student_name = text if text and text != '' else None
+        student_name = text if text and not Utils.check_whitespace(text) else None
 
         students_data = Student.read_students(self.admin_MainWindow.user.school,
                                               department, class_name, student_id, student_name)
@@ -815,6 +810,12 @@ class Ui_admin_MainWindow(object):
             msg_box.setText('Generated Successfully!')
             msg_box.exec_()
 
+    def init_grade_table(self):
+        choose = self.grade_comboBox.currentText()
+        if choose == 'Course ID':
+            pass
+
+
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.logout_button.setText(_translate("admin_MainWindow", "Logout"))
@@ -875,14 +876,7 @@ class Ui_admin_MainWindow(object):
         self.label_2.setText(_translate("admin_MainWindow", "Query Grades By:"))
         self.grade_comboBox.setItemText(0, _translate("admin_MainWindow", "Course ID"))
         self.grade_comboBox.setItemText(1, _translate("admin_MainWindow", "Student ID"))
-        item = self.grade_tableWidget.horizontalHeaderItem(0)
-        item.setText(_translate("admin_MainWindow", "Student Name"))
-        item = self.grade_tableWidget.horizontalHeaderItem(1)
-        item.setText(_translate("admin_MainWindow", "Student ID"))
-        item = self.grade_tableWidget.horizontalHeaderItem(2)
-        item.setText(_translate("admin_MainWindow", "Class"))
-        item = self.grade_tableWidget.horizontalHeaderItem(3)
-        item.setText(_translate("admin_MainWindow", "Grade"))
+
         self.pushButton.setText(_translate("admin_MainWindow", "Print"))
         self.pushButton_2.setText(_translate("admin_MainWindow", "Grade Analysis"))
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.grade_tab),
