@@ -70,7 +70,6 @@ class Course:
         if courses_data:
             for course_data in courses_data:
                 course_data = list(course_data)
-                course_data = course_data[1:]
                 yield course_data
 
     @staticmethod

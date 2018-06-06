@@ -50,10 +50,7 @@ class Admin(User):
 
         if user_data:
             user_data = list(user_data[0])
-            user_data[6] = str(user_data[6])
-
-            user_data = user_data[1:]
-
+            user_data[5] = str(user_data[5])
             return Admin(*user_data)
         else:
             print("user do not exist!")

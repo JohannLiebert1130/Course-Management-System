@@ -43,7 +43,7 @@ class Student(User):
 
         if user_data:
             user_data = list(user_data[0])
-            user_data[6] = str(user_data[6])
+            user_data[5] = str(user_data[5])
 
             return user_data
         else:
@@ -73,11 +73,10 @@ class Student(User):
             for user_data in users_data:
                 user_data = list(user_data)
 
-                birthday = user_data[5]
+                birthday = user_data[4]
                 if birthday is not None:
-                    user_data[5] = str(birthday)
+                    user_data[4] = str(birthday)
 
-                user_data = user_data[1:]
                 yield user_data
 
     @staticmethod

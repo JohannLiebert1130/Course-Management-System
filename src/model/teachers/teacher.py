@@ -52,10 +52,7 @@ class Teacher(User):
 
         if user_data:
             user_data = list(user_data[0])
-            user_data[6] = str(user_data[6])
-
-            user_data = user_data[1:]
-
+            user_data[5] = str(user_data[5])
             return Teacher(*user_data)
         else:
             print("user do not exist!")
@@ -81,11 +78,10 @@ class Teacher(User):
             for teacher_data in teachers_data:
                 teacher_data = list(teacher_data)
 
-                birthday = teacher_data[5]
+                birthday = teacher_data[4]
                 if birthday is not None:
-                    teacher_data[5] = str(birthday)
+                    teacher_data[4] = str(birthday)
 
-                teacher_data = teacher_data[1:]
                 yield teacher_data
 
     @staticmethod

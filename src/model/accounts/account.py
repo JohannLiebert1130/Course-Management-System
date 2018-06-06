@@ -38,11 +38,11 @@ class Account:
 
         if account_data:
             account_data = account_data[0]
-            password_from_db = account_data[2]
+            password_from_db = account_data[1]
 
             if Utils.check_hashed_password(password, user_id, password_from_db):
                 print("login successfully!")
-                user_type = account_data[3]
+                user_type = account_data[2]
                 user = Account.get_corresponding_user(user_id, user_type)
 
                 Database.close()
@@ -100,9 +100,6 @@ class Account:
         account_data = Database.query(sql, user_id)
 
         if account_data:
-            account_data = list(account_data[0])
-            account_data = account_data[1:]
-
             return Account(*account_data)
         else:
             print("Account do not exist!")
@@ -123,8 +120,7 @@ class Account:
         if accounts_data:
             for account_data in accounts_data:
                 account_data = list(account_data)
-                account_data[3] = str(account_data[3])
-                account_data = account_data[1:]
+                account_data[2] = str(account_data[2])
                 yield account_data
 
     @staticmethod
