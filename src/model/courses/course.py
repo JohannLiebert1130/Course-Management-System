@@ -4,20 +4,20 @@ from src.common.database import Database
 
 
 class Course:
-    def __init__(self, course_id, course_name, school=None, teacher_name=None, class_time=None,
-                 location=None, year=None,semester=None):
+    def __init__(self, course_id, course_name, school=None, teacher_name=None, teacher_id=None, class_time=None,
+                 location=None, capability=None):
         self.course_id = course_id
         self.course_name = course_name
         self.school = school
         self.teacher_name = teacher_name
+        self.teacher_id = teacher_id
         self.class_time = class_time
         self.location = location
-        self.year = year
-        self.semester = semester
+        self.capability = capability
 
     @staticmethod
-    def create_course(course_id, course_name, school=None, teacher_name=None, class_time=None,
-                      location=None, year=None, semester=None):
+    def create_course(course_id, course_name, school=None, teacher_name=None, teacher_id=None, class_time=None,
+                      location=None, capability=None):
         sql = 'SELECT * FROM courses WHERE course_id = %s'
         course_data = Database.query(sql, course_id)
 
@@ -26,7 +26,7 @@ class Course:
 
         try:
             Course(course_id, course_name, school, teacher_name,
-                   class_time, location, year, semester).save_to_db()
+                   teacher_id, class_time, location, capability).save_to_db()
         except pymysql.Error as error:
             raise error
 
@@ -41,9 +41,7 @@ class Course:
         course_data = Database.query(sql, course_id)
         Database.close()
         if course_data:
-            course_data = list(course_data[0])
-
-            return course_data
+            return list(course_data[0])
         else:
             print("course do not exist!")
             return None
@@ -62,7 +60,6 @@ class Course:
         if teacher_id:
             sql += f" and teacher_id = '{teacher_id}'"
 
-        print(sql)
         courses_data = Database.query(sql)
 
         Database.close()
@@ -73,8 +70,8 @@ class Course:
                 yield course_data
 
     @staticmethod
-    def modify_course(course_id, course_name, school=None, teacher_name=None, class_time=None,
-                      location=None, year=None, semester=None):
+    def modify_course(course_id, course_name, school=None, teacher_name=None, teacher_id=None, class_time=None,
+                      location=None, capability=None):
 
         sql = """
                   SELECT * FROM courses
@@ -84,7 +81,7 @@ class Course:
 
         if course_data:
             Course(course_id, course_name, school, teacher_name,
-                   class_time, location, year, semester).save_to_db()
+                   teacher_id, class_time, location, capability).save_to_db()
             return True
         else:
             return False
@@ -106,19 +103,19 @@ class Course:
 
     def save_to_db(self):
         sql = """
-                INSERT INTO courses(course_id, course_name, school, teacher_name,
-                                    class_time, location, year, semester)
+                INSERT INTO courses(course_id, course_name, school, teacher_name, teacher_id,
+                                    class_time, location, capability)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-                ON DUPLICATE KEY UPDATE course_name = %s, school = %s, teacher_name = %s, class_time = %s,
-                location = %s, year = %s, semester = %s
+                ON DUPLICATE KEY UPDATE course_name = %s, school = %s, teacher_name = %s, teacher_id = %s,
+                class_time = %s, location = %s, year = %s, capability = %s
             """
 
         Database.data_handle(sql, *self.to_list())
 
     def to_list(self):
-        return [self.course_id, self.course_name, self.school, self.teacher_name, self.class_time,
-                self.location, self.year, self.semester, self.course_name, self.school, self.teacher_name, self.class_time,
-                self.location, self.year, self.semester]
+        return [self.course_id, self.course_name, self.school, self.teacher_name, self.teacher_id,
+                self.class_time, self.location, self.capability,self.course_name, self.school,
+                self.teacher_name, self.teacher_id, self.class_time, self.location, self.capability]
 
 
 
