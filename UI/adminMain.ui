@@ -132,66 +132,6 @@ margin-right: 10px;</string>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_24">
-            <property name="styleSheet">
-             <string notr="true">font: 12pt &quot;Sans Serif&quot;;</string>
-            </property>
-            <property name="text">
-             <string>Year:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="course_year_comboBox">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
-            </property>
-            <item>
-             <property name="text">
-              <string>2015-2016</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>2016-2017</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_23">
-            <property name="styleSheet">
-             <string notr="true">font: 12pt &quot;Sans Serif&quot;;</string>
-            </property>
-            <property name="text">
-             <string>Semester:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="course_semester_comboBox">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">font: 11pt &quot;Sans Serif&quot;;</string>
-            </property>
-            <item>
-             <property name="text">
-              <string>1</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>2</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item>
            <widget class="QLineEdit" name="course_id_lineEdit">
             <property name="maximumSize">
              <size>
@@ -218,22 +158,41 @@ margin-right: 10px;</string>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_5">
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="teacher_lineEdit">
+           <widget class="QLineEdit" name="course_teacher_name_lineEdit">
             <property name="maximumSize">
              <size>
-              <width>100</width>
+              <width>120</width>
               <height>16777215</height>
              </size>
             </property>
             <property name="placeholderText">
-             <string>Teacher</string>
+             <string>Teacher Name</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="course_teacher_id_lineEdit">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>120</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="placeholderText">
+             <string>Teacher ID</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_5">
+            <property name="text">
+             <string/>
             </property>
            </widget>
           </item>
@@ -291,6 +250,11 @@ margin-right: 10px;</string>
           </column>
           <column>
            <property name="text">
+            <string>Teacher ID</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
             <string>Class Time</string>
            </property>
           </column>
@@ -301,12 +265,7 @@ margin-right: 10px;</string>
           </column>
           <column>
            <property name="text">
-            <string>Year</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Semester</string>
+            <string>Capability</string>
            </property>
           </column>
           <column>

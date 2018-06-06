@@ -79,43 +79,25 @@ class Ui_admin_MainWindow(object):
         self.course_school_comboBox.addItem(admin_MainWindow.user.school)
         self.horizontalLayout_2.addWidget(self.course_school_comboBox)
 
-        self.label_24 = QtWidgets.QLabel(self.course_tab)
-        self.label_24.setStyleSheet("font: 12pt \"Sans Serif\";")
-        self.horizontalLayout_2.addWidget(self.label_24)
-
-        self.course_year_comboBox = QtWidgets.QComboBox(self.course_tab)
-        self.course_year_comboBox.setEnabled(True)
-        self.course_year_comboBox.setStyleSheet("font: 11pt \"Sans Serif\";")
-
-        years = Utils.create_year_generator()
-        for year in years:
-            self.course_year_comboBox.addItem(year)
-
-        self.horizontalLayout_2.addWidget(self.course_year_comboBox)
-        self.label_23 = QtWidgets.QLabel(self.course_tab)
-        self.label_23.setStyleSheet("font: 12pt \"Sans Serif\";")
-        self.horizontalLayout_2.addWidget(self.label_23)
-
-        self.course_semester_comboBox = QtWidgets.QComboBox(self.course_tab)
-        self.course_semester_comboBox.setEnabled(True)
-        self.course_semester_comboBox.setStyleSheet("font: 11pt \"Sans Serif\";")
-        self.course_semester_comboBox.addItem("")
-        self.course_semester_comboBox.addItem("1")
-        self.course_semester_comboBox.addItem("2")
-        self.horizontalLayout_2.addWidget(self.course_semester_comboBox)
-
         self.course_id_lineEdit = QtWidgets.QLineEdit(self.course_tab)
         self.course_id_lineEdit.setMaximumSize(QtCore.QSize(80, 16777215))
+        self.course_id_lineEdit.setPlaceholderText('Course ID')
         self.horizontalLayout_2.addWidget(self.course_id_lineEdit)
+
         self.course_name_lineEdit = QtWidgets.QLineEdit(self.course_tab)
         self.course_name_lineEdit.setMaximumSize(QtCore.QSize(100, 16777215))
+        self.course_name_lineEdit.setPlaceholderText('Course Name')
         self.horizontalLayout_2.addWidget(self.course_name_lineEdit)
-        self.label_5 = QtWidgets.QLabel(self.course_tab)
-        self.label_5.setText("")
-        self.horizontalLayout_2.addWidget(self.label_5)
-        self.teacher_lineEdit = QtWidgets.QLineEdit(self.course_tab)
-        self.teacher_lineEdit.setMaximumSize(QtCore.QSize(100, 16777215))
-        self.horizontalLayout_2.addWidget(self.teacher_lineEdit)
+
+        self.course_teacher_name_lineEdit = QtWidgets.QLineEdit(self.course_tab)
+        self.course_teacher_name_lineEdit.setMaximumSize(QtCore.QSize(120, 16777215))
+        self.course_teacher_name_lineEdit.setPlaceholderText("Teacher Name")
+        self.horizontalLayout_2.addWidget(self.course_teacher_name_lineEdit)
+
+        self.course_teacher_id_lineEdit = QtWidgets.QLineEdit(self.course_tab)
+        self.course_teacher_id_lineEdit.setMaximumSize(QtCore.QSize(120, 16777215))
+        self.course_teacher_id_lineEdit.setPlaceholderText("Teacher ID")
+        self.horizontalLayout_2.addWidget(self.course_teacher_id_lineEdit)
 
         self.course_query_button = QtWidgets.QPushButton('Query', self.course_tab)
         self.course_query_button.setStyleSheet("font: 11pt \"Sans Serif\";")
@@ -130,14 +112,13 @@ class Ui_admin_MainWindow(object):
 
         self.course_tableWidget = QtWidgets.QTableWidget(self.course_tab)
         self.course_tableWidget.setColumnCount(10)
-        self.course_tableWidget.setRowCount(1)
 
         item = QtWidgets.QTableWidgetItem(self.admin_MainWindow.user.school)
         item.setFlags(QtCore.Qt.ItemIsEditable)
         self.course_tableWidget.setItem(0, 2, item)
 
         self.course_tableWidget.setHorizontalHeaderLabels(['Course ID', 'Course Name', 'School', 'Teacher Name',
-                                                           'Class Time', 'Location', 'Year', 'Semester', '', ''])
+                                                           'Teacher ID', 'Class Time', 'Location', 'Capability', '', ''])
 
         self.verticalLayout_2.addWidget(self.course_tableWidget)
 
@@ -146,7 +127,7 @@ class Ui_admin_MainWindow(object):
         self.print_course_button.setStyleSheet("font: 12pt \"Sans Serif\";")
         self.horizontalLayout_3.addWidget(self.print_course_button, 0, QtCore.Qt.AlignHCenter)
         self.verticalLayout_2.addLayout(self.horizontalLayout_3)
-        self.tab_widget.addTab(self.course_tab, "")
+        self.tab_widget.addTab(self.course_tab, "Course Management")
         self.enroll_tab = QtWidgets.QWidget()
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.enroll_tab)
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
@@ -511,8 +492,10 @@ class Ui_admin_MainWindow(object):
         course_id = text if text and text != '' else None
         text = self.course_name_lineEdit.text()
         course_name = text if text and text != '' else None
-        text = self.teacher_lineEdit.text()
-        teacher = text if text and text != '' else None
+        text = self.course_teacher_name_lineEdit.text()
+        teacher_name = text if text and text != '' else None
+        text = self.course_teacher_id_lineEdit.text()
+        teacher_id = text if text and text != '' else None
 
         courses_data = Course.read_courses(self.admin_MainWindow.user.school,
                                            course_id, course_name, teacher, None)
@@ -839,15 +822,10 @@ class Ui_admin_MainWindow(object):
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.home_tab), _translate("admin_MainWindow", "Home"))
         self.label_6.setText(_translate("admin_MainWindow", "School:"))
         self.course_school_comboBox.setItemText(0, _translate("admin_MainWindow", "Information"))
-        self.label_24.setText(_translate("admin_MainWindow", "Year:"))
-        self.label_23.setText(_translate("admin_MainWindow", "Semester:"))
-        self.course_id_lineEdit.setPlaceholderText(_translate("admin_MainWindow", "Course ID"))
-        self.course_name_lineEdit.setPlaceholderText(_translate("admin_MainWindow", "Course Name"))
-        self.teacher_lineEdit.setPlaceholderText(_translate("admin_MainWindow", "Teacher"))
+
 
         self.print_course_button.setText(_translate("admin_MainWindow", "Print"))
-        self.tab_widget.setTabText(self.tab_widget.indexOf(self.course_tab),
-                                   _translate("admin_MainWindow", "Course Management"))
+
         self.label_11.setText(_translate("admin_MainWindow", "School:"))
         self.confirm_school_comboBox.setItemText(0, _translate("admin_MainWindow", "Information"))
         self.label_27.setText(_translate("admin_MainWindow", "Year:"))
