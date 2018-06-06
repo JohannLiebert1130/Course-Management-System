@@ -77,6 +77,7 @@ class Course:
                   SELECT * FROM courses
                   WHERE course_id = %s
                 """
+
         course_data = Database.query(sql, course_id)
 
         if course_data:
@@ -107,7 +108,7 @@ class Course:
                                     class_time, location, capability)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
                 ON DUPLICATE KEY UPDATE course_name = %s, school = %s, teacher_name = %s, teacher_id = %s,
-                class_time = %s, location = %s, year = %s, capability = %s
+                class_time = %s, location = %s, capability = %s
             """
 
         Database.data_handle(sql, *self.to_list())
