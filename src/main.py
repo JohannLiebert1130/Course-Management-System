@@ -32,8 +32,7 @@ def main():
             admin_MainWindow.show()
         elif user.user_type == 1:
             teacher_MainWindow = MainWindow(user)
-            ui = Ui_teacher_MainWindow()
-            ui.__init__(teacher_MainWindow)
+            ui = Ui_teacher_MainWindow(teacher_MainWindow)
             teacher_MainWindow.show()
         elif user.user_type == 2:
             student_MainWindow = MainWindow(user)

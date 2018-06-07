@@ -78,6 +78,18 @@ class Student(User):
                 yield user_data
 
     @staticmethod
+    def read_students_by_course_id(course_id):
+        Database.initialize()
+
+        sql = """
+        select name, user_id, school, class, phone, grade from students, grades
+        where (user_id,grade) in (select student_id,grade  from grades where course_id = %s)
+"""
+        students_data = Database.query(sql, course_id)
+
+        return students_data
+
+    @staticmethod
     def modify_student(user_id, name, p_id=None, gender=None, birthday=None, birth_place=None,
                        folk=None, political_status=None, school=None, department=None, class_=None, phone=None):
 
