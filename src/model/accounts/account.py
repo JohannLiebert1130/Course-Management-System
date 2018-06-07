@@ -98,8 +98,8 @@ class Account:
                     """
 
         account_data = Database.query(sql, user_id)
-
         if account_data:
+            account_data = account_data[0]
             return Account(*account_data)
         else:
             print("Account do not exist!")
