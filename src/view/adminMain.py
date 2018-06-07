@@ -15,6 +15,7 @@ from src.common.database import Database
 from src.common.utils import Utils
 from src.model.accounts.account import Account
 from src.model.courses.course import Course
+from src.model.grades.grade import Grade
 from src.model.students.student import Student
 from src.model.teachers.teacher import Teacher
 
@@ -551,6 +552,28 @@ class Ui_admin_MainWindow(object):
 
         self.init_table(self.account_tableWidget, 'account', accounts_data, 3)
 
+    def init_grade_table(self):
+        table = self.grade_tableWidget
+        table.setRowCount(0)
+
+        choose = self.grade_comboBox.currentText()
+        text = self.grade_lineEdit.text()
+        try:
+            grades_data = Grade.read_grades(choose, text)
+
+            for entity in grades_data:
+                table.insertRow(table.rowCount())
+                last_row = table.rowCount() - 1
+                for i in range(table.columnCount()):
+                    if entity[i]:
+                        item = QtWidgets.QTableWidgetItem(str(entity[i]))
+                        table.setItem(last_row, i, item)
+        except Exception as error:
+            msg_box = QtWidgets.QMessageBox(parent=self.admin_MainWindow)
+            msg_box.setWindowTitle('Error')
+            msg_box.setText(f'grades initialize failed!\nerror: {error}')
+            msg_box.exec_()
+
     def init_table(self, table, type_str, data, school_pos):
         for entity in data:
             last_row = table.rowCount() - 1
@@ -577,34 +600,6 @@ class Ui_admin_MainWindow(object):
         item = QtWidgets.QTableWidgetItem(self.admin_MainWindow.user.school)
         item.setFlags(QtCore.Qt.ItemIsEditable)
         table.setItem(table.rowCount() - 1, school_pos, item)
-
-    # def init_table(self, table, type_str, data, school_pos):
-    #     table.setRowCount(1)
-    #     for entity in data:
-    #         last_row = table.rowCount() - 1
-    #         for i in range(table.columnCount() - 2):
-    #             if entity[i]:
-    #                 item = QtWidgets.QTableWidgetItem(str(entity[i]))
-    #                 if i == school_pos:
-    #                     item.setFlags(QtCore.Qt.ItemIsEditable)
-    #                 table.setItem(last_row, i, item)
-    #
-    #         modify_button = QtWidgets.QPushButton("Modify")
-    #         delete_button = QtWidgets.QPushButton("Delete")
-    #         modify_button.clicked.connect(lambda: self.modify(type_str))
-    #         delete_button.clicked.connect(lambda: self.delete(type_str))
-    #         table.setCellWidget(last_row, table.columnCount() - 2, modify_button)
-    #         table.setCellWidget(last_row, table.columnCount() - 1, delete_button)
-    #
-    #         table.insertRow(table.rowCount())
-    #
-    #     create_button = QtWidgets.QPushButton("Create")
-    #     create_button.clicked.connect(lambda: self.create(type_str))
-    #     table.setCellWidget(table.rowCount() - 1, table.columnCount() - 2, create_button)
-    #
-    #     item = QtWidgets.QTableWidgetItem(self.admin_MainWindow.user.school)
-    #     item.setFlags(QtCore.Qt.ItemIsEditable)
-    #     table.setItem(table.rowCount() - 1, school_pos, item)
 
     def create(self, type_str):
         if type_str == 'teacher':
@@ -695,9 +690,9 @@ class Ui_admin_MainWindow(object):
                 print(f'adminMain.modify...try to modify {type_str}, data:{data}')
                 modify_func(*data)
                 Database.close()
-            except:
+            except Exception as error:
                 msg_box = QtWidgets.QMessageBox(parent=self.admin_MainWindow)
-                msg_box.setText(f'Modify {type_str} failed!\nplease check the information you input')
+                msg_box.setText(f'Modify {type_str} failed!\nError: {error}')
                 msg_box.setWindowTitle('Error')
                 msg_box.exec_()
             else:
@@ -706,13 +701,13 @@ class Ui_admin_MainWindow(object):
                 msg_box.exec_()
 
     def init_data(self, type_str, table):
-        last_row = table.rowCount() - 1
+        current_row = table.currentRow()
         column_count = table.columnCount()
 
         data = list()
         if type_str == 'account':
             for i in range(column_count - 2):
-                item = table.item(last_row, i)
+                item = table.item(current_row, i)
                 if Utils.check_qt_item(item):
                     value = item.text()
                     value = int(value) if i == 2 else value
@@ -722,7 +717,7 @@ class Ui_admin_MainWindow(object):
 
         elif type_str == 'course':
             for i in range(column_count - 2):
-                item = table.item(last_row, i)
+                item = table.item(current_row, i)
                 if Utils.check_qt_item(item):
                     value = item.text()
                     value = int(value) if i == 0 else value
@@ -731,7 +726,7 @@ class Ui_admin_MainWindow(object):
                     data.append(None)
         else:
             for i in range(column_count - 2):
-                item = table.item(last_row, i)
+                item = table.item(current_row, i)
                 if Utils.check_qt_item(item):
                     data.append(item.text())
                 else:
@@ -819,12 +814,6 @@ class Ui_admin_MainWindow(object):
             msg_box = QtWidgets.QMessageBox(parent=self.admin_MainWindow)
             msg_box.setText('Generated Successfully!')
             msg_box.exec_()
-
-    def init_grade_table(self):
-        choose = self.grade_comboBox.currentText()
-        if choose == 'Course ID':
-            pass
-
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
