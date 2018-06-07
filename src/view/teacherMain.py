@@ -6,18 +6,19 @@
 #
 # WARNING! All changes made in this file will be lost!
 import pymysql
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtWidgets
 
 from src.common.database import Database
 from src.common.utils import Utils
 from src.model.accounts.account import Account
 from src.model.courses.course import Course
 from src.model.exams.exam import Exam
-from src.model.student_courses import get_students_data, save_grade
+from src.model.grades.grade import Grade
+from src.model.students.student import Student
 
 
 class Ui_teacher_MainWindow(object):
-    def setupUi(self, teacher_MainWindow):
+    def __init__(self, teacher_MainWindow):
         self.teacher_MainWindow = teacher_MainWindow
         self.teacher_MainWindow.resize(1368, 768)
         self.teacher_MainWindow.setWindowTitle("Course Management System")
@@ -499,13 +500,13 @@ class Ui_teacher_MainWindow(object):
                 if not course_info[i]:
                     course_info[i] = ''
             print('course info', course_info)
-            self.course_id_label.setText('Course ID: ' + course_info[1])
-            self.school_label.setText('School: ' + course_info[3])
-            self.teacher_label.setText('Teacher Name: ' + course_info[5])
-            self.class_time_label.setText('Class Time: ' + course_info[6])
-            self.location_label.setText('Location: ' + course_info[7])
+            self.course_id_label.setText('Course ID: ' + str(course_info[0]))
+            self.school_label.setText('School: ' + course_info[2])
+            self.teacher_label.setText('Teacher Name: ' + course_info[3])
+            self.class_time_label.setText('Class Time: ' + course_info[5])
+            self.location_label.setText('Location: ' + course_info[6])
 
-            students_data = get_students_data(course_info[0])
+            students_data = Student.read_students_by_course_id(course_info[0])
             self.init_course_table(students_data)
 
     def init_course_table(self, students_data):
@@ -531,8 +532,8 @@ class Ui_teacher_MainWindow(object):
                 if table.item(current_row, 5):
                     grade = int(table.item(current_row, 5).text())
                     student_id = table.item(current_row, 1).text()
+                    Grade.save_grade(course_id, student_id, grade)
 
-                    save_grade(course_id, student_id, grade)
         except Exception as error:
             msg_box = QtWidgets.QMessageBox(parent=self.teacher_MainWindow)
             msg_box.setWindowTitle('Error')
@@ -690,6 +691,6 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     teacher_MainWindow = QtWidgets.QMainWindow()
     ui = Ui_teacher_MainWindow()
-    ui.setupUi(teacher_MainWindow)
+    ui.__init__(teacher_MainWindow)
     teacher_MainWindow.show()
     sys.exit(app.exec_())
