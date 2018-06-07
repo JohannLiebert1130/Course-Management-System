@@ -59,7 +59,7 @@ class Teacher(User):
             return None
 
     @staticmethod
-    def read_teachers(school, teacher_id, teacher_name, position):
+    def read_teachers(school, teacher_id=None, teacher_name=None, position=None):
         Database.initialize()
 
         sql = f"SELECT * FROM teachers WHERE school = '{school}'"

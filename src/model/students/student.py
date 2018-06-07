@@ -51,7 +51,7 @@ class Student(User):
             return None
 
     @staticmethod
-    def read_students(school, department, class_name, student_id, student_name):
+    def read_students(school, department=None, class_name=None, student_id=None, student_name=None):
         Database.initialize()
 
         sql = f"SELECT * FROM students WHERE school = '{school}'"
