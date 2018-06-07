@@ -50,15 +50,15 @@ class Course:
     def read_courses(school, course_id=None, course_name=None, teacher_name=None, teacher_id=None):
         Database.initialize()
 
-        sql = f"SELECT * FROM courses WHERE school = '{school}'"
+        sql = f"SELECT * FROM courses WHERE POSITION('{school}' in school)"
         if course_id:
-            sql += f" and course_id = '{course_id}'"
+            sql += f" and POSITION('{course_id}' in course_id)"
         if course_name:
-            sql += f" and course_name = '{course_name}'"
+            sql += f" and POSITION('{course_name}' in course_name)"
         if teacher_name:
-            sql += f" and teacher_name = '{teacher_name}'"
+            sql += f" and POSITION('{teacher_name}' in teacher_name)"
         if teacher_id:
-            sql += f" and teacher_id = '{teacher_id}'"
+            sql += f" and POSITION('{teacher_id}' in teacher_id)"
 
         courses_data = Database.query(sql)
 

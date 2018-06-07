@@ -62,13 +62,13 @@ class Teacher(User):
     def read_teachers(school, teacher_id=None, teacher_name=None, position=None):
         Database.initialize()
 
-        sql = f"SELECT * FROM teachers WHERE school = '{school}'"
+        sql = f"SELECT * FROM teachers WHERE POSITION('{school}' IN school)"
         if teacher_id:
-            sql += f" and user_id = '{teacher_id}'"
+            sql += f" and POSITION('{teacher_id}' IN user_id)"
         if teacher_name:
-            sql += f" and name = '{teacher_name}'"
+            sql += f" and POSITION('{teacher_name}' IN name)"
         if position:
-            sql += f" and position = '{position}'"
+            sql += f" and POSITION('{position}' IN position)"
 
         print(sql)
         teachers_data = Database.query(sql)

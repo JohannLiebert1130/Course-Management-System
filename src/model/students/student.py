@@ -54,15 +54,15 @@ class Student(User):
     def read_students(school, department=None, class_name=None, student_id=None, student_name=None):
         Database.initialize()
 
-        sql = f"SELECT * FROM students WHERE school = '{school}'"
+        sql = f"SELECT * FROM students WHERE POSITION('{school}' in school)"
         if department:
-            sql += f" and department = '{department}'"
+            sql += f" and POSITION('{department}' in department)"
         if class_name:
-            sql += f" and class = '{class_name}'"
+            sql += f" and POSITION('{class_name}' in class)"
         if student_id:
-            sql += f" and user_id = '{student_id}'"
+            sql += f" and POSITION('{student_id}' in user_id)"
         if student_name:
-            sql += f" and name = '{student_name}'"
+            sql += f" and POSITION('{student_name}' in name)"
 
         users_data = Database.query(sql)
         Database.close()
