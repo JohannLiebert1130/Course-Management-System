@@ -50,8 +50,6 @@ class Student(User):
             print("user do not exist!")
             return None
 
-
-
     @staticmethod
     def read_students(school, department, class_name, student_id, student_name):
         Database.initialize()
@@ -90,11 +88,13 @@ class Student(User):
         user_data = Database.query(sql, user_id)
 
         if user_data:
-            Student(user_id, name, p_id, gender, birthday, birth_place, folk, political_status,
-                    school, department, class_, phone).save_to_db()
-            return True
+            try:
+                Student(user_id, name, p_id, gender, birthday, birth_place, folk, political_status,
+                        school, department, class_, phone).save_to_db()
+            except pymysql.Error as error:
+                raise error
         else:
-            return False
+            raise ValueError('Student do not exist!')
 
     @staticmethod
     def delete_student(user_id):

@@ -63,7 +63,7 @@
        <string notr="true">font: 10pt &quot;Sans Serif&quot;;</string>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="home_tab">
        <attribute name="title">
@@ -186,13 +186,6 @@ margin-right: 10px;</string>
             </property>
             <property name="placeholderText">
              <string>Teacher ID</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_5">
-            <property name="text">
-             <string/>
             </property>
            </widget>
           </item>

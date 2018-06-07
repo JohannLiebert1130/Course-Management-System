@@ -138,7 +138,7 @@ margin-right: 10px;</string>
            <string notr="true">QTabBar::tab { height: 45px}</string>
           </property>
           <property name="currentIndex">
-           <number>3</number>
+           <number>0</number>
           </property>
           <property name="movable">
            <bool>true</bool>
