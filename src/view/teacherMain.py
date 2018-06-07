@@ -442,23 +442,22 @@ class Ui_teacher_MainWindow(object):
         self.verticalLayout_10.setObjectName("verticalLayout_10")
         spacerItem9 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred)
         self.verticalLayout_10.addItem(spacerItem9)
+
         self.old_password_line_edit = QtWidgets.QLineEdit(self.change_pw_tab)
         self.old_password_line_edit.setMinimumSize(QtCore.QSize(250, 0))
         self.old_password_line_edit.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.old_password_line_edit.setStyleSheet("font: 10pt \"Sans Serif\";")
-        self.old_password_line_edit.setInputMask("")
-        self.old_password_line_edit.setText("")
-        self.old_password_line_edit.setObjectName("old_password_line_edit")
+        self.old_password_line_edit.setEchoMode(QtWidgets.QLineEdit.Password)
         self.verticalLayout_10.addWidget(self.old_password_line_edit, 0, QtCore.Qt.AlignHCenter)
         self.new_password_line_edit = QtWidgets.QLineEdit(self.change_pw_tab)
         self.new_password_line_edit.setMinimumSize(QtCore.QSize(250, 0))
         self.new_password_line_edit.setStyleSheet("font: 10pt \"Sans Serif\";")
-        self.new_password_line_edit.setObjectName("new_password_line_edit")
+        self.new_password_line_edit.setEchoMode(QtWidgets.QLineEdit.Password)
         self.verticalLayout_10.addWidget(self.new_password_line_edit, 0, QtCore.Qt.AlignHCenter)
         self.confirm_password_line_edit = QtWidgets.QLineEdit(self.change_pw_tab)
         self.confirm_password_line_edit.setMinimumSize(QtCore.QSize(250, 0))
         self.confirm_password_line_edit.setStyleSheet("font: 10pt \"Sans Serif\";")
-        self.confirm_password_line_edit.setObjectName("confirm_password_line_edit")
+        self.confirm_password_line_edit.setEchoMode(QtWidgets.QLineEdit.Password)
         self.verticalLayout_10.addWidget(self.confirm_password_line_edit, 0, QtCore.Qt.AlignHCenter)
 
         self.change_password_button = QtWidgets.QPushButton(self.change_pw_tab)
@@ -548,18 +547,25 @@ class Ui_teacher_MainWindow(object):
 
     def init_exam_table(self):
         table = self.exam_tableWidget
-        year = self.exam_year_comboBox.currentText()
-        semester = self.exam_semester_comboBox.currentText()
-        exams_data = Exam.read_exams(self.teacher_id, year, semester)
         table.setRowCount(0)
 
-        for exam_data in exams_data:
-            table.insertRow(table.rowCount())
-            last_row = table.rowCount() - 1
-            for i in range(table.columnCount()):
-                if exam_data[i]:
-                    item = QtWidgets.QTableWidgetItem(str(exam_data[i]))
-                    table.setItem(last_row, i, item)
+        year = self.exam_year_comboBox.currentText()
+        semester = self.exam_semester_comboBox.currentText()
+        try:
+            exams_data = Exam.read_exams(self.teacher_id, year, semester)
+        except ValueError as error:
+            msg_box = QtWidgets.QMessageBox(parent=self.teacher_MainWindow)
+            msg_box.setWindowTitle('Error')
+            msg_box.setText(f'Query grades failed!\nError: {error}')
+            msg_box.exec_()
+        else:
+            for exam_data in exams_data:
+                table.insertRow(table.rowCount())
+                last_row = table.rowCount() - 1
+                for i in range(table.columnCount()):
+                    if exam_data[i]:
+                        item = QtWidgets.QTableWidgetItem(str(exam_data[i]))
+                        table.setItem(last_row, i, item)
 
     def evaluation_query(self):
         pass
