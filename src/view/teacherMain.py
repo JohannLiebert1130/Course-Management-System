@@ -571,27 +571,37 @@ class Ui_teacher_MainWindow(object):
         pass
 
     def change_password(self):
-        Database.initialize()
-        account = Account.read_account(self.teacher_id)
-        if Utils.check_hashed_password(self.old_password_line_edit.text(), self.teacher_id, account.password):
-            try:
-                Account.modify_account(self.teacher_id, self.new_password_line_edit.text(), 1, self.school)
-            except pymysql.Error as error:
-                msg_box = QtWidgets.QMessageBox(parent=self.teacher_MainWindow)
-                msg_box.setWindowTitle('Error')
-                msg_box.setText(f'read courses failed!\nError: {error}')
-                msg_box.exec_()
-            else:
-                msg_box = QtWidgets.QMessageBox(parent=self.teacher_MainWindow)
-                msg_box.setWindowTitle('Succress')
-                msg_box.setText('Modified password successfully!')
-                msg_box.exec_()
-        else:
+        old_password = self.old_password_line_edit.text()
+        new_password = self.new_password_line_edit.text()
+        confirm_password  = self.confirm_password_line_edit.text()
+
+        if new_password != confirm_password:
             msg_box = QtWidgets.QMessageBox(parent=self.teacher_MainWindow)
             msg_box.setWindowTitle('Error')
-            msg_box.setText(f'The old password you input is wrong!')
+            msg_box.setText('These two new passwords you input are not same!')
             msg_box.exec_()
-        Database.close()
+        else:
+            Database.initialize()
+            account = Account.read_account(self.teacher_id)
+            if Utils.check_hashed_password(self.old_password_line_edit.text(), self.teacher_id, account.password):
+                try:
+                    Account.modify_account(self.teacher_id, self.new_password_line_edit.text(), 1, self.school)
+                except pymysql.Error as error:
+                    msg_box = QtWidgets.QMessageBox(parent=self.teacher_MainWindow)
+                    msg_box.setWindowTitle('Error')
+                    msg_box.setText(f'read courses failed!\nError: {error}')
+                    msg_box.exec_()
+                else:
+                    msg_box = QtWidgets.QMessageBox(parent=self.teacher_MainWindow)
+                    msg_box.setWindowTitle('Success')
+                    msg_box.setText('Modified password successfully!')
+                    msg_box.exec_()
+            else:
+                msg_box = QtWidgets.QMessageBox(parent=self.teacher_MainWindow)
+                msg_box.setWindowTitle('Error')
+                msg_box.setText(f'The old password you input is wrong!')
+                msg_box.exec_()
+            Database.close()
 
     def retranslateUi(self, teacher_MainWindow):
         _translate = QtCore.QCoreApplication.translate
