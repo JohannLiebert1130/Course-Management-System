@@ -35,7 +35,7 @@ class Ui_login_dialog(object):
         self.user_line_edit.setObjectName("user_line_edit")
         self.verticalLayout.addWidget(self.user_line_edit)
         self.pw_line_edit = QtWidgets.QLineEdit(self.login_dialog)
-        self.pw_line_edit.setObjectName("pw_line_edit")
+        self.pw_line_edit.setEchoMode(QtWidgets.QLineEdit.Password)
         self.verticalLayout.addWidget(self.pw_line_edit)
         spacerItem1 = QtWidgets.QSpacerItem(20, 48, QtWidgets.QSizePolicy.Minimum,
                                             QtWidgets.QSizePolicy.MinimumExpanding)
@@ -81,6 +81,7 @@ class Ui_login_dialog(object):
 
     def login(self):
         login_state, user = Account.is_valid_login(self.user_line_edit.text(), self.pw_line_edit.text())
+        print('loginDialog.loginState:',login_state)
         if login_state == 1:
             self.login_dialog.user = user
             self.login_dialog.accept()
